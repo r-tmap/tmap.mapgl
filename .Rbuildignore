@@ -1,0 +1,15 @@
+^CRAN-RELEASE$
+^Meta$
+^doc$
+^.*\.Rproj$
+^\.Rproj\.user$
+examples
+demo
+figures
+test
+sandbox
+output
+local
+LICENSE
+README
+.Rprofile

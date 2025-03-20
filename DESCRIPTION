@@ -1,0 +1,29 @@
+Package: tmap.mapgl
+Title: Extension for 'tmap' featuring two new modes: mapbox and maplibre
+Type: Package
+LazyData: true
+Authors@R: c(
+	person("Martijn", "Tennekes", email = "mtennekes@gmail.com", role = c("aut", "cre"))
+	)
+Description: Extension package for tmap, which adds two new modes, namely mapbox and maplibre.
+License: GPL-3
+Version: 0.1
+Date: 2025-03-20
+Encoding: UTF-8
+Depends:
+    R (>= 3.5.0),
+Imports:
+    tmap (>= 3.99),
+    mapgl,
+    rlang,
+    data.table,
+    grDevices,
+    colorspace,
+    htmltools,
+    htmlwidgets,
+    sf,
+    tmaptools,
+    units
+URL: https://github.com/r-tmap/tmap.deckgl
+BugReports: https://github.com/r-tmap/deckgl/issues
+RoxygenNote: 7.3.2
