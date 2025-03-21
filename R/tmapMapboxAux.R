@@ -4,9 +4,8 @@
 #' @name tmapMapboxTilesPrep
 #' @rdname tmapMapbox
 tmapMapboxTilesPrep = function(a, bs, id, o) {
-	tiles = lapply(1L:length(bs), function(i) a)
-	.TMAP_MAPBOX$tiles[[id]] = tiles
-	paste0(a$server, collapse = "__")
+	.TMAP_MAPBOX$style = a$server
+	a$server
 }
 
 #' @export
@@ -14,9 +13,8 @@ tmapMapboxTilesPrep = function(a, bs, id, o) {
 #' @name tmapMapboxTiles
 #' @rdname tmapMapbox
 tmapMapboxTiles = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
-
-	# TODO
 	NULL
+
 }
 
 #' @export

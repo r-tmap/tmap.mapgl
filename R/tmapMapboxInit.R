@@ -16,9 +16,8 @@ tmapMapboxInit = function(o, return.asp = FALSE, vp, prx, dg = NULL, ...) {
 
 	mapboxs = lapply(per_page, function(p) {
 		lapply(seq_len(p), function(i) {
-			if (!is.null(dg)) dg else mapgl::mapboxgl() #dummy
+			if (!is.null(dg)) dg else NULL #mapgl::mapboxgl() #dummy
 			#mapbox::mapbox(zoom = 2, latitude = 0, longitude = 0, pitch = o$pitch)
-
 		})
 	})
 
