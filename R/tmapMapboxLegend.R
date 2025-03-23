@@ -112,13 +112,29 @@ tmapMapbox_legend = function(cmp, mapbox, o, orientation) {
 		mapbox
 	} else if (cmp$type == "gradient") {
 		# todo
-		mapbox
+
+
+		# remove na
+		if (cmp$na.show) {
+			labs = head(cmp$labels, -1)
+			cols = head(cmp$gp2$fillColor, -1)
+		} else {
+			labs = cmp$labels
+			cols = cmp$gp2$fillColor
+		}
+		colsNA = is.na(cols)
+		if (any(colsNA)) {
+			labs = labs[!colsNA]
+			cols = cols[!colsNA]
+		}
+
+		mapbox |> mapgl::add_continuous_legend(legend_title = cmp$title, values = labs, colors = cols, add = TRUE)
 	} else {
 		colVary = length(cmp$gp2$color) > 1L
 		gp2 = make_equal_list(cmp$gp2)
 		if (colVary) gp2$fillColor = gp2$color
 
-		mapbox |> mapgl::add_legend(colors = gp2$fillColor, values = cmp$labels, position = legpos, legend_title = cmp$title, type = "categorical")
+		mapbox |> mapgl::add_legend(colors = gp2$fillColor, values = cmp$labels, position = legpos, legend_title = cmp$title, type = "categorical", add = TRUE)
 	}
 	mapbox2
 

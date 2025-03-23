@@ -73,8 +73,8 @@ tmapMapbox_legend_comp = function(comp, o) {
 			"none"
 		} else if ((!is.na(gp$fill[1]) && any(nchar(gp$fill) > 50)) || (!is.na(gp$fill_alpha[1]) && any(nchar(gp$fill_alpha) > 50)) ||
 				   (!is.na(gp$col[1]) && any(nchar(gp$col) > 50)) || (!is.na(gp$col_alpha[1]) && any(nchar(gp$col_alpha) > 50))) {
-			message("Continuous legend not implemented in mapbox mode")
-			"none"
+			#message("Continuous legend not implemented in mapbox mode")
+			"gradient"
 		} else if (any(c("bgcol", "bgcol_alpha") %in% varying)) {
 			"none"
 		} else {
