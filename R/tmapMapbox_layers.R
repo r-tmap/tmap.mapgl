@@ -116,7 +116,54 @@ lty2dash = function(lty) {
 #' @name tmapMapboxSymbols
 #' @rdname tmapMapbox
 tmapMapboxSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
-	warning("tm_symbols / tm_dots not yet implemented for this mode")
+	mapbox = get_mapbox(facet_row, facet_col, facet_page)
+
+	rc_text = frc(facet_row, facet_col)
+
+	res = select_sf(shpTM, dt)
+	shp = res$shp
+	dt = res$dt
+
+	popups = NULL
+
+	x = sf::st_sfc(list(sf::st_point(c(mean(bbx[c(1,3)]), bbx[2]))), crs = sf::st_crs(bbx))
+	y = sf::st_sfc(list(sf::st_point(c(mean(bbx[c(1,3)]), bbx[4]))), crs = sf::st_crs(bbx))
+
+	gp = impute_gp(gp, dt)
+	gp = rescale_gp(gp, o$scale_down)
+
+	if (any(nchar(gp$fill) == 9)) {
+		fill_alpha = split_alpha_channel(gp$fill, alpha = gp$fill_alpha)
+		gp$fill = fill_alpha$col
+		gp$fill_alpha = gp$fill_alpha * fill_alpha$opacity
+	}
+	if (any(nchar(gp$col) == 9)) {
+		fill_alpha = split_alpha_channel(gp$col, alpha = gp$col_alpha)
+		gp$col = fill_alpha$col
+		gp$col_alpha = gp$fill_alpha * fill_alpha$opacity
+	}
+
+	shp2 = sf::st_sf(unclass(gp[c("fill", "col", "lwd", "fill_alpha", "col_alpha", "size")]), id = 1:length(shp), geometry = shp)
+	shp2$size = shp2$size * 10
+
+
+	srcname = paste0("layer", pane)
+	layername1 = paste0(srcname, "symbols_fill")
+
+
+
+	nofill = all(gp$fill == o$value.blank$fill)
+
+	mapbox |> mapgl::add_source(srcname, data = shp2) |>
+		mapgl::add_circle_layer(layername1, source = srcname,
+							  circle_color = mapgl::get_column("fill"),
+							  circle_opacity = mapgl::get_column("fill_alpha"),
+								circle_stroke_color = mapgl::get_column("col"),
+								circle_stroke_opacity = mapgl::get_column("col_alpha"),
+								circle_stroke_width = mapgl::get_column("lwd"),
+								circle_radius = mapgl::get_column("size")) |>
+		assign_mapbox(facet_row, facet_col, facet_page)
+	NULL
 	NULL
 }
 
