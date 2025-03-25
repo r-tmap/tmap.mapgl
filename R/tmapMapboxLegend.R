@@ -134,7 +134,9 @@ tmapMapbox_legend = function(cmp, mapbox, o, orientation) {
 		gp2 = make_equal_list(cmp$gp2)
 		if (colVary) gp2$fillColor = gp2$color
 
-		mapbox |> mapgl::add_legend(colors = gp2$fillColor, values = cmp$labels, position = legpos, legend_title = cmp$title, type = "categorical", add = TRUE)
+		circular_patches = !any(is.na(cmp$gp$shape)) && all(cmp$gp$shape %in% c(1, 10, 16, 19:21))
+
+		mapbox |> mapgl::add_legend(colors = gp2$fillColor, values = cmp$labels, position = legpos, legend_title = cmp$title, type = "categorical", circular_patches = circular_patches, add = TRUE)
 	}
 	mapbox2
 
