@@ -17,7 +17,7 @@ tmapMapboxLegPlot = function(comp, m, o) {
 
 #' @export
 tmapMapboxCompPrepare.tm_legend_standard_portrait = function(comp, o) {
-	tmapMapbox_legend_comp(comp, o)
+	mapgl_legend_comp(comp, o)
 }
 
 
@@ -36,7 +36,7 @@ tmapMapboxCompWidth.tm_legend_standard_portrait = function(comp, o) {
 
 #' @export
 tmapMapboxCompPrepare.tm_legend_standard_landscape = function(comp, o) {
-	tmapMapbox_legend_comp(comp, o)
+	mapgl_legend_comp(comp, o)
 }
 
 #' @export
@@ -51,7 +51,72 @@ tmapMapboxCompWidth.tm_legend_standard_landscape = function(comp, o) {
 	comp
 }
 
-tmapMapbox_legend_comp = function(comp, o) {
+
+
+
+
+
+
+
+
+
+tmapMaplibreCompPrepare = function(comp, o) {
+	UseMethod("tmapMaplibreCompPrepare")
+}
+
+tmapMaplibreCompHeight = function(comp, o) {
+	UseMethod("tmapMaplibreCompHeight")
+}
+
+tmapMaplibreCompWidth = function(comp, o) {
+	UseMethod("tmapMaplibreCompWidth")
+}
+
+tmapMaplibreLegPlot = function(comp, m, o) {
+	UseMethod("tmapMaplibreLegPlot")
+}
+
+
+#' @export
+tmapMaplibreCompPrepare.tm_legend_standard_portrait = function(comp, o) {
+	mapgl_legend_comp(comp, o)
+}
+
+
+#' @export
+tmapMaplibreCompHeight.tm_legend_standard_portrait = function(comp, o) {
+	comp
+}
+
+
+
+#' @export
+tmapMaplibreCompWidth.tm_legend_standard_portrait = function(comp, o) {
+	comp
+}
+
+
+#' @export
+tmapMaplibreCompPrepare.tm_legend_standard_landscape = function(comp, o) {
+	mapgl_legend_comp(comp, o)
+}
+
+#' @export
+tmapMaplibreCompHeight.tm_legend_standard_landscape = function(comp, o) {
+	comp
+}
+
+
+
+#' @export
+tmapMaplibreCompWidth.tm_legend_standard_landscape = function(comp, o) {
+	comp
+}
+
+
+
+
+mapgl_legend_comp = function(comp, o) {
 	within(comp, {
 		if ("biv" %in% names(attributes(gp$fill))) {
 			warning("Bivariate legend not implemented for mapbox mode", call. = FALSE)

@@ -171,7 +171,7 @@ tmapMapboxComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pag
 		m = tmapMapboxLegPlot(cmp, m, o)
 	}
 
-	assign_mapgl(,, facet_row, facet_col, facet_page, mode = "mapbox")
+	assign_mapgl(m, facet_row, facet_col, facet_page, mode = "mapbox")
 	NULL
 }
 
@@ -187,6 +187,6 @@ tmapMaplibreComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_p
 		m = tmapMaplibreLegPlot(cmp, m, o)
 	}
 
-	assign_mapgl(,, facet_row, facet_col, facet_page, mode = "maplibre")
+	assign_mapgl(m, facet_row, facet_col, facet_page, mode = "maplibre")
 	NULL
 }

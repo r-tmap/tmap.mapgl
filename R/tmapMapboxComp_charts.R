@@ -63,10 +63,80 @@ tmapMapboxCompHeight.tm_chart = function(comp, o) {
 #' @method tmapMapboxLegPlot tm_chart_histogram
 #' @export
 tmapMapboxLegPlot.tm_chart_histogram = function(comp, m, o) {
-	mapbox
+	m
 }
 #' @method tmapMapboxLegPlot tm_chart
 #' @export
 tmapMapboxLegPlot.tm_chart = function(comp, m, o) {
-	mapbox
+	m
 }
+
+
+
+
+#' @export
+#' @keywords internal
+#' @rdname tmapMapbox
+tmapMaplibreCompPrepare = function(comp, o) {
+	UseMethod("tmapMaplibreCompPrepare")
+}
+
+#' @export
+#' @keywords internal
+#' @rdname tmapMapbox
+tmapMaplibreCompHeight = function(comp, o) {
+	UseMethod("tmapMaplibreCompHeight")
+}
+
+#' @export
+#' @keywords internal
+#' @rdname tmapMapbox
+tmapMaplibreCompWidth = function(comp, o) {
+	UseMethod("tmapMaplibreCompWidth")
+}
+
+#' @export
+#' @keywords internal
+#' @rdname tmapMapbox
+tmapMaplibreLegPlot = function(comp, m, o) {
+	UseMethod("tmapMaplibreLegPlot")
+}
+
+
+#' @method tmapMaplibreCompPrepare tm_chart
+#' @export
+tmapMaplibreCompPrepare.tm_chart = function(comp, o) {
+	message("charts not implemented in view mode")
+	comp
+}
+
+#' @method tmapMaplibreCompPrepare tm_chart_none
+#' @export
+tmapMaplibreCompPrepare.tm_chart_none = function(comp, o) {
+	comp
+}
+
+
+#' @method tmapMaplibreCompWidth tm_chart
+#' @export
+tmapMaplibreCompWidth.tm_chart = function(comp, o) {
+	comp
+}
+
+#' @method tmapMaplibreCompHeight tm_chart
+#' @export
+tmapMaplibreCompHeight.tm_chart = function(comp, o) {
+	comp
+}
+
+#' @method tmapMaplibreLegPlot tm_chart_histogram
+#' @export
+tmapMaplibreLegPlot.tm_chart_histogram = function(comp, m, o) {
+	m
+}
+#' @method tmapMaplibreLegPlot tm_chart
+#' @export
+tmapMaplibreLegPlot.tm_chart = function(comp, m, o) {
+	m
+}
+
