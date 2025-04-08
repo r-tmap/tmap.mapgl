@@ -129,7 +129,7 @@ mapgl_legend = function(cmp, m, o, orientation, mode) {
 #' @keywords internal
 #' @rdname tmapMapbox
 tmapMapboxLegPlot.tm_legend_standard_portrait = function(comp, m, o) {
-	mapgl_legend(comp, mapbox, o, orientation = "vertical", mode = "mapbox")
+	mapgl_legend(comp, m, o, orientation = "vertical", mode = "mapbox")
 }
 
 #' @export
