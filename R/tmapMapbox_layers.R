@@ -4,7 +4,50 @@
 #' @name tmapMapboxPolygons
 #' @rdname tmapMapbox
 tmapMapboxPolygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
-	mapbox = get_mapbox(facet_row, facet_col, facet_page)
+	mapgl_polygons(shpTM,
+				   dt,
+				   pdt,
+				   popup.format,
+				   hdt,
+				   idt,
+				   gp,
+				   bbx,
+				   facet_row,
+				   facet_col,
+				   facet_page,
+				   id,
+				   pane,
+				   group,
+				   o,
+				   ...,
+				   mode = "mapbox")
+}
+
+#' @export
+#' @keywords internal
+#' @rdname tmapMapbox
+tmapMaplibrePolygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+	mapgl_polygons(shpTM,
+				   dt,
+				   pdt,
+				   popup.format,
+				   hdt,
+				   idt,
+				   gp,
+				   bbx,
+				   facet_row,
+				   facet_col,
+				   facet_page,
+				   id,
+				   pane,
+				   group,
+				   o,
+				   ...,
+				   mode = "maplibre")
+}
+
+mapgl_polygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ..., mode) {
+	m = get_mapgl(facet_row, facet_col, facet_page, mode)
 
 	rc_text = frc(facet_row, facet_col)
 
@@ -41,7 +84,7 @@ tmapMapboxPolygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 
 	nofill = all(gp$fill == o$value.blank$fill)
 
-	mapbox |> mapgl::add_source(srcname, data = shp2) |>
+	m |> mapgl::add_source(srcname, data = shp2) |>
 		mapgl::add_fill_layer(layername1, source = srcname,
 							  fill_color = mapgl::get_column("fill"),
 							  fill_opacity = mapgl::get_column("fill_alpha")) |>
@@ -49,9 +92,10 @@ tmapMapboxPolygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, f
 							  line_color = mapgl::get_column("col"),
 							  line_opacity = mapgl::get_column("col_alpha"),
 							  line_width = mapgl::get_column("lwd")) |>
-		assign_mapbox(facet_row, facet_col, facet_page)
+		assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
 	NULL
 }
+
 
 #' @export
 #' @keywords internal
@@ -81,7 +125,7 @@ tmapMapboxLines = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, face
 							  line_color = mapgl::get_column("col"),
 							  line_opacity = mapgl::get_column("col_alpha"),
 							  line_width = mapgl::get_column("lwd")) |>
-		assign_mapbox(facet_row, facet_col, facet_page)
+		assign_mapgl(facet_row, facet_col, facet_page)
 	NULL
 }
 
@@ -162,7 +206,7 @@ tmapMapboxSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, fa
 								circle_stroke_opacity = mapgl::get_column("col_alpha"),
 								circle_stroke_width = mapgl::get_column("lwd"),
 								circle_radius = mapgl::get_column("size")) |>
-		assign_mapbox(facet_row, facet_col, facet_page)
+		assign_mapgl(facet_row, facet_col, facet_page)
 	NULL
 	NULL
 }

@@ -1,13 +1,12 @@
 #' Internal tmap methods
-#' 
-#' Internal tmap methods 
+#'
+#' Internal tmap methods
 #'
 #' @param comp the shape object
 #' @param o the list of options
-#' @param mapbox mapbox object
+#' @param m mapbox oer maplibre object
 #' @export
 #' @keywords internal
-#' @name tmapMapboxCompPrepare
 #' @rdname tmapMapbox
 tmapMapboxCompPrepare = function(comp, o) {
 	UseMethod("tmapMapboxCompPrepare")
@@ -15,7 +14,6 @@ tmapMapboxCompPrepare = function(comp, o) {
 
 #' @export
 #' @keywords internal
-#' @name tmapMapboxCompHeight
 #' @rdname tmapMapbox
 tmapMapboxCompHeight = function(comp, o) {
 	UseMethod("tmapMapboxCompHeight")
@@ -23,7 +21,6 @@ tmapMapboxCompHeight = function(comp, o) {
 
 #' @export
 #' @keywords internal
-#' @name tmapMapboxCompWidth
 #' @rdname tmapMapbox
 tmapMapboxCompWidth = function(comp, o) {
 	UseMethod("tmapMapboxCompWidth")
@@ -31,9 +28,8 @@ tmapMapboxCompWidth = function(comp, o) {
 
 #' @export
 #' @keywords internal
-#' @name tmapMapboxLegPlot
 #' @rdname tmapMapbox
-tmapMapboxLegPlot = function(comp, mapbox, o) {
+tmapMapboxLegPlot = function(comp, m, o) {
 	UseMethod("tmapMapboxLegPlot")
 }
 
@@ -66,11 +62,11 @@ tmapMapboxCompHeight.tm_chart = function(comp, o) {
 
 #' @method tmapMapboxLegPlot tm_chart_histogram
 #' @export
-tmapMapboxLegPlot.tm_chart_histogram = function(comp, mapbox, o) {
+tmapMapboxLegPlot.tm_chart_histogram = function(comp, m, o) {
 	mapbox
 }
 #' @method tmapMapboxLegPlot tm_chart
 #' @export
-tmapMapboxLegPlot.tm_chart = function(comp, mapbox, o) {
+tmapMapboxLegPlot.tm_chart = function(comp, m, o) {
 	mapbox
 }

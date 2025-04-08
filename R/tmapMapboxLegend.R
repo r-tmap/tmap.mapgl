@@ -1,4 +1,4 @@
-Mapbox_pos = function(pos) {
+mapgl_pos = function(pos) {
 	if (pos$type %in% c("out", "autoout")) {
 		sel = c("cell.v", "cell.h")
 	} else {
@@ -86,30 +86,13 @@ make_equal_list = function(x) {
 
 
 
-tmapMapbox_legend = function(cmp, mapbox, o, orientation) {
+mapgl_legend = function(cmp, m, o, orientation, mode) {
 
-	# group = "tmp" # TODO
-	# leg_className = paste("info legend", gsub(" ", "", group, fixed = TRUE))
-	# layerId =  paste0("legend", sprintf("%02d", .TMAP_Mapbox$leg_id)) # "legend401" #todo
-	# .TMAP_Mapbox$leg_id = .TMAP_Mapbox$leg_id + 1
-	#
-	# # if (length(cmp$gp$col) > 1 || all(is.na(cmp$gp$fill))) {
-	# # 	pal = cmp$gp$col
-	# # 	opacity = cmp$gp$col_alpha
-	# # } else {
-	# # 	pal = cmp$gp$fill
-	# # 	opacity = cmp$gp$fill_alpha
-	# # }
-	#
-	# lab = cmp$labels
-	# val = cmp$dvalues
-	# title = if (nonempty_text(cmp$title)) expr_to_char(cmp$title) else NULL
+	legpos = mapgl_pos(cmp$position)
 
-	legpos = Mapbox_pos(cmp$position)
-
-	mapbox2 = if (cmp$type == "none") {
+	m2 = if (cmp$type == "none") {
 		#message("Text based legends not supported in view mode")
-		mapbox
+		m
 	} else if (cmp$type == "gradient") {
 		# todo
 
@@ -128,7 +111,7 @@ tmapMapbox_legend = function(cmp, mapbox, o, orientation) {
 			cols = cols[!colsNA]
 		}
 
-		mapbox |> mapgl::add_continuous_legend(legend_title = cmp$title, values = labs, colors = cols, add = TRUE)
+		m |> mapgl::add_continuous_legend(legend_title = cmp$title, values = labs, colors = cols, add = TRUE)
 	} else {
 		colVary = length(cmp$gp2$color) > 1L
 		gp2 = make_equal_list(cmp$gp2)
@@ -136,20 +119,38 @@ tmapMapbox_legend = function(cmp, mapbox, o, orientation) {
 
 		circular_patches = !any(is.na(cmp$gp$shape)) && all(cmp$gp$shape %in% c(1, 10, 16, 19:21))
 
-		mapbox |> mapgl::add_legend(colors = gp2$fillColor, values = cmp$labels, position = legpos, legend_title = cmp$title, type = "categorical", circular_patches = circular_patches, add = TRUE)
+		m |> mapgl::add_legend(colors = gp2$fillColor, values = cmp$labels, position = legpos, legend_title = cmp$title, type = "categorical", circular_patches = circular_patches, add = TRUE)
 	}
-	mapbox2
+	m2
 
 }
 
 #' @export
-tmapMapboxLegPlot.tm_legend_standard_portrait = function(comp, mapbox, o) {
-	tmapMapbox_legend(comp, mapbox, o, orientation = "vertical")
+#' @keywords internal
+#' @rdname tmapMapbox
+tmapMapboxLegPlot.tm_legend_standard_portrait = function(comp, m, o) {
+	mapgl_legend(comp, mapbox, o, orientation = "vertical", mode = "mapbox")
 }
 
 #' @export
-tmapMapboxLegPlot.tm_legend_standard_landscape = function(comp, mapbox, o) {
-	tmapMapbox_legend(comp, mapbox, o, orientation = "horizontal")
+#' @keywords internal
+#' @rdname tmapMapbox
+tmapMapboxLegPlot.tm_legend_standard_landscape = function(comp, m, o) {
+	mapgl_legend(comp, m, o, orientation = "horizontal", mode = "mapbox")
+}
+
+#' @export
+#' @keywords internal
+#' @rdname tmapMapbox
+tmapMaplibreLegPlot.tm_legend_standard_portrait = function(comp, m, o) {
+	mapgl_legend(comp, m, o, orientation = "vertical", mode = "mapbox")
+}
+
+#' @export
+#' @keywords internal
+#' @rdname tmapMapbox
+tmapMaplibreLegPlot.tm_legend_standard_landscape = function(comp, m, o) {
+	mapgl_legend(comp, m, o, orientation = "horizontal", mode = "mapbox")
 }
 
 #' @param facet_row,facet_col,facet_page row column and page id
@@ -161,20 +162,31 @@ tmapMapboxLegPlot.tm_legend_standard_landscape = function(comp, mapbox, o) {
 #' @param bbox bbox
 #' @export
 #' @keywords internal
-#' @name tmapMapboxLegend
 #' @rdname tmapMapbox
 tmapMapboxComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page, class, stack, stack_auto, pos.h, pos.v, bbox) {
-	mapbox = get_mapbox(facet_row, facet_col, facet_page)
-
+	m = get_mapgl(facet_row, facet_col, facet_page, mode = "mapbox")
 	rc_text = frc(facet_row, facet_col)
 
-
 	for (cmp in comp) {
-		mapbox = tmapMapboxLegPlot(cmp, mapbox, o)
+		m = tmapMapboxLegPlot(cmp, m, o)
 	}
 
+	assign_mapgl(,, facet_row, facet_col, facet_page, mode = "mapbox")
+	NULL
+}
 
+#' @export
+#' @keywords internal
+#' @name tmapMapboxLegend
+#' @rdname tmapMapbox
+tmapMaplibreComp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page, class, stack, stack_auto, pos.h, pos.v, bbox) {
+	m = get_mapgl(facet_row, facet_col, facet_page, mode = "maplibre")
+	rc_text = frc(facet_row, facet_col)
 
-	assign_mapbox(mapbox, facet_row, facet_col, facet_page)
+	for (cmp in comp) {
+		m = tmapMaplibreLegPlot(cmp, m, o)
+	}
+
+	assign_mapgl(,, facet_row, facet_col, facet_page, mode = "maplibre")
 	NULL
 }

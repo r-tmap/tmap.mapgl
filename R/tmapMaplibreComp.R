@@ -2,7 +2,7 @@
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMapboxCompPrepare.tm_title = function(comp, o) {
+tmapMaplibreCompPrepare.tm_title = function(comp, o) {
 	comp$show = TRUE
 	comp
 }
@@ -11,14 +11,14 @@ tmapMapboxCompPrepare.tm_title = function(comp, o) {
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMapboxCompHeight.tm_title = function(comp, o) {
+tmapMaplibreCompHeight.tm_title = function(comp, o) {
 	comp
 }
 
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMapboxCompWidth.tm_title = function(comp, o) {
+tmapMaplibreCompWidth.tm_title = function(comp, o) {
 	comp
 }
 
@@ -26,8 +26,8 @@ tmapMapboxCompWidth.tm_title = function(comp, o) {
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMapboxLegPlot.tm_title = function(comp, m, o) {
-	mapbox
+tmapMaplibreLegPlot.tm_title = function(comp, m, o) {
+	maplibre
 }
 
 
@@ -35,7 +35,7 @@ tmapMapboxLegPlot.tm_title = function(comp, m, o) {
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMapboxCompPrepare.tm_compass = function(comp, o) {
+tmapMaplibreCompPrepare.tm_compass = function(comp, o) {
 	comp$show = TRUE
 	comp
 }
@@ -44,14 +44,14 @@ tmapMapboxCompPrepare.tm_compass = function(comp, o) {
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMapboxCompHeight.tm_compass = function(comp, o) {
+tmapMaplibreCompHeight.tm_compass = function(comp, o) {
 	comp
 }
 
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMapboxCompWidth.tm_compass = function(comp, o) {
+tmapMaplibreCompWidth.tm_compass = function(comp, o) {
 	comp
 }
 
@@ -59,7 +59,7 @@ tmapMapboxCompWidth.tm_compass = function(comp, o) {
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMapboxLegPlot.tm_compass = function(comp, m, o) {
+tmapMaplibreLegPlot.tm_compass = function(comp, m, o) {
 	m
 }
 
@@ -68,7 +68,7 @@ tmapMapboxLegPlot.tm_compass = function(comp, m, o) {
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMapboxCompPrepare.tm_scalebar = function(comp, o) {
+tmapMaplibreCompPrepare.tm_scalebar = function(comp, o) {
 	comp$show = TRUE
 	comp
 }
@@ -77,14 +77,14 @@ tmapMapboxCompPrepare.tm_scalebar = function(comp, o) {
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMapboxCompHeight.tm_scalebar = function(comp, o) {
+tmapMaplibreCompHeight.tm_scalebar = function(comp, o) {
 	comp
 }
 
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMapboxCompWidth.tm_scalebar = function(comp, o) {
+tmapMaplibreCompWidth.tm_scalebar = function(comp, o) {
 	comp
 }
 
@@ -92,7 +92,7 @@ tmapMapboxCompWidth.tm_scalebar = function(comp, o) {
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMapboxLegPlot.tm_scalebar = function(comp, m, o) {
+tmapMaplibreLegPlot.tm_scalebar = function(comp, m, o) {
 	m
 }
 
@@ -102,7 +102,7 @@ tmapMapboxLegPlot.tm_scalebar = function(comp, m, o) {
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMapboxCompPrepare.tm_credits = function(comp, o) {
+tmapMaplibreCompPrepare.tm_credits = function(comp, o) {
 	comp$show = TRUE
 	comp
 }
@@ -111,14 +111,14 @@ tmapMapboxCompPrepare.tm_credits = function(comp, o) {
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMapboxCompHeight.tm_credits = function(comp, o) {
+tmapMaplibreCompHeight.tm_credits = function(comp, o) {
 	comp
 }
 
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMapboxCompWidth.tm_credits = function(comp, o) {
+tmapMaplibreCompWidth.tm_credits = function(comp, o) {
 	comp
 }
 
@@ -126,7 +126,7 @@ tmapMapboxCompWidth.tm_credits = function(comp, o) {
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMapboxLegPlot.tm_credits = function(comp, m, o) {
+tmapMaplibreLegPlot.tm_credits = function(comp, m, o) {
 	m
 }
 
@@ -134,7 +134,7 @@ tmapMapboxLegPlot.tm_credits = function(comp, m, o) {
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMapboxCompPrepare.tm_mouse_coordinates = function(comp, o) {
+tmapMaplibreCompPrepare.tm_mouse_coordinates = function(comp, o) {
 	comp$show = TRUE
 	comp
 }
@@ -143,14 +143,14 @@ tmapMapboxCompPrepare.tm_mouse_coordinates = function(comp, o) {
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMapboxCompHeight.tm_mouse_coordinates = function(comp, o) {
+tmapMaplibreCompHeight.tm_mouse_coordinates = function(comp, o) {
 	comp
 }
 
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMapboxCompWidth.tm_mouse_coordinates = function(comp, o) {
+tmapMaplibreCompWidth.tm_mouse_coordinates = function(comp, o) {
 	comp
 }
 
@@ -158,7 +158,7 @@ tmapMapboxCompWidth.tm_mouse_coordinates = function(comp, o) {
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMapboxLegPlot.tm_mouse_coordinates = function(comp, m, o) {
+tmapMaplibreLegPlot.tm_mouse_coordinates = function(comp, m, o) {
 	m
 }
 

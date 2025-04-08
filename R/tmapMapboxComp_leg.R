@@ -10,7 +10,7 @@ tmapMapboxCompWidth = function(comp, o) {
 	UseMethod("tmapMapboxCompWidth")
 }
 
-tmapMapboxLegPlot = function(comp, mapbox, o) {
+tmapMapboxLegPlot = function(comp, m, o) {
 	UseMethod("tmapMapboxLegPlot")
 }
 
