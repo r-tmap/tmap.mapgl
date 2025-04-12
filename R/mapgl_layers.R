@@ -99,10 +99,56 @@ mapgl_polygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet
 
 #' @export
 #' @keywords internal
-#' @name tmapMapboxLines
 #' @rdname tmapMapbox
 tmapMapboxLines = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
-	mapbox = get_mapbox(facet_row, facet_col, facet_page)
+	mapgl_lines(shpTM,
+				   dt,
+				   pdt,
+				   popup.format,
+				   hdt,
+				   idt,
+				   gp,
+				   bbx,
+				   facet_row,
+				   facet_col,
+				   facet_page,
+				   id,
+				   pane,
+				   group,
+				   o,
+				   ...,
+				   mode = "mapbox")
+
+}
+
+#' @export
+#' @keywords internal
+#' @rdname tmapMapbox
+tmapMaplibreLines = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+	mapgl_lines(shpTM,
+				dt,
+				pdt,
+				popup.format,
+				hdt,
+				idt,
+				gp,
+				bbx,
+				facet_row,
+				facet_col,
+				facet_page,
+				id,
+				pane,
+				group,
+				o,
+				...,
+				mode = "maplibre")
+
+}
+
+
+mapgl_lines = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ..., mode) {
+
+	mapbox = get_mapgl(facet_row, facet_col, facet_page, mode = mode)
 
 	rc_text = frc(facet_row, facet_col)
 
@@ -125,7 +171,7 @@ tmapMapboxLines = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, face
 							  line_color = mapgl::get_column("col"),
 							  line_opacity = mapgl::get_column("col_alpha"),
 							  line_width = mapgl::get_column("lwd")) |>
-		assign_mapgl(facet_row, facet_col, facet_page)
+		assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
 	NULL
 }
 
@@ -154,13 +200,58 @@ lty2dash = function(lty) {
 
 
 
+#' @export
+#' @keywords internal
+#' @rdname tmapMapbox
+tmapMapboxSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+	mapgl_symbols(shpTM,
+				dt,
+				pdt,
+				popup.format,
+				hdt,
+				idt,
+				gp,
+				bbx,
+				facet_row,
+				facet_col,
+				facet_page,
+				id,
+				pane,
+				group,
+				o,
+				...,
+				mode = "mapbox")
+
+}
 
 #' @export
 #' @keywords internal
-#' @name tmapMapboxSymbols
 #' @rdname tmapMapbox
-tmapMapboxSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
-	mapbox = get_mapbox(facet_row, facet_col, facet_page)
+tmapMaplibreSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+	mapgl_symbols(shpTM,
+				dt,
+				pdt,
+				popup.format,
+				hdt,
+				idt,
+				gp,
+				bbx,
+				facet_row,
+				facet_col,
+				facet_page,
+				id,
+				pane,
+				group,
+				o,
+				...,
+				mode = "maplibre")
+
+}
+
+
+
+mapgl_symbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ..., mode) {
+	mapbox = get_mapgl(facet_row, facet_col, facet_page, mode)
 
 	rc_text = frc(facet_row, facet_col)
 
@@ -206,8 +297,7 @@ tmapMapboxSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, fa
 								circle_stroke_opacity = mapgl::get_column("col_alpha"),
 								circle_stroke_width = mapgl::get_column("lwd"),
 								circle_radius = mapgl::get_column("size")) |>
-		assign_mapgl(facet_row, facet_col, facet_page)
-	NULL
+		assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
 	NULL
 }
 
@@ -222,12 +312,134 @@ split_alpha_channel <- function(x, alpha) {
 	}
 }
 
+
+mapgl_raster = function(shpTM, dt, gp, pdt, popup.format, hdt, idt, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ..., mode) {
+
+	rc_text = frc(facet_row, facet_col)
+
+
+	shp = shpTM$shp
+	tmapID = shpTM$tmapID
+
+	if (is_regular_grid(shp)) {
+
+		tid = intersect(tmapID, dt$tmapID__)
+
+		color = rep(NA, length(tmapID)) # NA
+
+		sel = which(tmapID %in% tid)
+		tid2 = tmapID[sel]
+
+		color[sel] = dt$col[match(tid2, dt$tmapID__)]
+
+
+		#color = rep("#FFFFFF", length(tmapID))
+		#color[match(dt$tmapID__, tmapID)] = dt$color
+
+		pal <- na.omit(unique(color))
+		pal <- pal[substr(pal, 8,10)!="00"] ## remove transparant colors
+
+		if (!length(pal)) return(NULL)
+
+		res <- split_alpha_channel(pal, alpha = 1)
+		pal_col <- res$col
+		pal_opacity <- if (length(res$opacity) == 0L) 0 else max(res$opacity)
+
+		if ("col_alpha" %in% names(dt)) pal_opacity = max(dt$col_alpha)
+
+
+		col_ids <- match(color, pal)
+
+		m <- matrix(col_ids, ncol = ncol(shp))
+
+		#matrix(color, ncol = ncol(shp))
+
+		#m <- matrix(tmapID, ncol = ncol(shp))
+
+
+		#m = tmapID
+
+		#m[1,5] = 4
+
+		shp2 = stars::st_as_stars(m, dimensions = shp)
+
+		m = get_mapgl(facet_row, facet_col, facet_page, mode = mode)
+
+	#	opts = leaflet::gridOptions(pane = pane)
+
+		m |> mapgl::add_source("sourceRaster", data = shp2) |>
+			mapgl::add_heatmap_layer("layerRaster", source = "sourceRaster",
+									 heatmap_color = mapgl::get_column("col"),
+									 heatmap_opacity = mapgl::get_column("col_alpha")) |>
+			assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
+	} else {
+		#shp2 = stars::st_as_stars(list(values = tmapID), dimensions = shp)
+		#shpTM = shapeTM(sf::st_geometry(sf::st_as_sf(shp2)), as.vector(tmapID))
+
+		m = matrix(tmapID, nrow = nrow(shp), ncol = ncol(shp))
+		shp2 = structure(list(tmapID = m), class = "stars", dimensions = shp)
+
+		shp3 = sf::st_geometry(sf::st_as_sf(shp2))
+
+		crs = get_option_class(o$crs_step4, "sf")
+
+		shpTM = shapeTM(sf::st_transform(shp3, crs), tmapID)
+
+
+		gp$lty = "solid"
+
+		mapgl_polygons(shpTM, dt, pdt, popup.format = NULL, hdt = NULL, idt = NULL, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o)
+	}
+	NULL
+}
+
+
 #' @export
 #' @keywords internal
-#' @name tmapMapboxRaster
 #' @rdname tmapMapbox
 tmapMapboxRaster = function(shpTM, dt, gp, pdt, popup.format, hdt, idt, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
-	warning("tm_raster not yet implemented for this mode")
+	mapgl_raster(shpTM,
+				   dt,
+				   pdt,
+				   popup.format,
+				   hdt,
+				   idt,
+				   gp,
+				   bbx,
+				   facet_row,
+				   facet_col,
+				   facet_page,
+				   id,
+				   pane,
+				   group,
+				   o,
+				   ...,
+				   mode = "mapbox")
+
+	NULL
+}
+
+#' @export
+#' @keywords internal
+#' @rdname tmapMapbox
+tmapMaplibreRaster = function(shpTM, dt, gp, pdt, popup.format, hdt, idt, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+	mapgl_raster(shpTM,
+				 dt,
+				 pdt,
+				 popup.format,
+				 hdt,
+				 idt,
+				 gp,
+				 bbx,
+				 facet_row,
+				 facet_col,
+				 facet_page,
+				 id,
+				 pane,
+				 group,
+				 o,
+				 ...,
+				 mode = "maplibre")
 
 	NULL
 }
