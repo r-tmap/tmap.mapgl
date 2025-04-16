@@ -46,6 +46,8 @@ tmapMaplibrePolygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx,
 				   mode = "maplibre")
 }
 
+
+
 mapgl_polygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ..., mode) {
 	m = get_mapgl(facet_row, facet_col, facet_page, mode)
 
@@ -80,8 +82,6 @@ mapgl_polygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet
 	layername1 = paste0(srcname, "polygons_fill")
 	layername2 = paste0(srcname, "polygons_border")
 
-
-
 	nofill = all(gp$fill == o$value.blank$fill)
 
 	m |> mapgl::add_source(srcname, data = shp2) |>
@@ -93,7 +93,107 @@ mapgl_polygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet
 							  line_opacity = mapgl::get_column("col_alpha"),
 							  line_width = mapgl::get_column("lwd")) |>
 		assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
+
 	NULL
+}
+
+#' @export
+#' @keywords internal
+#' @rdname tmapMapbox
+tmapMapboxPolygons3d = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+	mapgl_polygons3d(shpTM,
+				   dt,
+				   pdt,
+				   popup.format,
+				   hdt,
+				   idt,
+				   gp,
+				   bbx,
+				   facet_row,
+				   facet_col,
+				   facet_page,
+				   id,
+				   pane,
+				   group,
+				   o,
+				   ...,
+				   mode = "mapbox")
+}
+
+#' @export
+#' @keywords internal
+#' @rdname tmapMapbox
+tmapMaplibrePolygons3d = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+	mapgl_polygons3d(shpTM,
+				   dt,
+				   pdt,
+				   popup.format,
+				   hdt,
+				   idt,
+				   gp,
+				   bbx,
+				   facet_row,
+				   facet_col,
+				   facet_page,
+				   id,
+				   pane,
+				   group,
+				   o,
+				   ...,
+				   mode = "maplibre")
+}
+
+mapgl_polygons3d = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ..., mode) {
+	m = get_mapgl(facet_row, facet_col, facet_page, mode)
+
+	rc_text = frc(facet_row, facet_col)
+
+	res = select_sf(shpTM, dt)
+	shp = res$shp
+	dt = res$dt
+
+	popups = NULL
+
+	x = sf::st_sfc(list(sf::st_point(c(mean(bbx[c(1,3)]), bbx[2]))), crs = sf::st_crs(bbx))
+	y = sf::st_sfc(list(sf::st_point(c(mean(bbx[c(1,3)]), bbx[4]))), crs = sf::st_crs(bbx))
+
+	gp = impute_gp(gp, dt)
+	gp = rescale_gp(gp, o$scale_down)
+
+	if (any(nchar(gp$fill) == 9)) {
+		fill_alpha = split_alpha_channel(gp$fill, alpha = gp$fill_alpha)
+		gp$fill = fill_alpha$col
+		gp$fill_alpha = gp$fill_alpha * fill_alpha$opacity
+	}
+	if (any(nchar(gp$col) == 9)) {
+		fill_alpha = split_alpha_channel(gp$col, alpha = gp$col_alpha)
+		gp$col = fill_alpha$col
+		gp$col_alpha = gp$fill_alpha * fill_alpha$opacity
+	}
+
+	shp2 = sf::st_sf(unclass(gp[c("height", "fill", "col", "lwd", "fill_alpha", "col_alpha")]), id = 1:length(shp), geometry = shp)
+
+	srcname = paste0("layer", pane)
+	layername1 = paste0(srcname, "polygons_fill")
+	layername2 = paste0(srcname, "polygons_border")
+
+	shp2$height = shp2$height * 100000
+
+	nofill = all(gp$fill == o$value.blank$fill)
+
+	m |> mapgl::add_source(srcname, data = shp2) |>
+		mapgl::add_line_layer(layername2, source = srcname,
+							  line_color = mapgl::get_column("col"),
+							  line_opacity = mapgl::get_column("col_alpha"),
+							  line_width = mapgl::get_column("lwd")) |>
+		mapgl::add_fill_extrusion_layer(layername1, source = srcname,
+										fill_extrusion_color = mapgl::get_column("fill"),
+										#fill_extrusion_opacity = mapgl::get_column("fill_alpha"),
+										fill_extrusion_base = 0,
+										fill_extrusion_height = mapgl::get_column("height")) |>
+		assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
+
+
 }
 
 
