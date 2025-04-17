@@ -75,12 +75,12 @@
 #' @example ./examples/tm_polygons3d.R
 #' @seealso \href{https://r-tmap.github.io/tmap/articles/examples_choro_World}{Choropleth example (1)} and \href{https://r-tmap.github.io/tmap/articles/examples_choro_NLD}{choropleth example (2)}
 #' @export
-tm_polygons3d = function(height = tm_const(),
+tm_polygons_3d = function(height = tm_const(),
 						 height.scale = tm_scale(),
 						 height.legend = tm_legend(),
 						 height.chart = tm_chart_none(),
 						 height.free = NA,
-						 fill = tm_const(),
+					   fill = tm_const(),
 					   fill.scale = tm_scale(),
 					   fill.legend = tm_legend(),
 					   fill.chart = tm_chart_none(),

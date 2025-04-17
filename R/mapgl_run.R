@@ -38,8 +38,10 @@ mapgl_run = function(o, q, show, knit, args, mode) {
 		x = if (o$nrows == 1 && o$ncols == 1) {
 			msi[[1]]
 		} else {
-			msi[[1]]
-			cli::cli_warn("facets not yet supported for mapbox")
+			if (length(msi) > 2) cli::cli_warn("more than 2 facets not supported for the mode {.str mapbox}")
+			orientation = ifelse(o$ncols >= o$nrows, "vertical", "horizontal")
+
+			mapgl::compare(msi[[1]], msi[[2]], mode = "sync", orientation = orientation)
 		}
 		x
 	})

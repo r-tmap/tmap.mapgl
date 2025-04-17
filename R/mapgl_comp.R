@@ -27,7 +27,7 @@ tmapMapboxCompWidth.tm_title = function(comp, o) {
 #' @keywords internal
 #' @rdname tmapMapbox
 tmapMapboxLegPlot.tm_title = function(comp, m, o) {
-	mapbox
+	m
 }
 
 
@@ -195,7 +195,7 @@ tmapMaplibreCompWidth.tm_title = function(comp, o) {
 #' @keywords internal
 #' @rdname tmapMapbox
 tmapMaplibreLegPlot.tm_title = function(comp, m, o) {
-	maplibre
+	m
 }
 
 
