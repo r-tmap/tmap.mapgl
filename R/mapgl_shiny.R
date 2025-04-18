@@ -16,7 +16,7 @@ tmapOutputMapbox = function(outputId, width, height) {
 #' @keywords internal
 #' @rdname tmapMapbox
 tmapProxyMapbox = function(mapId, session, x) {
-	print.tmap(x, dg = mapgl::mapboxgl_proxy(mapId, session), show = FALSE, in.shiny = TRUE, proxy = TRUE)
+	print(x, dg = mapgl::mapboxgl_proxy(mapId, session), show = FALSE, in.shiny = TRUE, proxy = TRUE)
 }
 
 #' @export
@@ -37,5 +37,5 @@ tmapOutputMaplibre = function(outputId, width, height) {
 #' @keywords internal
 #' @rdname tmapMapbox
 tmapProxyMaplibre = function(mapId, session, x) {
-	print.tmap(x, dg = mapgl::maplibre_proxy(mapId, session), show = FALSE, in.shiny = TRUE, proxy = TRUE)
+	print(x, dg = mapgl::maplibre_proxy(mapId, session), show = FALSE, in.shiny = TRUE, proxy = TRUE)
 }

@@ -8,9 +8,13 @@
 #' @importFrom colorspace deutan protan tritan
 #' @importFrom htmltools tags
 #' @importFrom htmlwidgets prependContent
-#' @importFrom leafsync latticeview
 #' @import sf
 #' @importFrom tmaptools bb_poly
+#' @importFrom terra rast is.lonlat project ext crop
+#' @importFrom stats na.omit
+#' @importFrom utils head tail
+#' @import stars
+#' @import cli
 #' @importFrom units drop_units set_units
 #' @rdname tmapMapbox
 tmapMapboxRun = function(o, q, show, knit, args) {

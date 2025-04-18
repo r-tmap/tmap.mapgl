@@ -75,44 +75,44 @@
 #' @example ./examples/tm_polygons_3d.R
 #' @seealso \href{https://r-tmap.github.io/tmap/articles/examples_choro_World}{Choropleth example (1)} and \href{https://r-tmap.github.io/tmap/articles/examples_choro_NLD}{choropleth example (2)}
 #' @export
-tm_polygons_3d = function(height = tm_const(),
-						 height.scale = tm_scale(),
-						 height.legend = tm_legend(),
-						 height.chart = tm_chart_none(),
+tm_polygons_3d = function(height = tmap::tm_const(),
+						 height.scale = tmap::tm_scale(),
+						 height.legend = tmap::tm_legend(),
+						 height.chart = tmap::tm_chart_none(),
 						 height.free = NA,
-					   fill = tm_const(),
-					   fill.scale = tm_scale(),
-					   fill.legend = tm_legend(),
-					   fill.chart = tm_chart_none(),
+					   fill = tmap::tm_const(),
+					   fill.scale = tmap::tm_scale(),
+					   fill.legend = tmap::tm_legend(),
+					   fill.chart = tmap::tm_chart_none(),
 					   fill.free = NA,
-					   col = tm_const(),
-					   col.scale = tm_scale(),
-					   col.legend = tm_legend(),
-					   col.chart = tm_chart_none(),
+					   col = tmap::tm_const(),
+					   col.scale = tmap::tm_scale(),
+					   col.legend = tmap::tm_legend(),
+					   col.chart = tmap::tm_chart_none(),
 					   col.free = NA,
-					   lwd = tm_const(),
-					   lwd.scale = tm_scale(),
-					   lwd.legend = tm_legend(),
-					   lwd.chart = tm_chart_none(),
+					   lwd = tmap::tm_const(),
+					   lwd.scale = tmap::tm_scale(),
+					   lwd.legend = tmap::tm_legend(),
+					   lwd.chart = tmap::tm_chart_none(),
 					   lwd.free = NA,
-					   lty = tm_const(),
-					   lty.scale = tm_scale(),
-					   lty.legend = tm_legend(),
-					   lty.chart = tm_chart_none(),
+					   lty = tmap::tm_const(),
+					   lty.scale = tmap::tm_scale(),
+					   lty.legend = tmap::tm_legend(),
+					   lty.chart = tmap::tm_chart_none(),
 					   lty.free = NA,
-					   fill_alpha = tm_const(),
-					   fill_alpha.scale = tm_scale(),
-					   fill_alpha.legend = tm_legend(),
-					   fill_alpha.chart = tm_chart_none(),
+					   fill_alpha = tmap::tm_const(),
+					   fill_alpha.scale = tmap::tm_scale(),
+					   fill_alpha.legend = tmap::tm_legend(),
+					   fill_alpha.chart = tmap::tm_chart_none(),
 					   fill_alpha.free = NA,
-					   col_alpha = tm_const(),
-					   col_alpha.scale = tm_scale(),
-					   col_alpha.legend = tm_legend(),
-					   col_alpha.chart = tm_chart_none(),
+					   col_alpha = tmap::tm_const(),
+					   col_alpha.scale = tmap::tm_scale(),
+					   col_alpha.legend = tmap::tm_legend(),
+					   col_alpha.chart = tmap::tm_chart_none(),
 					   col_alpha.free = NA,
 					   linejoin = "round",
 					   lineend = "round",
-					   plot.order = tm_plot_order("lwd", reverse = TRUE, na.order = "bottom"),
+					   plot.order = tmap::tm_plot_order("lwd", reverse = TRUE, na.order = "bottom"),
 					   zindex = NA,
 					   group = NA,
 					   group.control = "check",
@@ -120,61 +120,61 @@ tm_polygons_3d = function(height = tm_const(),
 					   popup.format = list(),
 					   hover = NA,
 					   id = "",
-					   options = opt_tm_polygons3d()) {
+					   options = opt_tm_polygons_3d()) {
 
 	args_called = names(rlang::call_match()[-1])
 
 
-	tm_element_list(tm_element(
+	tmap::tm_element_list(tmap::tm_element(
 		layer = "polygons3d",
-		trans.fun = tmapTransPolygons,
+		trans.fun = tmap::tmapTransPolygons,
 		trans.args = options$trans.args,
 		trans.aes = list(),
 		trans.apply_to = "this",
-		mapping.aes = list(height = tmapScale(aes = "height",
+		mapping.aes = list(height = tmap::tmapScale(aes = "height",
 										   value = height,
 										   scale = height.scale,
 										   legend = height.legend,
 										   chart = height.chart,
 										   free = height.free),
-						   fill = tmapScale(aes = "fill",
+						   fill = tmap::tmapScale(aes = "fill",
 											value = fill,
 											scale = fill.scale,
 											legend = fill.legend,
 											chart = fill.chart,
 											free = fill.free),
-						   col = tmapScale(aes = "col",
+						   col = tmap::tmapScale(aes = "col",
 						   				value = col,
 						   				scale = col.scale,
 						   				legend = col.legend,
 						   				chart = col.chart,
 						   				free = col.free),
-						   lwd = tmapScale(aes = "lwd",
+						   lwd = tmap::tmapScale(aes = "lwd",
 						   				value = lwd,
 						   				scale = lwd.scale,
 						   				legend = lwd.legend,
 						   				chart = lwd.chart,
 						   				free = lwd.free),
-						   lty = tmapScale(aes = "lty",
+						   lty = tmap::tmapScale(aes = "lty",
 						   				value = lty,
 						   				scale = lty.scale,
 						   				legend = lty.legend,
 						   				chart = lty.chart,
 						   				free = lty.free),
-						   fill_alpha = tmapScale(aes = "fill_alpha",
+						   fill_alpha = tmap::tmapScale(aes = "fill_alpha",
 						   					   value = fill_alpha,
 						   					   scale = fill_alpha.scale,
 						   					   legend = fill_alpha.legend,
 						   					   chart = fill_alpha.chart,
 						   					   free = fill_alpha.free),
-						   col_alpha = tmapScale(aes = "col_alpha",
+						   col_alpha = tmap::tmapScale(aes = "col_alpha",
 						   					  value = col_alpha,
 						   					  scale = col_alpha.scale,
 						   					  legend = col_alpha.legend,
 						   					  chart = col_alpha.chart,
 						   					  free = col_alpha.free)),
 
-		gpar = tmapGpar(height = "__height",
+		gpar = tmap::tmapGpar(height = "__height",
 						fill = "__fill",
 						col = "__col",
 						shape = NA,
@@ -186,7 +186,7 @@ tm_polygons_3d = function(height = tm_const(),
 						lwd = "__lwd",
 						linejoin = linejoin,
 						lineend = lineend),
-		tpar = tmapTpar(area = "AREA"),
+		tpar = tmap::tmapTpar(area = "AREA"),
 		plot.order = plot.order,
 		mapping.fun = "Polygons3d",
 		mapping.args = options$mapping.args,
@@ -200,22 +200,10 @@ tm_polygons_3d = function(height = tm_const(),
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
 
-#' Specify options to map layers
-#'
-#' @description
-#' The family of `opt_*()` functions can be used to specify options in the different `tm_*()`
-#' functions.
-#'
-#' @rdname tm_polygons3d
 #' @param polygons.only should only polygon geometries of the shape object (defined in [tm_shape()]) be plotted? By default `"ifany"`, which means `TRUE` in case a geometry collection is specified.
 #' @export
-#' @examples
-#' tm_shape(World) +
-#'   tm_polygons(
-#'
-#'    )
-#'
-opt_tm_polygons3d = function(polygons.only = "ifany") {
+#' @rdname tm_polygons_3d
+opt_tm_polygons_3d = function(polygons.only = "ifany") {
 	list(trans.args = list(polygons.only = polygons.only),
 		 mapping.args = list())
 }

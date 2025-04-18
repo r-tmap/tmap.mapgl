@@ -2,47 +2,48 @@
 % Please edit documentation in R/tm_layers_polygons_3d.R
 \name{tm_polygons_3d}
 \alias{tm_polygons_3d}
+\alias{opt_tm_polygons_3d}
 \title{Map layer: polygons in 3d (experimental)}
 \usage{
 tm_polygons_3d(
-  height = tm_const(),
-  height.scale = tm_scale(),
-  height.legend = tm_legend(),
-  height.chart = tm_chart_none(),
+  height = tmap::tm_const(),
+  height.scale = tmap::tm_scale(),
+  height.legend = tmap::tm_legend(),
+  height.chart = tmap::tm_chart_none(),
   height.free = NA,
-  fill = tm_const(),
-  fill.scale = tm_scale(),
-  fill.legend = tm_legend(),
-  fill.chart = tm_chart_none(),
+  fill = tmap::tm_const(),
+  fill.scale = tmap::tm_scale(),
+  fill.legend = tmap::tm_legend(),
+  fill.chart = tmap::tm_chart_none(),
   fill.free = NA,
-  col = tm_const(),
-  col.scale = tm_scale(),
-  col.legend = tm_legend(),
-  col.chart = tm_chart_none(),
+  col = tmap::tm_const(),
+  col.scale = tmap::tm_scale(),
+  col.legend = tmap::tm_legend(),
+  col.chart = tmap::tm_chart_none(),
   col.free = NA,
-  lwd = tm_const(),
-  lwd.scale = tm_scale(),
-  lwd.legend = tm_legend(),
-  lwd.chart = tm_chart_none(),
+  lwd = tmap::tm_const(),
+  lwd.scale = tmap::tm_scale(),
+  lwd.legend = tmap::tm_legend(),
+  lwd.chart = tmap::tm_chart_none(),
   lwd.free = NA,
-  lty = tm_const(),
-  lty.scale = tm_scale(),
-  lty.legend = tm_legend(),
-  lty.chart = tm_chart_none(),
+  lty = tmap::tm_const(),
+  lty.scale = tmap::tm_scale(),
+  lty.legend = tmap::tm_legend(),
+  lty.chart = tmap::tm_chart_none(),
   lty.free = NA,
-  fill_alpha = tm_const(),
-  fill_alpha.scale = tm_scale(),
-  fill_alpha.legend = tm_legend(),
-  fill_alpha.chart = tm_chart_none(),
+  fill_alpha = tmap::tm_const(),
+  fill_alpha.scale = tmap::tm_scale(),
+  fill_alpha.legend = tmap::tm_legend(),
+  fill_alpha.chart = tmap::tm_chart_none(),
   fill_alpha.free = NA,
-  col_alpha = tm_const(),
-  col_alpha.scale = tm_scale(),
-  col_alpha.legend = tm_legend(),
-  col_alpha.chart = tm_chart_none(),
+  col_alpha = tmap::tm_const(),
+  col_alpha.scale = tmap::tm_scale(),
+  col_alpha.legend = tmap::tm_legend(),
+  col_alpha.chart = tmap::tm_chart_none(),
   col_alpha.free = NA,
   linejoin = "round",
   lineend = "round",
-  plot.order = tm_plot_order("lwd", reverse = TRUE, na.order = "bottom"),
+  plot.order = tmap::tm_plot_order("lwd", reverse = TRUE, na.order = "bottom"),
   zindex = NA,
   group = NA,
   group.control = "check",
@@ -50,8 +51,10 @@ tm_polygons_3d(
   popup.format = list(),
   hover = NA,
   id = "",
-  options = opt_tm_polygons3d()
+  options = opt_tm_polygons_3d()
 )
+
+opt_tm_polygons_3d(polygons.only = "ifany")
 }
 \arguments{
 \item{height, height.scale, height.legend, height.chart, height.free}{`r .doc_vv("height")`}
@@ -106,6 +109,8 @@ is applied to the named variable.}
 features. Only used for `"view"` mode.}
 
 \item{options}{options passed on to the corresponding `opt_<layer_function>` function}
+
+\item{polygons.only}{should only polygon geometries of the shape object (defined in [tm_shape()]) be plotted? By default `"ifany"`, which means `TRUE` in case a geometry collection is specified.}
 }
 \description{
 Map layer that draws 3d (extruded) polygons. Supported visual variables are: `height` (the ), `fill` (the fill color),
@@ -147,15 +152,16 @@ so the `*.free` argument requires only one logical value.
 }
 \examples{
 \donttest{
+library(tmap)
 library(tmap.mapgl)
 tmap_mode("maplibre")
 NLD_dist$pop_dens = NLD_dist$population / NLD_dist$area
 tm_shape(NLD_dist) +
-	tm_polygons_3d(height = "pop_dens",
-				   fill = "edu_appl_sci",
-				   fill.scale = tm_scale_intervals(style = "kmeans", values = "-pu_gn"),
-				   fill.legend = tm_legend("Univeristy degree")) +
-	tm_maplibre(pitch = 45)
+  tm_polygons_3d(height = "pop_dens",
+    fill = "edu_appl_sci",
+    fill.scale = tm_scale_intervals(style = "kmeans", values = "-pu_gn"),
+    fill.legend = tm_legend("Univeristy degree")) +
+tm_maplibre(pitch = 45)
 }
 }
 \seealso{

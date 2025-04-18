@@ -413,6 +413,7 @@ split_alpha_channel <- function(x, alpha) {
 }
 
 
+
 mapgl_raster = function(shpTM, dt, gp, pdt, popup.format, hdt, idt, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ..., mode) {
 
 	rc_text = frc(facet_row, facet_col)
@@ -420,6 +421,7 @@ mapgl_raster = function(shpTM, dt, gp, pdt, popup.format, hdt, idt, bbx, facet_r
 
 	shp = shpTM$shp
 	tmapID = shpTM$tmapID
+
 
 	if (is_regular_grid(shp)) {
 
@@ -484,7 +486,7 @@ mapgl_raster = function(shpTM, dt, gp, pdt, popup.format, hdt, idt, bbx, facet_r
 
 		crs = get_option_class(o$crs_step4, "sf")
 
-		shpTM = shapeTM(sf::st_transform(shp3, crs), tmapID)
+		shpTM = tmap::shapeTM(sf::st_transform(shp3, crs), tmapID)
 
 
 		gp$lty = "solid"

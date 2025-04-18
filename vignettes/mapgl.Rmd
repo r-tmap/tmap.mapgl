@@ -1,0 +1,60 @@
+---
+title: "New tmap modes: mapbox and maplibre"
+output: 
+  bookdown::html_vignette2:
+bibliography: '`r system.file("tmap.bib", package="tmap")`'
+csl: "`r system.file('ieee.csl', package = 'tmap')`"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  results = 'hide',
+  fig.width = 8,
+  comment = "#>"
+)
+hook_output <- knitr::knit_hooks$get("output")
+knitr::knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+
+```
+
+
+```{r, echo = FALSE, message = FALSE}
+library(tmap)
+library(tmap.mapgl)
+```
+
+
+```{r, fig.height = 3.5}
+tmap_mode("maplibre")
+
+tm_shape(NLD_dist) +
+  tm_polygons(
+    fill = "employment_rate", 
+    fill.scale = tm_scale_intervals(values = "scico.roma"),
+    lwd = 0.1) +
+tm_shape(NLD_muni) +
+  tm_polygons(fill = NULL, lwd = 1) +
+tm_maplibre(pitch = 75)
+```
+

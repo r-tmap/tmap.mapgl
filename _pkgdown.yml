@@ -1,0 +1,31 @@
+url: https://r-tmap.github.io/tmap.mapgl/
+template:
+  bootstrap: 5
+  bslib:
+    primary: "#5f8640"
+
+# figures:
+  dev: ragg::agg_png
+  dpi: 300
+
+development:
+  version_tooltip: "tmap.mapgl documentation"
+
+reference:
+
+- title: Set mode specific options
+  contents:
+  - tm_mapbox
+  - tm_maplibre
+- title: Map layer: polygons in 3d (experimental)
+  contents:
+  - tm_polygons_3d
+
+navbar:
+  structure:
+    left:  [reference, mapgl, news]
+  components:
+    home: ~
+    mapgl:
+      text: Two new modes: mapbox and maplibre
+      href: articles/mapgl

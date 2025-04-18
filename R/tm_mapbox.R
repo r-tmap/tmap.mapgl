@@ -18,7 +18,7 @@ tm_mapbox = function(style, pitch) {
 #'
 #' @param style To do: migrate with tmap styles and basemaps?
 #' @param pitch The pitch angle
-#' @example examples/mapbox.R
+#' @example examples/maplibre.R
 #' @export
 tm_maplibre = function(style, pitch) {
 	args = lapply(as.list(rlang::call_match(dots_expand = TRUE)[-1]), eval, envir = parent.frame())
