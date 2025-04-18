@@ -1,9 +1,7 @@
 ---
-title: "New tmap modes: mapbox and maplibre"
+title: "mapbox and maplibre"
 output: 
   bookdown::html_vignette2:
-bibliography: '`r system.file("tmap.bib", package="tmap")`'
-csl: "`r system.file('ieee.csl', package = 'tmap')`"
 editor_options: 
   chunk_output_type: console
 ---
@@ -11,7 +9,6 @@ editor_options:
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  results = 'hide',
   fig.width = 8,
   comment = "#>"
 )
@@ -37,6 +34,7 @@ knitr::knit_hooks$set(output = function(x, options) {
  })
 
 ```
+
 
 
 ```{r, echo = FALSE, message = FALSE}
