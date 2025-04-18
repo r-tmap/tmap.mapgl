@@ -17,7 +17,7 @@ tmapMapboxLegPlot = function(comp, m, o) {
 
 #' @export
 tmapMapboxCompPrepare.tm_legend_standard_portrait = function(comp, o) {
-	mapgl_legend_comp(comp, o)
+	mapgl_legend_comp(comp, o, mode = "mapbox")
 }
 
 
@@ -36,7 +36,7 @@ tmapMapboxCompWidth.tm_legend_standard_portrait = function(comp, o) {
 
 #' @export
 tmapMapboxCompPrepare.tm_legend_standard_landscape = function(comp, o) {
-	mapgl_legend_comp(comp, o)
+	mapgl_legend_comp(comp, o, mode = "mapbox")
 }
 
 #' @export
@@ -79,7 +79,7 @@ tmapMaplibreLegPlot = function(comp, m, o) {
 
 #' @export
 tmapMaplibreCompPrepare.tm_legend_standard_portrait = function(comp, o) {
-	mapgl_legend_comp(comp, o)
+	mapgl_legend_comp(comp, o, mode = "maplibre")
 }
 
 
@@ -98,7 +98,7 @@ tmapMaplibreCompWidth.tm_legend_standard_portrait = function(comp, o) {
 
 #' @export
 tmapMaplibreCompPrepare.tm_legend_standard_landscape = function(comp, o) {
-	mapgl_legend_comp(comp, o)
+	mapgl_legend_comp(comp, o, mode = "maplibre")
 }
 
 #' @export
@@ -116,7 +116,7 @@ tmapMaplibreCompWidth.tm_legend_standard_landscape = function(comp, o) {
 
 
 
-mapgl_legend_comp = function(comp, o) {
+mapgl_legend_comp = function(comp, o, mode) {
 	within(comp, {
 		if ("biv" %in% names(attributes(gp$fill))) {
 			warning("Bivariate legend not implemented for mapbox mode", call. = FALSE)
@@ -127,14 +127,14 @@ mapgl_legend_comp = function(comp, o) {
 		varying = names(nuq)[which(nuq>1)]
 
 		if (all(c("col", "fill") %in% varying)) {
-			message("Legend in mapbox mode doesn't support both fill and col varying. Setting col to the first value")
+			cli::cli_inform("Legend in mode {.val {mode}} doesn't support both fill and col varying. Setting col to the first value")
 			nuq["col"] = 1
 			varying = setdiff(varying, "col")
 			gp$col = gp$col[1]
 		}
 
 		type = if (!any(c("col", "fill") %in% varying)) {
-			message("Only color legends supported in mapbox mode")
+			cli::cli_inform("No legends available in mode {.val {mode}} for map variables {.val {varying}}")
 			"none"
 		} else if ((!is.na(gp$fill[1]) && any(nchar(gp$fill) > 50)) || (!is.na(gp$fill_alpha[1]) && any(nchar(gp$fill_alpha) > 50)) ||
 				   (!is.na(gp$col[1]) && any(nchar(gp$col) > 50)) || (!is.na(gp$col_alpha[1]) && any(nchar(gp$col_alpha) > 50))) {

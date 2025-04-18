@@ -72,7 +72,7 @@
 #' @param hover name of the data variable that specifies the hover labels (view mode only). Set to `FALSE` to disable hover labels. By default `FALSE`, unless `id` is specified. In that case, it is set to `id`,
 #' @param id name of the data variable that specifies the indices of the spatial
 #'   features. Only used for `"view"` mode.
-#' @example ./examples/tm_polygons3d.R
+#' @example ./examples/tm_polygons_3d.R
 #' @seealso \href{https://r-tmap.github.io/tmap/articles/examples_choro_World}{Choropleth example (1)} and \href{https://r-tmap.github.io/tmap/articles/examples_choro_NLD}{choropleth example (2)}
 #' @export
 tm_polygons_3d = function(height = tm_const(),
@@ -120,17 +120,9 @@ tm_polygons_3d = function(height = tm_const(),
 					   popup.format = list(),
 					   hover = NA,
 					   id = "",
-					   options = opt_tm_polygons3d(),
-					   ...) {
+					   options = opt_tm_polygons3d()) {
 
 	args_called = names(rlang::call_match()[-1])
-	args = list(...)
-
-	layer_fun = if ("called_from" %in% names(args)) {
-		args$called_from
-	} else {
-		"tm_polygons"
-	}
 
 
 	tm_element_list(tm_element(
