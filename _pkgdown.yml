@@ -13,11 +13,14 @@ development:
 
 reference:
 
+- title: mapgl
+  contents:
+  - tmap.mapgl-package
 - title: Set mode specific options
   contents:
   - tm_mapbox
   - tm_maplibre
-- title: Map layer: polygons in 3d (experimental)
+- title: Polygons in 3d
   contents:
   - tm_polygons_3d
 
@@ -27,5 +30,5 @@ navbar:
   components:
     home: ~
     mapgl:
-      text: Two new modes: mapbox and maplibre
+      text: Two new modes, mapbox and maplibre
       href: articles/mapgl
