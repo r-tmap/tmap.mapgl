@@ -432,10 +432,6 @@ mapgl_raster = function(shpTM, dt, gp, pdt, popup.format, hdt, idt, bbx, facet_r
 
 		color[sel] = dt$col[match(tid2, dt$tmapID__)]
 
-
-		#color = rep("#FFFFFF", length(tmapID))
-		#color[match(dt$tmapID__, tmapID)] = dt$color
-
 		pal <- na.omit(unique(color))
 		pal <- pal[substr(pal, 8,10)!="00"] ## remove transparant colors
 
@@ -452,25 +448,30 @@ mapgl_raster = function(shpTM, dt, gp, pdt, popup.format, hdt, idt, bbx, facet_r
 
 		m <- matrix(col_ids, ncol = ncol(shp))
 
-		#matrix(color, ncol = ncol(shp))
-
-		#m <- matrix(tmapID, ncol = ncol(shp))
-
-
-		#m = tmapID
-
-		#m[1,5] = 4
-
 		shp2 = stars::st_as_stars(m, dimensions = shp)
+
+		rst = terra::rast(shp2)
+
+		if (!terra::is.lonlat(rst)) {
+			rst = terra::project(rst, "epsg:4326")
+		}
+
+		# crop latitutes
+		ext = terra::ext(rst)
+
+		ext2 = ext
+		if (ext2$ymin < -89.9) ext2$ymin = -89
+		if (ext2$ymax > 89.9) ext2$ymax = 89
+
+		rst2 = terra::crop(rst, ext2)
 
 		m = get_mapgl(facet_row, facet_col, facet_page, mode = mode)
 
-	#	opts = leaflet::gridOptions(pane = pane)
-
-		m |> mapgl::add_source("sourceRaster", data = shp2) |>
-			mapgl::add_heatmap_layer("layerRaster", source = "sourceRaster",
-									 heatmap_color = mapgl::get_column("col"),
-									 heatmap_opacity = mapgl::get_column("col_alpha")) |>
+		m |> mapgl::add_image_source("sourceRaster",
+							   data = rst2, colors = pal) |>
+			mapgl::add_raster_layer("layerRaster", source = "sourceRaster",
+								 raster_opacity = pal_opacity,
+									raster_resampling = "nearest") |>
 			assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
 	} else {
 		#shp2 = stars::st_as_stars(list(values = tmapID), dimensions = shp)

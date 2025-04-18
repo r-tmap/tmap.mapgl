@@ -50,8 +50,7 @@ tm_polygons_3d(
   popup.format = list(),
   hover = NA,
   id = "",
-  options = opt_tm_polygons3d(),
-  ...
+  options = opt_tm_polygons3d()
 )
 }
 \arguments{

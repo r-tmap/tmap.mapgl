@@ -13,8 +13,9 @@ Encoding: UTF-8
 Depends:
     R (>= 3.5.0),
 Imports:
-    tmap (>= 3.99),
+    tmap (>= 4.0),
     mapgl,
+    terra,
     rlang,
     data.table,
     grDevices,
