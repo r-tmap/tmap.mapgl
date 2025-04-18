@@ -11,7 +11,7 @@ Version: 0.1
 Date: 2025-03-20
 Encoding: UTF-8
 Depends:
-    R (>= 3.5.0),
+    R (>= 4.1),
 Imports:
     tmap (>= 4.0),
     mapgl,

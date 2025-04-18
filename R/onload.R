@@ -15,15 +15,15 @@
 	tmap::tmapMode("mapbox", "Mapbox",
 				   pitch = 0,
 				   basemap.show = TRUE,
-				   scalebar.position = tm_pos_in("left", "bottom"),
-				   minimap.position = tm_pos_in("left", "top"),
+				   scalebar.position = tmap::tm_pos_in("left", "bottom"),
+				   minimap.position = tmap::tm_pos_in("left", "top"),
 				   basemap.server = "standard",
 				   crs_basemap = 4326)
 	tmap::tmapMode("maplibre", "Maplibre",
 				   pitch = 0,
 				   basemap.show = TRUE,
-				   scalebar.position = tm_pos_in("left", "bottom"),
-				   minimap.position = tm_pos_in("left", "top"),
+				   scalebar.position = tmap::tm_pos_in("left", "bottom"),
+				   minimap.position = tmap::tm_pos_in("left", "top"),
 				   basemap.server = "voyager",
 				   crs_basemap = 4326)
 }
