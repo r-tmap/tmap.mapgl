@@ -32,10 +32,10 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
-<li class="nav-item"><a class="nav-link" href="articles/mapgl">new tmap modes</a></li>
-<li class="nav-item"><a class="nav-link" href="articles/mapbox">mode "mapbox""</a></li>
-<li class="nav-item"><a class="nav-link" href="articles/maplibre">mode "maplibre</a></li>
-<li class="nav-item"><a class="nav-link" href="articles/polygons3d">polygons 3d layer</a></li>
+<li class="nav-item"><a class="nav-link" href="articles/mapgl">Introduction</a></li>
+<li class="nav-item"><a class="nav-link" href="articles/mapbox">mapbox</a></li>
+<li class="nav-item"><a class="nav-link" href="articles/maplibre">maplibre</a></li>
+<li class="nav-item"><a class="nav-link" href="articles/polygons3d">Polygons 3d</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -50,39 +50,55 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="tmapmapgl">tmap.mapgl<a class="anchor" aria-label="anchor" href="#tmapmapgl"></a>
+<div class="page-header"><h1 id="tmapmapgl-extension-for-tmap-featuring-two-new-modes-mapbox-and-maplibre">tmap.mapgl: extension for ‘tmap’ featuring two new modes: mapbox and maplibre<a class="anchor" aria-label="anchor" href="#tmapmapgl-extension-for-tmap-featuring-two-new-modes-mapbox-and-maplibre"></a>
 </h1></div>
-<p>Two new tmap modes! Thanks to <a href="https://walker-data.com/mapgl/" class="external-link"><code>mapgl</code></a>, this extension package features two new modes <code>"mapbox"</code> for which an (free for personal use) API key is required, and <code>"maplibre"</code>.</p>
+<p><a href="https://r-tmap.github.io/tmap/" class="external-link">tmap</a> is a R package for visualizing spatial data. This package is an extension. It features two new modes: <code>"mapbox"</code> and <code>"maplibre"</code>.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
+<p>This package is in development so the devopment version of both <strong>tmap</strong> and <strong>tmap.mapgl</strong> are required.</p>
+<div class="section level3">
+<h3 id="tmap">tmap<a class="anchor" aria-label="anchor" href="#tmap"></a>
+</h3>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="fu">install_github</span><span class="op">(</span><span class="st">"r-tmap/tmap"</span><span class="op">)</span></span>
-<span><span class="fu">install_github</span><span class="op">(</span><span class="st">"r-tmap/tmap.mapgl"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"r-tmap/tmap"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># install.packages("pak")</span></span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"r-tmap/tmap"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Or from r-universe</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"tmap"</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://r-tmap.r-universe.dev"</span>, <span class="st">"https://cloud.r-project.org"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>For Linux and macOS users who are new to working with spatial data in R, this may fail since additional (non-R) libraries are required (which are automatically installed for Windows users).</p>
+</div>
+<div class="section level3">
+<h3 id="tmapmapgl">tmap.mapgl<a class="anchor" aria-label="anchor" href="#tmapmapgl"></a>
+</h3>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"r-tmap/tmap.mapgl"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># install.packages("pak")</span></span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"r-tmap/tmap.mapgl"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Or from r-universe</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"tmap.mapgl"</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://r-tmap.r-universe.dev"</span>, <span class="st">"https://cloud.r-project.org"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="getting-started">Getting started<a class="anchor" aria-label="anchor" href="#getting-started"></a>
+</h2>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-tmap/tmap" class="external-link">tmap</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-tmap/tmap.mapgl" class="external-link">tmap.mapgl</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># getting API: https://walker-data.com/mapgl/articles/getting-started.html</span></span>
-<span><span class="co"># check API envir var: Sys.getenv("MAPBOX_PUBLIC_TOKEN")</span></span>
-<span></span>
-<span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tmap_mode.html" class="external-link">tmap_mode</a></span><span class="op">(</span><span class="st">"maplibre"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_polygons.html" class="external-link">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>, fill.scale <span class="op">=</span> <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_scale_intervals.html" class="external-link">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"brewer.rd_yl_gn"</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">NLD_dist</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_polygons.html" class="external-link">tm_polygons</a></span><span class="op">(</span><span class="st">"employment_rate"</span>,</span>
-<span>                fill.scale <span class="op">=</span> <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_scale_intervals.html" class="external-link">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"scico.roma"</span><span class="op">)</span>,</span>
-<span>                lwd <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span> <span class="op">+</span></span>
-<span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_polygons.html" class="external-link">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="cn">NULL</span>, lwd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="reference/tm_mapbox.html">tm_mapbox</a></span><span class="op">(</span>pitch <span class="op">=</span> <span class="fl">30</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_basemap.html" class="external-link">tm_basemap</a></span><span class="op">(</span><span class="va">.tmap_providers</span><span class="op">$</span><span class="va">dark</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">tm_shape</span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">tm_polygons</span><span class="op">(</span><span class="st">"well_being"</span>,</span>
+<span>    fill.scale <span class="op">=</span> <span class="fu">tm_scale_continuous</span><span class="op">(</span>values <span class="op">=</span> <span class="st">"pu_gn"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<figure><img src="https://r-tmap.github.io/tmap.mapgl/reference/figures/mapbox_well_being.jpg" alt="tmap mapbox mode"><figcaption aria-hidden="true">
+tmap mapbox mode
+</figcaption></figure>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
