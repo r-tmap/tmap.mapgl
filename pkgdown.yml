@@ -3,7 +3,7 @@ pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   mapgl: mapgl.html
-last_built: 2025-04-20T16:12Z
+last_built: 2025-04-20T16:14Z
 urls:
   reference: https://r-tmap.github.io/tmap.mapgl/reference
   article: https://r-tmap.github.io/tmap.mapgl/articles
