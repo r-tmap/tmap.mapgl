@@ -16,7 +16,7 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
-<li class="nav-item"><a class="nav-link" href="../articles/mapgl">Two new modes, mapbox and maplibre</a></li>
+<li class="nav-item"><a class="nav-link" href="../articles/mapgl">new tmap modes</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/r-tmap/deckgl/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -80,7 +80,10 @@
 <span class="r-in"><span>  <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_polygons.html" class="external-link">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="cn">NULL</span>, lwd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span><span class="fu">tm_mapbox</span><span class="op">(</span>pitch <span class="op">=</span> <span class="fl">60</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_basemap.html" class="external-link">tm_basemap</a></span><span class="op">(</span><span class="va">.tmap_providers</span><span class="op">$</span><span class="va">dark</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object '.tmap_providers' not found</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in mapgl::mapboxgl(center = ll, zoom = zoom, pitch = o$pitch, style = style):</span> A Mapbox access token is required. Get one from your account at https://www.mapbox.com, and do one of the following:</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> Run `usethis::edit_r_environ()` and add the line MAPBOX_PUBLIC_TOKEN='your_token_goes_here';</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> Install the mapboxapi R package and run `mb_access_token('your_token_goes_here', install = TRUE)`</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> Alternatively, supply your token to the `access_token` parameter in this function or run `Sys.setenv(MAPBOX_PUBLIC_TOKEN='your_token_goes_here') for this session.</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
