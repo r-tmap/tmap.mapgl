@@ -35,8 +35,6 @@ knitr::knit_hooks$set(output = function(x, options) {
 
 ```
 
-
-
 ```{r, echo = FALSE, message = FALSE}
 library(tmap)
 library(tmap.mapgl)
@@ -46,9 +44,7 @@ Recall that *tmap* offers two modes: `"plot"` for static mapping and `"view"` fo
 
 The extension package *tmap.mapgl* offers two new modes which are also interactive: `"mapbox"` and `"maplibre"` which use the JavaScript libraries Mapbox GL and Maplibre GL respectively. An API key is requires to use `"mapbox"` (free for personal use), but `"maplibre"` is (as the name suggestions) free for any use.
 
-Note that *tmap.mapgl* is a bridge between the R packages *mapgl* and *tmap*. It makes the functionality of *mapgl* (making the JavaScript libraries available to R) also available via the *tmap* user interface. 
-
-
+Note that *tmap.mapgl* is a bridge between the R packages *mapgl* and *tmap*. It makes the functionality of *mapgl* (making the JavaScript libraries available to R) also available via the *tmap* user interface.
 
 ## Switching modes
 
@@ -58,7 +54,7 @@ Get the current mode
 tmap_mode()
 ```
 
-For this example we'll create a choropleth of well being per country. We assign the map to `map` without showing it. 
+For this example we'll create a choropleth of well being per country. We assign the map to `map` without showing it.
 
 ```{r}
 map = tm_shape(World) + 
@@ -76,13 +72,10 @@ tmap_mode("plot")
 map
 ```
 
-
-
 ```{r, fig.height = 3.5}
 tmap_mode("view")
 map
 ```
-
 
 ```{r, fig.height = 3.5, eval=FALSE}
 tmap_mode("mapbox")
@@ -91,12 +84,7 @@ map
 
 ![tmap mapbox mode](https://r-tmap.github.io/tmap.mapgl/reference/figures/mapbox_well_being.jpg)
 
-
 ```{r, fig.height = 3.5}
 tmap_mode("maplibre")
 map
 ```
-
-
-
-
