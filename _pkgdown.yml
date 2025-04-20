@@ -26,9 +26,18 @@ reference:
 
 navbar:
   structure:
-    left:  [reference, mapgl, news]
+    left:  [reference, modes, mapgl, mapbox, maplibre, polygons3d, news]
   components:
     home: ~
     mapgl:
       text: new tmap modes
       href: articles/mapgl
+    mapbox:
+      text: mode "mapbox""
+      href: articles/mapbox
+    maplibre:
+      text: mode "maplibre
+      href: articles/maplibre
+    polygons3d:
+      text: polygons 3d layer
+      href: articles/polygons3d

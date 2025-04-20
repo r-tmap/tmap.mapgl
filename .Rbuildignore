@@ -16,4 +16,6 @@ README
 ^\.github$
 ^\.covrignore$
 ^vignettes$
+man/figures/shiny_plot.jpg
+man/figures/shiny_view.jpg
 ^CRAN-SUBMISSION$
