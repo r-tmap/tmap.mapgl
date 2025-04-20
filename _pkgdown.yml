@@ -30,5 +30,5 @@ navbar:
   components:
     home: ~
     mapgl:
-      text: Two new modes, mapbox and maplibre
+      text: new tmap modes
       href: articles/mapgl
