@@ -1,38 +1,58 @@
-# tmap.mapgl
 
-Two new tmap modes! Thanks to [`mapgl`](https://walker-data.com/mapgl/), this extension package features two new modes `"mapbox"` for which an (free for personal use) API key is required, and `"maplibre"`.
+# tmap.mapgl: extension for ‘tmap’ featuring two new modes: mapbox and maplibre
 
+[tmap](https://r-tmap.github.io/tmap/) is a R package for visualizing
+spatial data. This package is an extension. It features two new modes:
+`"mapbox"` and `"maplibre"`.
 
-Installation
-------------
+## Installation
 
-```r
+This package is in development so the devopment version of both **tmap**
+and **tmap.mapgl** are required.
+
+### tmap
+
+``` r
 # install.packages("remotes")
-install_github("r-tmap/tmap")
-install_github("r-tmap/tmap.mapgl")
+remotes::install_github("r-tmap/tmap")
+
+# install.packages("pak")
+pak::pak("r-tmap/tmap")
+
+# Or from r-universe
+install.packages("tmap", repos = c("https://r-tmap.r-universe.dev", "https://cloud.r-project.org"))
 ```
 
-Example
-------------
+For Linux and macOS users who are new to working with spatial data in R,
+this may fail since additional (non-R) libraries are required (which are
+automatically installed for Windows users).
 
+### tmap.mapgl
 
-```r
-library(tmap)
-library(tmap.mapgl)
+``` r
+# install.packages("remotes")
+remotes::install_github("r-tmap/tmap.mapgl")
 
-# getting API: https://walker-data.com/mapgl/articles/getting-started.html
-# check API envir var: Sys.getenv("MAPBOX_PUBLIC_TOKEN")
+# install.packages("pak")
+pak::pak("r-tmap/tmap.mapgl")
 
-tmap_mode("maplibre")
-tm_shape(World) +
-  tm_polygons("HPI", fill.scale = tm_scale_intervals(values = "brewer.rd_yl_gn"))
-
-tm_shape(NLD_dist) +
-	tm_polygons("employment_rate",
-				fill.scale = tm_scale_intervals(values = "scico.roma"),
-				lwd = 0.1) +
-tm_shape(NLD_muni) +
-	tm_polygons(fill = NULL, lwd = 1) +
-	tm_mapbox(pitch = 30) +
-	tm_basemap(.tmap_providers$dark)
+# Or from r-universe
+install.packages("tmap.mapgl", repos = c("https://r-tmap.r-universe.dev", "https://cloud.r-project.org"))
 ```
+
+## Getting started
+
+## Example
+
+``` r
+tm_shape(World) + 
+  tm_polygons("well_being",
+    fill.scale = tm_scale_continuous(values = "pu_gn"))
+```
+
+<figure>
+<img
+src="https://r-tmap.github.io/tmap.mapgl/reference/figures/mapbox_well_being.jpg"
+alt="tmap mapbox mode" />
+<figcaption aria-hidden="true">tmap mapbox mode</figcaption>
+</figure>
