@@ -84,10 +84,13 @@ map
 ```
 
 
-```{r, fig.height = 3.5}
+```{r, fig.height = 3.5, eval=FALSE}
 tmap_mode("mapbox")
 map
 ```
+
+![tmap mapbox mode](https://r-tmap.github.io/tmap.mapgl/reference/figures/mapbox_well_being.jpg)
+
 
 ```{r, fig.height = 3.5}
 tmap_mode("maplibre")
