@@ -35,7 +35,7 @@ knitr::knit_hooks$set(output = function(x, options) {
  })
 ```
 
-# tmap.mapgl: extension for 'tmap' featuring two new modes: mapbox and maplibre
+# tmap.mapgl: two new tmap modes: mapbox and maplibre <img src="man/figures/logo.png" align="right" height="139" alt="" />
 
 [tmap](https://r-tmap.github.io/tmap/) is a R package for visualizing spatial data. This package is an extension. It features two new modes: `"mapbox"` and `"maplibre"`.
 
