@@ -7,8 +7,8 @@ spatial data. This package is an extension. It features two new modes:
 
 ## Installation
 
-This package is in development so the devopment version of both **tmap**
-and **tmap.mapgl** are required.
+This package is in development so the development version of both
+**tmap** and **tmap.mapgl** are required.
 
 ### tmap
 

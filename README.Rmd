@@ -43,7 +43,7 @@ knitr::knit_hooks$set(output = function(x, options) {
 
 ## Installation
 
-This package is in development so the devopment version of both **tmap** and **tmap.mapgl** are required. 
+This package is in development so the development version of both **tmap** and **tmap.mapgl** are required. 
 
 ### tmap
 
