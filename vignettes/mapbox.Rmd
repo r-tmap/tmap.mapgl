@@ -45,9 +45,9 @@ For `"mapbox"` an API key is required, which is free for personal use.
 ## Getting and using the API key
 
 1. Go to [Mapbox Access Tokens](https://docs.mapbox.com/help/getting-started/access-tokens/) and follow the instructions
-2. Set the API key as system environment variable. This can be done by
-    a. running `usethis::edit_r_environ()` which creates/opens a text file named `.Renviron` in your users home folder
-    b. adding the line `MAPBOX_PUBLIC_TOKEN="abc123"`, where abc123 should be replaced by your in step 1  obtained API key.  
+2. Set the API key as a system environment variable. This can be done by
+    a. running `usethis::edit_r_environ()` which creates/opens a text file named `.Renviron` in your user's home folder
+    b. adding the line `MAPBOX_PUBLIC_TOKEN="abc123"`, where abc123 should be replaced by your API key obtained in step 1.  
 
 ## Enable `"mapbox"` mode
 
