@@ -31,5 +31,5 @@ Suggests:
     knitr
 Config/Needs/website: bookdown, rmarkdown, r-tmap/tmap
 URL: https://github.com/r-tmap/tmap.mapgl, https://r-tmap.github.io/tmap.mapgl/
-BugReports: https://github.com/r-tmap/deckgl/issues
+BugReports: https://github.com/r-tmap/tmap.mapgl/issues
 RoxygenNote: 7.3.2
