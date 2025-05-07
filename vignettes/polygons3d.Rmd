@@ -1,5 +1,5 @@
 ---
-title: "polygons 3d layer"
+title: "3D polygon layer"
 output: 
   bookdown::html_vignette2:
 editor_options: 
@@ -41,9 +41,9 @@ library(tmap.mapgl)
 ```
 
 
-**tmap.mapgl** also features a new layer type, `tm_polygons_3d`, which is only available for `"mapbox"` and `"maplibre"`.
+**tmap.mapgl** also features a new layer type, `tm_polygons_3d`, which is only available for the `"mapbox"` and `"maplibre"` modes.
 
-This map layer is the same as `tm_polygons`, but one addition: polygons can be extruded in 3d shape. The visual variable to control this is called `height`.
+This map layer is the same as `tm_polygons`, with one addition: polygons can be extruded into 3D shapes. The visual variable to control this is called `height`.
 
 ## Example
 
@@ -56,7 +56,7 @@ tm_shape(NLD_dist) +
   tm_polygons_3d(height = "pop_dens",
     fill = "edu_appl_sci",
     fill.scale = tm_scale_intervals(style = "kmeans", values = "-pu_gn"),
-    fill.legend = tm_legend("Univeristy degree")) +
+    fill.legend = tm_legend("University degree")) +
 tm_maplibre(pitch = 45)
 ```
 
