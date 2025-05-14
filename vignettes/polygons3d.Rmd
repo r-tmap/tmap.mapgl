@@ -45,11 +45,45 @@ library(tmap.mapgl)
 
 This map layer is the same as `tm_polygons`, but one addition: polygons can be extruded in 3d shape. The visual variable to control this is called `height`.
 
-## Example
 
-```{r, fig.height = 6}
+
+## Example: buildings heights
+
+```{r}
 tmap_mode("maplibre")
 
+# get vector buildings
+library(osmdata)
+buildings <- opq(bbox = "Marina Bay, Singapore") |>
+	add_osm_feature(key = "building") |>
+	osmdata_sf()
+
+# prepare levels column, assuming 2 if NA
+library(dplyr)
+buildings_poly <- buildings$osm_polygons |>
+	mutate(levels = as.numeric(`building:levels`),
+		   .before = 1) |>
+	mutate(levels = if_else(is.na(levels), 2, levels),
+		   height = levels * 3.5) # rough height estimate in meters
+
+
+```
+
+For the time being, we need to compute the maximum building height, because `tm_scale_asis` doesn't support units yet.
+
+```{r, fig.height = 6}
+# maximum building height
+mx = max(buildings_poly$height)
+
+# plot
+tm_shape(buildings_poly) +
+	tm_polygons_3d(height = "height", options = opt_tm_polygons_3d(height.max = mx)) + 
+	tm_maplibre(pitch = 60)
+```
+
+## Example: population density data 
+
+```{r, fig.height = 6}
 NLD_dist$pop_dens = NLD_dist$population / NLD_dist$area
 
 tm_shape(NLD_dist) +
