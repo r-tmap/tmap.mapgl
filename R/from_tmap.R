@@ -202,3 +202,13 @@ regular_intervals = function (x, epsilon = 1e-10) {
 		abs(diff(range(ud))/mean.default(ud)) < epsilon
 	}
 }
+
+consider_global = function (x, th = 0.6)
+{
+	b = sf::st_bbox(x)
+	if (b$xmin == b$xmax || b$ymin == b$ymax)
+		return(FALSE)
+	earth_surface = 5.1e+14
+	area = as.numeric(sf::st_area(sf::st_as_sfc(b)))
+	area > (earth_surface * 0.6)
+}

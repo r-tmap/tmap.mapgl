@@ -54,7 +54,7 @@ tm_polygons_3d(
   options = opt_tm_polygons_3d()
 )
 
-opt_tm_polygons_3d(polygons.only = "ifany")
+opt_tm_polygons_3d(polygons.only = "ifany", height.max = NA)
 }
 \arguments{
 \item{height, height.scale, height.legend, height.chart, height.free}{`r .doc_vv("height")`}
@@ -111,6 +111,8 @@ features. Only used for `"view"` mode.}
 \item{options}{options passed on to the corresponding `opt_<layer_function>` function}
 
 \item{polygons.only}{should only polygon geometries of the shape object (defined in [tm_shape()]) be plotted? By default `"ifany"`, which means `TRUE` in case a geometry collection is specified.}
+
+\item{height.max}{Maximum height. If `NA` (default), it is set to 10 percent of the square root of the bounding box area.}
 }
 \description{
 Map layer that draws 3d (extruded) polygons. Supported visual variables are: `height` (the ), `fill` (the fill color),

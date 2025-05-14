@@ -144,6 +144,8 @@ tmapMaplibrePolygons3d = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bb
 }
 
 mapgl_polygons3d = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ..., mode) {
+	args = list(...)
+
 	m = get_mapgl(facet_row, facet_col, facet_page, mode)
 
 	rc_text = frc(facet_row, facet_col)
@@ -177,7 +179,24 @@ mapgl_polygons3d = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, fac
 	layername1 = paste0(srcname, "polygons_fill")
 	layername2 = paste0(srcname, "polygons_border")
 
-	shp2$height = shp2$height * 100000
+	if (is.na(args$height.max)) {
+		if (consider_global(shp)) {
+			height.max = sqrt(5.1e+14) * 0.1
+		} else {
+			sqrt_area_m = bbx |>
+				tmaptools::bb_poly() |>
+				sf::st_area() |>
+				sqrt() |>
+				units::set_units("m") |>
+				units::drop_units()
+			height.max = sqrt_area_m * 0.1
+		}
+
+	} else {
+		height.max = args$height.max
+	}
+
+	shp2$height = shp2$height * height.max
 
 	nofill = all(gp$fill == o$value.blank$fill)
 
