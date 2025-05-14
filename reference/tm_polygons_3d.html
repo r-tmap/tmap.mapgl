@@ -96,7 +96,7 @@
 <span>  options <span class="op">=</span> <span class="fu">opt_tm_polygons_3d</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">opt_tm_polygons_3d</span><span class="op">(</span>polygons.only <span class="op">=</span> <span class="st">"ifany"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">opt_tm_polygons_3d</span><span class="op">(</span>polygons.only <span class="op">=</span> <span class="st">"ifany"</span>, height.max <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -192,6 +192,10 @@ features. Only used for `"view"` mode.</p></dd>
 
 <dt id="arg-polygons-only">polygons.only<a class="anchor" aria-label="anchor" href="#arg-polygons-only"></a></dt>
 <dd><p>should only polygon geometries of the shape object (defined in [tm_shape()]) be plotted? By default `"ifany"`, which means `TRUE` in case a geometry collection is specified.</p></dd>
+
+
+<dt id="arg-height-max">height.max<a class="anchor" aria-label="anchor" href="#arg-height-max"></a></dt>
+<dd><p>Maximum height. If `NA` (default), it is set to 10 percent of the square root of the bounding box area.</p></dd>
 
 </dl></div>
     <div class="section level2">
