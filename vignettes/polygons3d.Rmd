@@ -58,15 +58,16 @@ buildings <- opq(bbox = "Marina Bay, Singapore") |>
 	add_osm_feature(key = "building") |>
 	osmdata_sf()
 
-# prepare levels column, assuming 2 if NA
-library(dplyr)
+library(dplyr, warn.conflicts = FALSE)
+# only keep polygons
 buildings_poly <- buildings$osm_polygons |>
-	mutate(levels = as.numeric(`building:levels`),
-		   .before = 1) |>
-	mutate(levels = if_else(is.na(levels), 2, levels),
-		   height = levels * 3.5) # rough height estimate in meters
-
-
+  # convert height and levels from string to numeric
+  mutate(levels = as.numeric(`building:levels`),
+         height = as.numeric(height)) |>
+  # assume 2 levels if NA
+  mutate(levels = if_else(is.na(levels), 2, levels),
+         # assume height of 3 m per level if no height
+         height = if_else(is.na(height), levels * 3, height))
 ```
 
 For the time being, we need to compute the maximum building height, because `tm_scale_asis` doesn't support units yet.
