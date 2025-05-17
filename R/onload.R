@@ -17,6 +17,7 @@
 				   basemap.show = TRUE,
 				   scalebar.position = tmap::tm_pos_in("left", "bottom"),
 				   minimap.position = tmap::tm_pos_in("left", "top"),
+				   geocoder.position = tmap::tm_pos_in(pos.h = "left", pos.v = "top"),
 				   basemap.server = "standard",
 				   crs_basemap = 4326)
 	tmap::tmapMode("maplibre", "Maplibre",
@@ -24,6 +25,7 @@
 				   basemap.show = TRUE,
 				   scalebar.position = tmap::tm_pos_in("left", "bottom"),
 				   minimap.position = tmap::tm_pos_in("left", "top"),
+				   geocoder.position = tmap::tm_pos_in(pos.h = "left", pos.v = "top"),
 				   basemap.server = "voyager",
 				   crs_basemap = 4326)
 }

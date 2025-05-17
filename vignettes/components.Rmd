@@ -1,0 +1,58 @@
+---
+title: "Geocoder"
+output: 
+  bookdown::html_vignette2:
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  fig.width = 8,
+  comment = "#>"
+)
+hook_output <- knitr::knit_hooks$get("output")
+knitr::knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+
+```
+
+```{r, echo = FALSE, message = FALSE}
+library(tmap)
+library(tmap.mapgl)
+```
+
+
+**tmap.mapgl** will also features a couple of new map component functions that are only available for the `"mapbox"` and `"maplibre"` modes.
+
+One is already implemented: [tm_geocoder()]
+
+## Example: metro
+
+```{r}
+tmap_mode("maplibre")
+
+tm_shape(World) +
+  tm_borders(lwd = 2) +
+tm_shape(metro) +
+  tm_dots(size = "pop2030", fill = "gold") +
+tm_geocoder()
+```

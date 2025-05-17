@@ -34,7 +34,7 @@ Useful links:
 \itemize{
   \item \url{https://github.com/r-tmap/tmap.mapgl}
   \item \url{https://r-tmap.github.io/tmap.mapgl/}
-  \item Report bugs at \url{https://github.com/r-tmap/deckgl/issues}
+  \item Report bugs at \url{https://github.com/r-tmap/tmap.mapgl/issues}
 }
 
 }
