@@ -1,6 +1,7 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://r-tmap.github.io/tmap.mapgl/404.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap.mapgl/LICENSE-text.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap.mapgl/articles/components.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap.mapgl/articles/index.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap.mapgl/articles/mapbox.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap.mapgl/articles/mapgl.html</loc></url>
@@ -9,6 +10,7 @@
 <url><loc>https://r-tmap.github.io/tmap.mapgl/authors.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap.mapgl/index.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap.mapgl/reference/index.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap.mapgl/reference/tm_geocoder.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap.mapgl/reference/tm_mapbox.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap.mapgl/reference/tm_maplibre.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap.mapgl/reference/tm_polygons_3d.html</loc></url>

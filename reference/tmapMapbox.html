@@ -20,6 +20,7 @@
 <li class="nav-item"><a class="nav-link" href="../articles/mapbox">mapbox</a></li>
 <li class="nav-item"><a class="nav-link" href="../articles/maplibre">maplibre</a></li>
 <li class="nav-item"><a class="nav-link" href="../articles/polygons3d">Polygons 3d</a></li>
+<li class="nav-item"><a class="nav-link" href="../articles/components">Geocoder</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/r-tmap/tmap.mapgl/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
@@ -31,7 +32,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Internal tmap methods</h1>
-      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap.mapgl/blob/main/R/map_variable_height.R" class="external-link"><code>R/map_variable_height.R</code></a>, <a href="https://github.com/r-tmap/tmap.mapgl/blob/main/R/mapgl_arrange.R" class="external-link"><code>R/mapgl_arrange.R</code></a>, <a href="https://github.com/r-tmap/tmap.mapgl/blob/main/R/mapgl_aux.R" class="external-link"><code>R/mapgl_aux.R</code></a>, and 10 more</small>
+      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap.mapgl/blob/main/R/map_variable_height.R" class="external-link"><code>R/map_variable_height.R</code></a>, <a href="https://github.com/r-tmap/tmap.mapgl/blob/main/R/mapgl_arrange.R" class="external-link"><code>R/mapgl_arrange.R</code></a>, <a href="https://github.com/r-tmap/tmap.mapgl/blob/main/R/mapgl_aux.R" class="external-link"><code>R/mapgl_aux.R</code></a>, and 11 more</small>
       <div class="d-none name"><code>tmapMapbox.Rd</code></div>
     </div>
 
@@ -265,6 +266,30 @@
 <span></span>
 <span><span class="fu">tmapMaplibreCompWidth</span><span class="op">(</span><span class="va">comp</span>, <span class="va">o</span><span class="op">)</span></span>
 <span></span>
+<span><span class="fu">tmapMaplibreLegPlot</span><span class="op">(</span><span class="va">comp</span>, <span class="va">m</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_geocoder'</span></span>
+<span><span class="fu">tmapMapboxCompPrepare</span><span class="op">(</span><span class="va">comp</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_geocoder'</span></span>
+<span><span class="fu">tmapMapboxCompHeight</span><span class="op">(</span><span class="va">comp</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_geocoder'</span></span>
+<span><span class="fu">tmapMapboxCompWidth</span><span class="op">(</span><span class="va">comp</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_geocoder'</span></span>
+<span><span class="fu">tmapMapboxLegPlot</span><span class="op">(</span><span class="va">comp</span>, <span class="va">m</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_geocoder'</span></span>
+<span><span class="fu">tmapMaplibreCompPrepare</span><span class="op">(</span><span class="va">comp</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_geocoder'</span></span>
+<span><span class="fu">tmapMaplibreCompHeight</span><span class="op">(</span><span class="va">comp</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_geocoder'</span></span>
+<span><span class="fu">tmapMaplibreCompWidth</span><span class="op">(</span><span class="va">comp</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_geocoder'</span></span>
 <span><span class="fu">tmapMaplibreLegPlot</span><span class="op">(</span><span class="va">comp</span>, <span class="va">m</span>, <span class="va">o</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">tmapMapboxInit</span><span class="op">(</span><span class="va">o</span>, return.asp <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">vp</span>, <span class="va">prx</span>, dg <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span>
