@@ -97,7 +97,7 @@
 <span>  options <span class="op">=</span> <span class="fu">opt_tm_polygons_3d</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">opt_tm_polygons_3d</span><span class="op">(</span>polygons.only <span class="op">=</span> <span class="st">"ifany"</span>, height.max <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">opt_tm_polygons_3d</span><span class="op">(</span>polygons.only <span class="op">=</span> <span class="st">"ifany"</span>, height.max <span class="op">=</span> <span class="cn">NA</span>, height.min <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -197,6 +197,10 @@ features. Only used for `"view"` mode.</p></dd>
 
 <dt id="arg-height-max">height.max<a class="anchor" aria-label="anchor" href="#arg-height-max"></a></dt>
 <dd><p>Maximum height. If `NA` (default), it is set to 10 percent of the square root of the bounding box area.</p></dd>
+
+
+<dt id="arg-height-min">height.min<a class="anchor" aria-label="anchor" href="#arg-height-min"></a></dt>
+<dd><p>Minimum height. By default 0.</p></dd>
 
 </dl></div>
     <div class="section level2">
