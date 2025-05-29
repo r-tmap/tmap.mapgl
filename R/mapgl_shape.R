@@ -50,10 +50,12 @@ mapgl_shape = function(bbx, facet_row, facet_col, facet_page, o, mode) {
 		if (zoom < 3) {
 			# ignore center for global view (otherwise it will be (0, -3) due to Antarctica)
 			m = mapgl::maplibre(center = c(0,0), zoom = zoom, pitch = o$pitch, style = style) |>
-				mapgl::add_navigation_control(visualize_pitch = TRUE)
+				mapgl::add_navigation_control(visualize_pitch = TRUE) |>
+				mapgl::add_globe_control()
 		} else {
 			m = mapgl::maplibre(center = ll, zoom = zoom, pitch = o$pitch, style = style) |>
-				mapgl::add_navigation_control(visualize_pitch = TRUE)
+				mapgl::add_navigation_control(visualize_pitch = TRUE) |>
+				mapgl::add_globe_control()
 		}
 	}
 	assign_mapgl(m, facet_row, facet_col, facet_page, mode = mode)

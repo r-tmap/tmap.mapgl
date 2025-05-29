@@ -23,14 +23,15 @@ tmapMapboxCompPrepare.tm_legend_standard_portrait = function(comp, o) {
 
 #' @export
 tmapMapboxCompHeight.tm_legend_standard_portrait = function(comp, o) {
-	comp
+	mapgl_leg_height(comp, o)
 }
 
 
 
 #' @export
 tmapMapboxCompWidth.tm_legend_standard_portrait = function(comp, o) {
-	comp
+	mapgl_leg_width(comp, o)
+
 }
 
 
@@ -41,14 +42,15 @@ tmapMapboxCompPrepare.tm_legend_standard_landscape = function(comp, o) {
 
 #' @export
 tmapMapboxCompHeight.tm_legend_standard_landscape = function(comp, o) {
-	comp
+	mapgl_leg_height(comp, o)
 }
 
 
 
 #' @export
 tmapMapboxCompWidth.tm_legend_standard_landscape = function(comp, o) {
-	comp
+	mapgl_leg_width(comp, o)
+
 }
 
 
@@ -85,14 +87,14 @@ tmapMaplibreCompPrepare.tm_legend_standard_portrait = function(comp, o) {
 
 #' @export
 tmapMaplibreCompHeight.tm_legend_standard_portrait = function(comp, o) {
-	comp
+	mapgl_leg_height(comp, o)
 }
 
 
 
 #' @export
 tmapMaplibreCompWidth.tm_legend_standard_portrait = function(comp, o) {
-	comp
+	mapgl_leg_width(comp, o)
 }
 
 
@@ -103,17 +105,39 @@ tmapMaplibreCompPrepare.tm_legend_standard_landscape = function(comp, o) {
 
 #' @export
 tmapMaplibreCompHeight.tm_legend_standard_landscape = function(comp, o) {
-	comp
+	mapgl_leg_height(comp, o)
 }
 
 
 
 #' @export
 tmapMaplibreCompWidth.tm_legend_standard_landscape = function(comp, o) {
+	mapgl_leg_width(comp, o)
+
+}
+
+mapgl_leg_height = function (comp, o) {
+	if (is.na(comp$height)) {
+		if (comp$type == "gradient") {
+			comp$height = 5.5 * 20
+		} else {
+			comp$height = (number_text_lines(comp$title) + 2 + comp$nitems * 1.25) * 20
+		}
+	}
 	comp
 }
 
 
+mapgl_leg_width = function (comp, o) {
+	if (is.na(comp$width)) {
+		if (comp$type == "gradient") {
+			comp$width = 250
+		} else {
+			comp$width = 75 + max(nchar(c(comp$title, comp$labels))) * 6
+		}
+	}
+	comp
+}
 
 
 mapgl_legend_comp = function(comp, o, mode) {

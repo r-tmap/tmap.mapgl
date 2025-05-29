@@ -212,3 +212,12 @@ consider_global = function (x, th = 0.6)
 	area = as.numeric(sf::st_area(sf::st_as_sfc(b)))
 	area > (earth_surface * 0.6)
 }
+
+
+number_text_lines = function (txt)
+{
+	if (is.character(txt)) {
+		length(strsplit(txt, "\n")[[1]])
+	}
+	else 1
+}
