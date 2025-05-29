@@ -196,7 +196,7 @@ mapgl_polygons3d = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, fac
 		height.max = args$height.max
 	}
 
-	shp2$height = shp2$height * height.max
+	shp2$height = args$height.min + shp2$height * (height.max - args$height.min)
 
 	nofill = all(gp$fill == o$value.blank$fill)
 
