@@ -170,6 +170,8 @@ mapgl_legend_comp = function(comp, o, mode) {
 			"symbols"
 		}
 
+		if (type == "none") show = FALSE
+
 		bg.color = do.call("process_color", c(list(col=bg.color), o$pc))
 		title.color = do.call("process_color", c(list(col=title.color), o$pc))
 		text.color = do.call("process_color", c(list(col=text.color), o$pc))
