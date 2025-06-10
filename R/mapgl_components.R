@@ -22,7 +22,7 @@ tmapMapboxCompWidth.tm_geocoder = function(comp, o) {
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMapboxLegPlot.tm_geocoder = function(comp, m, o) {
+tmapMapboxCompPlot.tm_geocoder = function(comp, m, o) {
 	m |> mapgl::add_geocoder_control(position = comp$legpos)
 }
 
@@ -51,7 +51,7 @@ tmapMaplibreCompWidth.tm_geocoder = function(comp, o) {
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMaplibreLegPlot.tm_geocoder = function(comp, m, o) {
+tmapMaplibreCompPlot.tm_geocoder = function(comp, m, o) {
 	m |> mapgl::add_geocoder_control(position = comp$legpos)
 }
 
@@ -73,57 +73,3 @@ tm_geocoder = function (stack, position, group_id, z) {
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_geocoder",
 																  "tm_component")))))
 }
-
-#'
-#'
-#' #' @export
-#' #' @method tmapGridCompPrepare tm_geocoder
-#' tmapGridCompPrepare.tm_geocoder = function(comp, o) {
-#' 	comp$show = FALSE
-#' 	comp
-#' }
-#'
-#' #' @export
-#' #' @method tmapGridCompHeight tm_geocoder
-#' tmapGridCompHeight.tm_geocoder = function(comp, o) {
-#' 	comp
-#' }
-#'
-#' #' @export
-#' #' @method tmapGridCompWidth tm_geocoder
-#' tmapGridCompWidth.tm_geocoder = function(comp, o) {
-#' 	comp
-#' }
-#'
-#' #' @export
-#' #' @method tmapGridLegPlot tm_geocoder
-#' tmapGridLegPlot.tm_geocoder = function(comp, m, o) {
-#' 	comp
-#' }
-#'
-#'
-#' #' @export
-#' #' @method tmapLeafletCompPrepare tm_geocoder
-#' tmapLeafletCompPrepare.tm_geocoder = function(comp, o) {
-#' 	comp$show = FALSE
-#' 	comp
-#' }
-#'
-#' #' @export
-#' #' @method tmapLeafletCompHeight tm_geocoder
-#' tmapLeafletCompHeight.tm_geocoder = function(comp, o) {
-#' 	comp
-#' }
-#'
-#' #' @export
-#' #' @method tmapLeafletCompWidth tm_geocoder
-#' tmapLeafletCompWidth.tm_geocoder = function(comp, o) {
-#' 	comp
-#' }
-#'
-#' #' @export
-#' #' @method tmapLeafletLegPlot tm_geocoder
-#' tmapLeafletLegPlot.tm_geocoder = function(comp, m, o) {
-#' 	comp
-#' }
-#'

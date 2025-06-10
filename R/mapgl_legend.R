@@ -137,28 +137,28 @@ mapgl_legend = function(cmp, m, o, orientation, mode) {
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMapboxLegPlot.tm_legend_standard_portrait = function(comp, m, o) {
+tmapMapboxCompPlot.tm_legend_standard_portrait = function(comp, m, o) {
 	mapgl_legend(comp, m, o, orientation = "vertical", mode = "mapbox")
 }
 
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMapboxLegPlot.tm_legend_standard_landscape = function(comp, m, o) {
+tmapMapboxCompPlot.tm_legend_standard_landscape = function(comp, m, o) {
 	mapgl_legend(comp, m, o, orientation = "horizontal", mode = "mapbox")
 }
 
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMaplibreLegPlot.tm_legend_standard_portrait = function(comp, m, o) {
+tmapMaplibreCompPlot.tm_legend_standard_portrait = function(comp, m, o) {
 	mapgl_legend(comp, m, o, orientation = "vertical", mode = "mapbox")
 }
 
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMaplibreLegPlot.tm_legend_standard_landscape = function(comp, m, o) {
+tmapMaplibreCompPlot.tm_legend_standard_landscape = function(comp, m, o) {
 	mapgl_legend(comp, m, o, orientation = "horizontal", mode = "mapbox")
 }
 
@@ -271,9 +271,9 @@ mapgl_comp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page, c
 
 
 		if (mode == "maplibre") {
-			m = tmapMaplibreLegPlot(cmp, m, o)
+			m = tmapMaplibreCompPlot(cmp, m, o)
 		} else {
-			m = tmapMapboxLegPlot(cmp, m, o)
+			m = tmapMapboxCompPlot(cmp, m, o)
 		}
 	}
 

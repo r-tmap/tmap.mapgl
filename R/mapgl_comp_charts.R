@@ -29,47 +29,24 @@ tmapMapboxCompWidth = function(comp, o) {
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMapboxLegPlot = function(comp, m, o) {
-	UseMethod("tmapMapboxLegPlot")
+tmapMapboxCompPlot = function(comp, m, o) {
+	UseMethod("tmapMapboxCompPlot")
 }
 
-
-#' @method tmapMapboxCompPrepare tm_chart
 #' @export
-tmapMapboxCompPrepare.tm_chart = function(comp, o) {
-	message("charts not implemented in view mode")
+#' @keywords internal
+#' @rdname tmapMapbox
+tmapMapboxCompPrepare.default = function(comp, o) {
+	cls = class(comp)[1]
+	id = paste("mapbox_mode", cls, sep = "_")
+	cli::cli_inform("{.field [mapbox mode]} Map component {.fun {cls}} not supported in {.str mapbox} mode.",
+					.frequency_id = id,
+					.frequency = "once")
+	comp$show = FALSE
 	comp
 }
 
-#' @method tmapMapboxCompPrepare tm_chart_none
-#' @export
-tmapMapboxCompPrepare.tm_chart_none = function(comp, o) {
-	comp
-}
 
-
-#' @method tmapMapboxCompWidth tm_chart
-#' @export
-tmapMapboxCompWidth.tm_chart = function(comp, o) {
-	comp
-}
-
-#' @method tmapMapboxCompHeight tm_chart
-#' @export
-tmapMapboxCompHeight.tm_chart = function(comp, o) {
-	comp
-}
-
-#' @method tmapMapboxLegPlot tm_chart_histogram
-#' @export
-tmapMapboxLegPlot.tm_chart_histogram = function(comp, m, o) {
-	m
-}
-#' @method tmapMapboxLegPlot tm_chart
-#' @export
-tmapMapboxLegPlot.tm_chart = function(comp, m, o) {
-	m
-}
 
 
 
@@ -80,6 +57,7 @@ tmapMapboxLegPlot.tm_chart = function(comp, m, o) {
 tmapMaplibreCompPrepare = function(comp, o) {
 	UseMethod("tmapMaplibreCompPrepare")
 }
+
 
 #' @export
 #' @keywords internal
@@ -98,45 +76,33 @@ tmapMaplibreCompWidth = function(comp, o) {
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMaplibreLegPlot = function(comp, m, o) {
-	UseMethod("tmapMaplibreLegPlot")
+tmapMaplibreCompPlot = function(comp, m, o) {
+	UseMethod("tmapMaplibreCompPlot")
 }
 
 
-#' @method tmapMaplibreCompPrepare tm_chart
 #' @export
-tmapMaplibreCompPrepare.tm_chart = function(comp, o) {
-	message("charts not implemented in view mode")
+#' @keywords internal
+#' @rdname tmapMapbox
+tmapMaplibreCompPrepare.default = function(comp, o) {
+	cls = class(comp)[1]
+	id = paste("maplibre_mode", cls, sep = "_")
+	cli::cli_inform("{.field [maplibre mode]} Map component {.fun {cls}} not supported in {.str maplibre} mode.",
+					.frequency_id = id,
+					.frequency = "once")
+	comp$show = FALSE
 	comp
 }
 
-#' @method tmapMaplibreCompPrepare tm_chart_none
-#' @export
-tmapMaplibreCompPrepare.tm_chart_none = function(comp, o) {
-	comp
-}
 
-
-#' @method tmapMaplibreCompWidth tm_chart
+#' @method tmapMaplibreCompPlot tm_chart_histogram
 #' @export
-tmapMaplibreCompWidth.tm_chart = function(comp, o) {
-	comp
-}
-
-#' @method tmapMaplibreCompHeight tm_chart
-#' @export
-tmapMaplibreCompHeight.tm_chart = function(comp, o) {
-	comp
-}
-
-#' @method tmapMaplibreLegPlot tm_chart_histogram
-#' @export
-tmapMaplibreLegPlot.tm_chart_histogram = function(comp, m, o) {
+tmapMaplibreCompPlot.tm_chart_histogram = function(comp, m, o) {
 	m
 }
-#' @method tmapMaplibreLegPlot tm_chart
+#' @method tmapMaplibreCompPlot tm_chart
 #' @export
-tmapMaplibreLegPlot.tm_chart = function(comp, m, o) {
+tmapMaplibreCompPlot.tm_chart = function(comp, m, o) {
 	m
 }
 

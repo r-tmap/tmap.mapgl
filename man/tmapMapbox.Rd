@@ -29,67 +29,61 @@
 \alias{tmapMapboxCompPrepare.tm_title}
 \alias{tmapMapboxCompHeight.tm_title}
 \alias{tmapMapboxCompWidth.tm_title}
-\alias{tmapMapboxLegPlot.tm_title}
-\alias{tmapMapboxCompPrepare.tm_compass}
-\alias{tmapMapboxCompHeight.tm_compass}
-\alias{tmapMapboxCompWidth.tm_compass}
-\alias{tmapMapboxLegPlot.tm_compass}
+\alias{tmapMapboxCompPlot.tm_title}
 \alias{tmapMapboxCompPrepare.tm_scalebar}
 \alias{tmapMapboxCompHeight.tm_scalebar}
 \alias{tmapMapboxCompWidth.tm_scalebar}
-\alias{tmapMapboxLegPlot.tm_scalebar}
+\alias{tmapMapboxCompPlot.tm_scalebar}
 \alias{tmapMapboxCompPrepare.tm_credits}
 \alias{tmapMapboxCompHeight.tm_credits}
 \alias{tmapMapboxCompWidth.tm_credits}
-\alias{tmapMapboxLegPlot.tm_credits}
+\alias{tmapMapboxCompPlot.tm_credits}
 \alias{tmapMapboxCompPrepare.tm_mouse_coordinates}
 \alias{tmapMapboxCompHeight.tm_mouse_coordinates}
 \alias{tmapMapboxCompWidth.tm_mouse_coordinates}
-\alias{tmapMapboxLegPlot.tm_mouse_coordinates}
+\alias{tmapMapboxCompPlot.tm_mouse_coordinates}
 \alias{tmapMaplibreCompPrepare.tm_title}
 \alias{tmapMaplibreCompHeight.tm_title}
 \alias{tmapMaplibreCompWidth.tm_title}
-\alias{tmapMaplibreLegPlot.tm_title}
-\alias{tmapMaplibreCompPrepare.tm_compass}
-\alias{tmapMaplibreCompHeight.tm_compass}
-\alias{tmapMaplibreCompWidth.tm_compass}
-\alias{tmapMaplibreLegPlot.tm_compass}
+\alias{tmapMaplibreCompPlot.tm_title}
 \alias{tmapMaplibreCompPrepare.tm_scalebar}
 \alias{tmapMaplibreCompHeight.tm_scalebar}
 \alias{tmapMaplibreCompWidth.tm_scalebar}
-\alias{tmapMaplibreLegPlot.tm_scalebar}
+\alias{tmapMaplibreCompPlot.tm_scalebar}
 \alias{tmapMaplibreCompPrepare.tm_credits}
 \alias{tmapMaplibreCompHeight.tm_credits}
 \alias{tmapMaplibreCompWidth.tm_credits}
-\alias{tmapMaplibreLegPlot.tm_credits}
+\alias{tmapMaplibreCompPlot.tm_credits}
 \alias{tmapMaplibreCompPrepare.tm_mouse_coordinates}
 \alias{tmapMaplibreCompHeight.tm_mouse_coordinates}
 \alias{tmapMaplibreCompWidth.tm_mouse_coordinates}
-\alias{tmapMaplibreLegPlot.tm_mouse_coordinates}
+\alias{tmapMaplibreCompPlot.tm_mouse_coordinates}
 \alias{tmapMapboxCompPrepare.tm_minimap}
 \alias{tmapMaplibreCompPrepare.tm_minimap}
 \alias{tmapMapboxCompHeight.tm_minimap}
 \alias{tmapMapboxCompWidth.tm_minimap}
 \alias{tmapMaplibreCompHeight.tm_minimap}
 \alias{tmapMaplibreCompWidth.tm_minimap}
-\alias{tmapMapboxLegPlot.tm_minimap}
-\alias{tmapMaplibreLegPlot.tm_minimap}
+\alias{tmapMapboxCompPlot.tm_minimap}
+\alias{tmapMaplibreCompPlot.tm_minimap}
 \alias{tmapMapboxCompPrepare}
 \alias{tmapMapboxCompHeight}
 \alias{tmapMapboxCompWidth}
-\alias{tmapMapboxLegPlot}
+\alias{tmapMapboxCompPlot}
+\alias{tmapMapboxCompPrepare.default}
 \alias{tmapMaplibreCompPrepare}
 \alias{tmapMaplibreCompHeight}
 \alias{tmapMaplibreCompWidth}
-\alias{tmapMaplibreLegPlot}
+\alias{tmapMaplibreCompPlot}
+\alias{tmapMaplibreCompPrepare.default}
 \alias{tmapMapboxCompPrepare.tm_geocoder}
 \alias{tmapMapboxCompHeight.tm_geocoder}
 \alias{tmapMapboxCompWidth.tm_geocoder}
-\alias{tmapMapboxLegPlot.tm_geocoder}
+\alias{tmapMapboxCompPlot.tm_geocoder}
 \alias{tmapMaplibreCompPrepare.tm_geocoder}
 \alias{tmapMaplibreCompHeight.tm_geocoder}
 \alias{tmapMaplibreCompWidth.tm_geocoder}
-\alias{tmapMaplibreLegPlot.tm_geocoder}
+\alias{tmapMaplibreCompPlot.tm_geocoder}
 \alias{tmapMapboxInit}
 \alias{tmapMaplibreInit}
 \alias{tmapMapboxAux}
@@ -105,10 +99,10 @@
 \alias{tmapMapboxRaster}
 \alias{tmapMaplibreRaster}
 \alias{tmapMapboxText}
-\alias{tmapMapboxLegPlot.tm_legend_standard_portrait}
-\alias{tmapMapboxLegPlot.tm_legend_standard_landscape}
-\alias{tmapMaplibreLegPlot.tm_legend_standard_portrait}
-\alias{tmapMaplibreLegPlot.tm_legend_standard_landscape}
+\alias{tmapMapboxCompPlot.tm_legend_standard_portrait}
+\alias{tmapMapboxCompPlot.tm_legend_standard_landscape}
+\alias{tmapMaplibreCompPlot.tm_legend_standard_portrait}
+\alias{tmapMaplibreCompPlot.tm_legend_standard_landscape}
 \alias{tmapMapboxComp}
 \alias{tmapMapboxLegend}
 \alias{tmapMaplibreComp}
@@ -204,15 +198,7 @@ tmapMaplibreGridYLab(bi, bbx, facet_row, facet_col, facet_page, o)
 
 \method{tmapMapboxCompWidth}{tm_title}(comp, o)
 
-\method{tmapMapboxLegPlot}{tm_title}(comp, m, o)
-
-\method{tmapMapboxCompPrepare}{tm_compass}(comp, o)
-
-\method{tmapMapboxCompHeight}{tm_compass}(comp, o)
-
-\method{tmapMapboxCompWidth}{tm_compass}(comp, o)
-
-\method{tmapMapboxLegPlot}{tm_compass}(comp, m, o)
+\method{tmapMapboxCompPlot}{tm_title}(comp, m, o)
 
 \method{tmapMapboxCompPrepare}{tm_scalebar}(comp, o)
 
@@ -220,7 +206,7 @@ tmapMaplibreGridYLab(bi, bbx, facet_row, facet_col, facet_page, o)
 
 \method{tmapMapboxCompWidth}{tm_scalebar}(comp, o)
 
-\method{tmapMapboxLegPlot}{tm_scalebar}(comp, m, o)
+\method{tmapMapboxCompPlot}{tm_scalebar}(comp, m, o)
 
 \method{tmapMapboxCompPrepare}{tm_credits}(comp, o)
 
@@ -228,7 +214,7 @@ tmapMaplibreGridYLab(bi, bbx, facet_row, facet_col, facet_page, o)
 
 \method{tmapMapboxCompWidth}{tm_credits}(comp, o)
 
-\method{tmapMapboxLegPlot}{tm_credits}(comp, m, o)
+\method{tmapMapboxCompPlot}{tm_credits}(comp, m, o)
 
 \method{tmapMapboxCompPrepare}{tm_mouse_coordinates}(comp, o)
 
@@ -236,7 +222,7 @@ tmapMaplibreGridYLab(bi, bbx, facet_row, facet_col, facet_page, o)
 
 \method{tmapMapboxCompWidth}{tm_mouse_coordinates}(comp, o)
 
-\method{tmapMapboxLegPlot}{tm_mouse_coordinates}(comp, m, o)
+\method{tmapMapboxCompPlot}{tm_mouse_coordinates}(comp, m, o)
 
 \method{tmapMaplibreCompPrepare}{tm_title}(comp, o)
 
@@ -244,15 +230,7 @@ tmapMaplibreGridYLab(bi, bbx, facet_row, facet_col, facet_page, o)
 
 \method{tmapMaplibreCompWidth}{tm_title}(comp, o)
 
-\method{tmapMaplibreLegPlot}{tm_title}(comp, m, o)
-
-\method{tmapMaplibreCompPrepare}{tm_compass}(comp, o)
-
-\method{tmapMaplibreCompHeight}{tm_compass}(comp, o)
-
-\method{tmapMaplibreCompWidth}{tm_compass}(comp, o)
-
-\method{tmapMaplibreLegPlot}{tm_compass}(comp, m, o)
+\method{tmapMaplibreCompPlot}{tm_title}(comp, m, o)
 
 \method{tmapMaplibreCompPrepare}{tm_scalebar}(comp, o)
 
@@ -260,7 +238,7 @@ tmapMaplibreGridYLab(bi, bbx, facet_row, facet_col, facet_page, o)
 
 \method{tmapMaplibreCompWidth}{tm_scalebar}(comp, o)
 
-\method{tmapMaplibreLegPlot}{tm_scalebar}(comp, m, o)
+\method{tmapMaplibreCompPlot}{tm_scalebar}(comp, m, o)
 
 \method{tmapMaplibreCompPrepare}{tm_credits}(comp, o)
 
@@ -268,7 +246,7 @@ tmapMaplibreGridYLab(bi, bbx, facet_row, facet_col, facet_page, o)
 
 \method{tmapMaplibreCompWidth}{tm_credits}(comp, o)
 
-\method{tmapMaplibreLegPlot}{tm_credits}(comp, m, o)
+\method{tmapMaplibreCompPlot}{tm_credits}(comp, m, o)
 
 \method{tmapMaplibreCompPrepare}{tm_mouse_coordinates}(comp, o)
 
@@ -276,7 +254,7 @@ tmapMaplibreGridYLab(bi, bbx, facet_row, facet_col, facet_page, o)
 
 \method{tmapMaplibreCompWidth}{tm_mouse_coordinates}(comp, o)
 
-\method{tmapMaplibreLegPlot}{tm_mouse_coordinates}(comp, m, o)
+\method{tmapMaplibreCompPlot}{tm_mouse_coordinates}(comp, m, o)
 
 \method{tmapMapboxCompPrepare}{tm_minimap}(comp, o)
 
@@ -290,9 +268,9 @@ tmapMaplibreGridYLab(bi, bbx, facet_row, facet_col, facet_page, o)
 
 \method{tmapMaplibreCompWidth}{tm_minimap}(comp, o)
 
-\method{tmapMapboxLegPlot}{tm_minimap}(comp, m, o)
+\method{tmapMapboxCompPlot}{tm_minimap}(comp, m, o)
 
-\method{tmapMaplibreLegPlot}{tm_minimap}(comp, m, o)
+\method{tmapMaplibreCompPlot}{tm_minimap}(comp, m, o)
 
 tmapMapboxCompPrepare(comp, o)
 
@@ -300,7 +278,9 @@ tmapMapboxCompHeight(comp, o)
 
 tmapMapboxCompWidth(comp, o)
 
-tmapMapboxLegPlot(comp, m, o)
+tmapMapboxCompPlot(comp, m, o)
+
+\method{tmapMapboxCompPrepare}{default}(comp, o)
 
 tmapMaplibreCompPrepare(comp, o)
 
@@ -308,7 +288,9 @@ tmapMaplibreCompHeight(comp, o)
 
 tmapMaplibreCompWidth(comp, o)
 
-tmapMaplibreLegPlot(comp, m, o)
+tmapMaplibreCompPlot(comp, m, o)
+
+\method{tmapMaplibreCompPrepare}{default}(comp, o)
 
 \method{tmapMapboxCompPrepare}{tm_geocoder}(comp, o)
 
@@ -316,7 +298,7 @@ tmapMaplibreLegPlot(comp, m, o)
 
 \method{tmapMapboxCompWidth}{tm_geocoder}(comp, o)
 
-\method{tmapMapboxLegPlot}{tm_geocoder}(comp, m, o)
+\method{tmapMapboxCompPlot}{tm_geocoder}(comp, m, o)
 
 \method{tmapMaplibreCompPrepare}{tm_geocoder}(comp, o)
 
@@ -324,7 +306,7 @@ tmapMaplibreLegPlot(comp, m, o)
 
 \method{tmapMaplibreCompWidth}{tm_geocoder}(comp, o)
 
-\method{tmapMaplibreLegPlot}{tm_geocoder}(comp, m, o)
+\method{tmapMaplibreCompPlot}{tm_geocoder}(comp, m, o)
 
 tmapMapboxInit(o, return.asp = FALSE, vp, prx, dg = NULL, ...)
 
@@ -539,13 +521,13 @@ tmapMapboxText(
   ...
 )
 
-\method{tmapMapboxLegPlot}{tm_legend_standard_portrait}(comp, m, o)
+\method{tmapMapboxCompPlot}{tm_legend_standard_portrait}(comp, m, o)
 
-\method{tmapMapboxLegPlot}{tm_legend_standard_landscape}(comp, m, o)
+\method{tmapMapboxCompPlot}{tm_legend_standard_landscape}(comp, m, o)
 
-\method{tmapMaplibreLegPlot}{tm_legend_standard_portrait}(comp, m, o)
+\method{tmapMaplibreCompPlot}{tm_legend_standard_portrait}(comp, m, o)
 
-\method{tmapMaplibreLegPlot}{tm_legend_standard_landscape}(comp, m, o)
+\method{tmapMaplibreCompPlot}{tm_legend_standard_landscape}(comp, m, o)
 
 tmapMapboxComp(
   comp,
