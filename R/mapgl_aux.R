@@ -9,12 +9,26 @@ tmapMapboxAuxPrepare = function(a, bs, id, o) {
 	UseMethod("tmapMapboxAuxPrepare")
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmapMapbox
+tmapMapboxAuxPrepare.default = function(a, bs, id, o) {
+	""
+}
+
 
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
 tmapMapboxAuxPlot = function(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
 	UseMethod("tmapMapboxAuxPlot")
+}
+
+#' @export
+#' @keywords internal
+#' @rdname tmapMapbox
+tmapMapboxAuxPlot.default = function(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
+	NULL
 }
 
 
@@ -24,6 +38,14 @@ tmapMapboxAuxPlot = function(a, bi, bbx, facet_row, facet_col, facet_page, id, p
 tmapMaplibreAuxPrepare = function(a, bs, id, o) {
 	UseMethod("tmapMaplibreAuxPrepare")
 }
+
+#' @export
+#' @keywords internal
+#' @rdname tmapMapbox
+tmapMaplibreAuxPrepare.default = function(a, bs, id, o) {
+	""
+}
+
 
 
 #' @export
@@ -36,13 +58,21 @@ tmapMaplibreAuxPlot = function(a, bi, bbx, facet_row, facet_col, facet_page, id,
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMapboxAuxPrepare.tm_basemap = function(a, bs, id, o) {
+tmapMaplibreAuxPlot.default = function(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
+	NULL
+}
+
+
+#' @export
+#' @keywords internal
+#' @rdname tmapMapbox
+tmapMapboxAuxPrepare.tm_aux_basemap = function(a, bs, id, o) {
 	mapgl_tiles_prep(a, bs, id, o, e = .TMAP_MAPBOX)
 }
 
 #' @export
 #' @rdname tmapMapbox
-tmapMaplibreAuxPrepare.tm_basemap = function(a, bs, id, o) {
+tmapMaplibreAuxPrepare.tm_aux_basemap = function(a, bs, id, o) {
 	mapgl_tiles_prep(a, bs, id, o, e = .TMAP_MAPLIBRE)
 }
 
@@ -50,13 +80,13 @@ tmapMaplibreAuxPrepare.tm_basemap = function(a, bs, id, o) {
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMapboxAuxPrepare.tm_tiles = function(a, bs, id, o) {
+tmapMapboxAuxPrepare.tm_aux_tiles = function(a, bs, id, o) {
 	mapgl_tiles_prep(a, bs, id, o, e = .TMAP_MAPBOX)
 }
 
 #' @export
 #' @rdname tmapMapbox
-tmapMaplibreAuxPrepare.tm_tiles = function(a, bs, id, o) {
+tmapMaplibreAuxPrepare.tm_aux_tiles = function(a, bs, id, o) {
 	mapgl_tiles_prep(a, bs, id, o, e = .TMAP_MAPLIBRE)
 }
 
@@ -71,83 +101,26 @@ mapgl_tiles_prep = function(a, bs, id, o, e) {
 
 #' @export
 #' @rdname tmapMapbox
-tmapMapboxAuxPlot.tm_basemap = function(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
+tmapMapboxAuxPlot.tm_aux_basemap = function(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
 	NULL
 }
 
 #' @export
 #' @rdname tmapMapbox
-tmapMaplibreAuxPlot.tm_basemap = function(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
+tmapMaplibreAuxPlot.tm_aux_basemap = function(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
 	NULL
 }
 
 
 #' @export
 #' @rdname tmapMapbox
-tmapMapboxAuxPlot.tm_tiles = function(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
+tmapMapboxAuxPlot.tm_aux_tiles = function(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
 	NULL
 }
 
 #' @export
 #' @rdname tmapMapbox
-tmapMaplibreAuxPlot.tm_tiles = function(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
-	NULL
-}
-
-
-
-#' @export
-#' @rdname tmapMapbox
-tmapMapboxAuxPrepare.tm_grid = function(a, bs, id, o) {
-	return("grid")
-}
-
-#' @export
-#' @rdname tmapMapbox
-tmapMapboxAuxPlot.tm_grid = function(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
-	NULL
-}
-
-
-
-#' @export
-#' @rdname tmapMapbox
-tmapMaplibreAuxPrepare.tm_grid = function(a, bs, id, o) {
-	return("grid")
-}
-
-#' @export
-#' @rdname tmapMapbox
-tmapMaplibreAuxPlot.tm_grid = function(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
-	NULL
-}
-
-
-
-
-#' @export
-#' @rdname tmapMapbox
-tmapMapboxAuxPrepare.tm_graticules = function(a, bs, id, o) {
-	return("grid")
-}
-
-#' @export
-#' @rdname tmapMapbox
-tmapMapboxAuxPlot.tm_graticules = function(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
-	NULL
-}
-
-
-
-#' @export
-#' @rdname tmapMapbox
-tmapMaplibreAuxPrepare.tm_graticules = function(a, bs, id, o) {
-	return("grid")
-}
-
-#' @export
-#' @rdname tmapMapbox
-tmapMaplibreAuxPlot.tm_graticules = function(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
+tmapMaplibreAuxPlot.tm_aux_tiles = function(a, bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
 	NULL
 }
 

@@ -15,25 +15,21 @@
 \alias{tmapMapboxArrange}
 \alias{tmapMaplibreArrange}
 \alias{tmapMapboxAuxPrepare}
+\alias{tmapMapboxAuxPrepare.default}
 \alias{tmapMapboxAuxPlot}
+\alias{tmapMapboxAuxPlot.default}
 \alias{tmapMaplibreAuxPrepare}
+\alias{tmapMaplibreAuxPrepare.default}
 \alias{tmapMaplibreAuxPlot}
-\alias{tmapMapboxAuxPrepare.tm_basemap}
-\alias{tmapMaplibreAuxPrepare.tm_basemap}
-\alias{tmapMapboxAuxPrepare.tm_tiles}
-\alias{tmapMaplibreAuxPrepare.tm_tiles}
-\alias{tmapMapboxAuxPlot.tm_basemap}
-\alias{tmapMaplibreAuxPlot.tm_basemap}
-\alias{tmapMapboxAuxPlot.tm_tiles}
-\alias{tmapMaplibreAuxPlot.tm_tiles}
-\alias{tmapMapboxAuxPrepare.tm_grid}
-\alias{tmapMapboxAuxPlot.tm_grid}
-\alias{tmapMaplibreAuxPrepare.tm_grid}
-\alias{tmapMaplibreAuxPlot.tm_grid}
-\alias{tmapMapboxAuxPrepare.tm_graticules}
-\alias{tmapMapboxAuxPlot.tm_graticules}
-\alias{tmapMaplibreAuxPrepare.tm_graticules}
-\alias{tmapMaplibreAuxPlot.tm_graticules}
+\alias{tmapMaplibreAuxPlot.default}
+\alias{tmapMapboxAuxPrepare.tm_aux_basemap}
+\alias{tmapMaplibreAuxPrepare.tm_aux_basemap}
+\alias{tmapMapboxAuxPrepare.tm_aux_tiles}
+\alias{tmapMaplibreAuxPrepare.tm_aux_tiles}
+\alias{tmapMapboxAuxPlot.tm_aux_basemap}
+\alias{tmapMaplibreAuxPlot.tm_aux_basemap}
+\alias{tmapMapboxAuxPlot.tm_aux_tiles}
+\alias{tmapMaplibreAuxPlot.tm_aux_tiles}
 \alias{tmapMapboxGridXLab}
 \alias{tmapMapboxGridYLab}
 \alias{tmapMaplibreGridXLab}
@@ -172,7 +168,22 @@ tmapMaplibreArrange(tms, nx, ncol, nrow, opts, knit, show, args, options)
 
 tmapMapboxAuxPrepare(a, bs, id, o)
 
+\method{tmapMapboxAuxPrepare}{default}(a, bs, id, o)
+
 tmapMapboxAuxPlot(
+  a,
+  bi,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  o
+)
+
+\method{tmapMapboxAuxPlot}{default}(
   a,
   bi,
   bbx,
@@ -187,6 +198,8 @@ tmapMapboxAuxPlot(
 
 tmapMaplibreAuxPrepare(a, bs, id, o)
 
+\method{tmapMaplibreAuxPrepare}{default}(a, bs, id, o)
+
 tmapMaplibreAuxPlot(
   a,
   bi,
@@ -200,15 +213,7 @@ tmapMaplibreAuxPlot(
   o
 )
 
-\method{tmapMapboxAuxPrepare}{tm_basemap}(a, bs, id, o)
-
-\method{tmapMaplibreAuxPrepare}{tm_basemap}(a, bs, id, o)
-
-\method{tmapMapboxAuxPrepare}{tm_tiles}(a, bs, id, o)
-
-\method{tmapMaplibreAuxPrepare}{tm_tiles}(a, bs, id, o)
-
-\method{tmapMapboxAuxPlot}{tm_basemap}(
+\method{tmapMaplibreAuxPlot}{default}(
   a,
   bi,
   bbx,
@@ -221,7 +226,15 @@ tmapMaplibreAuxPlot(
   o
 )
 
-\method{tmapMaplibreAuxPlot}{tm_basemap}(
+\method{tmapMapboxAuxPrepare}{tm_aux_basemap}(a, bs, id, o)
+
+\method{tmapMaplibreAuxPrepare}{tm_aux_basemap}(a, bs, id, o)
+
+\method{tmapMapboxAuxPrepare}{tm_aux_tiles}(a, bs, id, o)
+
+\method{tmapMaplibreAuxPrepare}{tm_aux_tiles}(a, bs, id, o)
+
+\method{tmapMapboxAuxPlot}{tm_aux_basemap}(
   a,
   bi,
   bbx,
@@ -234,7 +247,7 @@ tmapMaplibreAuxPlot(
   o
 )
 
-\method{tmapMapboxAuxPlot}{tm_tiles}(
+\method{tmapMaplibreAuxPlot}{tm_aux_basemap}(
   a,
   bi,
   bbx,
@@ -247,7 +260,7 @@ tmapMaplibreAuxPlot(
   o
 )
 
-\method{tmapMaplibreAuxPlot}{tm_tiles}(
+\method{tmapMapboxAuxPlot}{tm_aux_tiles}(
   a,
   bi,
   bbx,
@@ -260,54 +273,7 @@ tmapMaplibreAuxPlot(
   o
 )
 
-\method{tmapMapboxAuxPrepare}{tm_grid}(a, bs, id, o)
-
-\method{tmapMapboxAuxPlot}{tm_grid}(
-  a,
-  bi,
-  bbx,
-  facet_row,
-  facet_col,
-  facet_page,
-  id,
-  pane,
-  group,
-  o
-)
-
-\method{tmapMaplibreAuxPrepare}{tm_grid}(a, bs, id, o)
-
-\method{tmapMaplibreAuxPlot}{tm_grid}(
-  a,
-  bi,
-  bbx,
-  facet_row,
-  facet_col,
-  facet_page,
-  id,
-  pane,
-  group,
-  o
-)
-
-\method{tmapMapboxAuxPrepare}{tm_graticules}(a, bs, id, o)
-
-\method{tmapMapboxAuxPlot}{tm_graticules}(
-  a,
-  bi,
-  bbx,
-  facet_row,
-  facet_col,
-  facet_page,
-  id,
-  pane,
-  group,
-  o
-)
-
-\method{tmapMaplibreAuxPrepare}{tm_graticules}(a, bs, id, o)
-
-\method{tmapMaplibreAuxPlot}{tm_graticules}(
+\method{tmapMaplibreAuxPlot}{tm_aux_tiles}(
   a,
   bi,
   bbx,
