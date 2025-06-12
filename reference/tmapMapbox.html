@@ -74,21 +74,13 @@
 <span></span>
 <span><span class="fu">tmapMaplibreArrange</span><span class="op">(</span><span class="va">tms</span>, <span class="va">nx</span>, <span class="va">ncol</span>, <span class="va">nrow</span>, <span class="va">opts</span>, <span class="va">knit</span>, <span class="va">show</span>, <span class="va">args</span>, <span class="va">options</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">tmapMapboxTilesPrep</span><span class="op">(</span><span class="va">a</span>, <span class="va">bs</span>, <span class="va">id</span>, <span class="va">o</span><span class="op">)</span></span>
+<span><span class="fu">tmapMapboxAuxPrepare</span><span class="op">(</span><span class="va">a</span>, <span class="va">bs</span>, <span class="va">id</span>, <span class="va">o</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">tmapMaplibreTilesPrep</span><span class="op">(</span><span class="va">a</span>, <span class="va">bs</span>, <span class="va">id</span>, <span class="va">o</span><span class="op">)</span></span>
+<span><span class="co"># Default S3 method</span></span>
+<span><span class="fu">tmapMapboxAuxPrepare</span><span class="op">(</span><span class="va">a</span>, <span class="va">bs</span>, <span class="va">id</span>, <span class="va">o</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">tmapMapboxTiles</span><span class="op">(</span><span class="va">bi</span>, <span class="va">bbx</span>, <span class="va">facet_row</span>, <span class="va">facet_col</span>, <span class="va">facet_page</span>, <span class="va">id</span>, <span class="va">pane</span>, <span class="va">group</span>, <span class="va">o</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">tmapMapboxGridPrep</span><span class="op">(</span><span class="va">a</span>, <span class="va">bs</span>, <span class="va">id</span>, <span class="va">o</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">tmapMapboxGrid</span><span class="op">(</span><span class="va">bi</span>, <span class="va">bbx</span>, <span class="va">facet_row</span>, <span class="va">facet_col</span>, <span class="va">facet_page</span>, <span class="va">id</span>, <span class="va">pane</span>, <span class="va">group</span>, <span class="va">o</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">tmapMapboxGridXLab</span><span class="op">(</span><span class="va">bi</span>, <span class="va">bbx</span>, <span class="va">facet_row</span>, <span class="va">facet_col</span>, <span class="va">facet_page</span>, <span class="va">o</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">tmapMapboxGridYLab</span><span class="op">(</span><span class="va">bi</span>, <span class="va">bbx</span>, <span class="va">facet_row</span>, <span class="va">facet_col</span>, <span class="va">facet_page</span>, <span class="va">o</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">tmapMaplibreTiles</span><span class="op">(</span></span>
+<span><span class="fu">tmapMapboxAuxPlot</span><span class="op">(</span></span>
+<span>  <span class="va">a</span>,</span>
 <span>  <span class="va">bi</span>,</span>
 <span>  <span class="va">bbx</span>,</span>
 <span>  <span class="va">facet_row</span>,</span>
@@ -100,9 +92,123 @@
 <span>  <span class="va">o</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">tmapMaplibreGridPrep</span><span class="op">(</span><span class="va">a</span>, <span class="va">bs</span>, <span class="va">id</span>, <span class="va">o</span><span class="op">)</span></span>
+<span><span class="co"># Default S3 method</span></span>
+<span><span class="fu">tmapMapboxAuxPlot</span><span class="op">(</span></span>
+<span>  <span class="va">a</span>,</span>
+<span>  <span class="va">bi</span>,</span>
+<span>  <span class="va">bbx</span>,</span>
+<span>  <span class="va">facet_row</span>,</span>
+<span>  <span class="va">facet_col</span>,</span>
+<span>  <span class="va">facet_page</span>,</span>
+<span>  <span class="va">id</span>,</span>
+<span>  <span class="va">pane</span>,</span>
+<span>  <span class="va">group</span>,</span>
+<span>  <span class="va">o</span></span>
+<span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">tmapMaplibreGrid</span><span class="op">(</span><span class="va">bi</span>, <span class="va">bbx</span>, <span class="va">facet_row</span>, <span class="va">facet_col</span>, <span class="va">facet_page</span>, <span class="va">id</span>, <span class="va">pane</span>, <span class="va">group</span>, <span class="va">o</span><span class="op">)</span></span>
+<span><span class="fu">tmapMaplibreAuxPrepare</span><span class="op">(</span><span class="va">a</span>, <span class="va">bs</span>, <span class="va">id</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Default S3 method</span></span>
+<span><span class="fu">tmapMaplibreAuxPrepare</span><span class="op">(</span><span class="va">a</span>, <span class="va">bs</span>, <span class="va">id</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapMaplibreAuxPlot</span><span class="op">(</span></span>
+<span>  <span class="va">a</span>,</span>
+<span>  <span class="va">bi</span>,</span>
+<span>  <span class="va">bbx</span>,</span>
+<span>  <span class="va">facet_row</span>,</span>
+<span>  <span class="va">facet_col</span>,</span>
+<span>  <span class="va">facet_page</span>,</span>
+<span>  <span class="va">id</span>,</span>
+<span>  <span class="va">pane</span>,</span>
+<span>  <span class="va">group</span>,</span>
+<span>  <span class="va">o</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Default S3 method</span></span>
+<span><span class="fu">tmapMaplibreAuxPlot</span><span class="op">(</span></span>
+<span>  <span class="va">a</span>,</span>
+<span>  <span class="va">bi</span>,</span>
+<span>  <span class="va">bbx</span>,</span>
+<span>  <span class="va">facet_row</span>,</span>
+<span>  <span class="va">facet_col</span>,</span>
+<span>  <span class="va">facet_page</span>,</span>
+<span>  <span class="va">id</span>,</span>
+<span>  <span class="va">pane</span>,</span>
+<span>  <span class="va">group</span>,</span>
+<span>  <span class="va">o</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_aux_basemap'</span></span>
+<span><span class="fu">tmapMapboxAuxPrepare</span><span class="op">(</span><span class="va">a</span>, <span class="va">bs</span>, <span class="va">id</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_aux_basemap'</span></span>
+<span><span class="fu">tmapMaplibreAuxPrepare</span><span class="op">(</span><span class="va">a</span>, <span class="va">bs</span>, <span class="va">id</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_aux_tiles'</span></span>
+<span><span class="fu">tmapMapboxAuxPrepare</span><span class="op">(</span><span class="va">a</span>, <span class="va">bs</span>, <span class="va">id</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_aux_tiles'</span></span>
+<span><span class="fu">tmapMaplibreAuxPrepare</span><span class="op">(</span><span class="va">a</span>, <span class="va">bs</span>, <span class="va">id</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_aux_basemap'</span></span>
+<span><span class="fu">tmapMapboxAuxPlot</span><span class="op">(</span></span>
+<span>  <span class="va">a</span>,</span>
+<span>  <span class="va">bi</span>,</span>
+<span>  <span class="va">bbx</span>,</span>
+<span>  <span class="va">facet_row</span>,</span>
+<span>  <span class="va">facet_col</span>,</span>
+<span>  <span class="va">facet_page</span>,</span>
+<span>  <span class="va">id</span>,</span>
+<span>  <span class="va">pane</span>,</span>
+<span>  <span class="va">group</span>,</span>
+<span>  <span class="va">o</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_aux_basemap'</span></span>
+<span><span class="fu">tmapMaplibreAuxPlot</span><span class="op">(</span></span>
+<span>  <span class="va">a</span>,</span>
+<span>  <span class="va">bi</span>,</span>
+<span>  <span class="va">bbx</span>,</span>
+<span>  <span class="va">facet_row</span>,</span>
+<span>  <span class="va">facet_col</span>,</span>
+<span>  <span class="va">facet_page</span>,</span>
+<span>  <span class="va">id</span>,</span>
+<span>  <span class="va">pane</span>,</span>
+<span>  <span class="va">group</span>,</span>
+<span>  <span class="va">o</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_aux_tiles'</span></span>
+<span><span class="fu">tmapMapboxAuxPlot</span><span class="op">(</span></span>
+<span>  <span class="va">a</span>,</span>
+<span>  <span class="va">bi</span>,</span>
+<span>  <span class="va">bbx</span>,</span>
+<span>  <span class="va">facet_row</span>,</span>
+<span>  <span class="va">facet_col</span>,</span>
+<span>  <span class="va">facet_page</span>,</span>
+<span>  <span class="va">id</span>,</span>
+<span>  <span class="va">pane</span>,</span>
+<span>  <span class="va">group</span>,</span>
+<span>  <span class="va">o</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_aux_tiles'</span></span>
+<span><span class="fu">tmapMaplibreAuxPlot</span><span class="op">(</span></span>
+<span>  <span class="va">a</span>,</span>
+<span>  <span class="va">bi</span>,</span>
+<span>  <span class="va">bbx</span>,</span>
+<span>  <span class="va">facet_row</span>,</span>
+<span>  <span class="va">facet_col</span>,</span>
+<span>  <span class="va">facet_page</span>,</span>
+<span>  <span class="va">id</span>,</span>
+<span>  <span class="va">pane</span>,</span>
+<span>  <span class="va">group</span>,</span>
+<span>  <span class="va">o</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapMapboxGridXLab</span><span class="op">(</span><span class="va">bi</span>, <span class="va">bbx</span>, <span class="va">facet_row</span>, <span class="va">facet_col</span>, <span class="va">facet_page</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapMapboxGridYLab</span><span class="op">(</span><span class="va">bi</span>, <span class="va">bbx</span>, <span class="va">facet_row</span>, <span class="va">facet_col</span>, <span class="va">facet_page</span>, <span class="va">o</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">tmapMaplibreGridXLab</span><span class="op">(</span><span class="va">bi</span>, <span class="va">bbx</span>, <span class="va">facet_row</span>, <span class="va">facet_col</span>, <span class="va">facet_page</span>, <span class="va">o</span><span class="op">)</span></span>
 <span></span>
