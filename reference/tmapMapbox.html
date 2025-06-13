@@ -32,7 +32,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Internal tmap methods</h1>
-      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap.mapgl/blob/main/R/map_variable_height.R" class="external-link"><code>R/map_variable_height.R</code></a>, <a href="https://github.com/r-tmap/tmap.mapgl/blob/main/R/mapgl_arrange.R" class="external-link"><code>R/mapgl_arrange.R</code></a>, <a href="https://github.com/r-tmap/tmap.mapgl/blob/main/R/mapgl_aux.R" class="external-link"><code>R/mapgl_aux.R</code></a>, and 11 more</small>
+      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap.mapgl/blob/main/R/map_variable_height.R" class="external-link"><code>R/map_variable_height.R</code></a>, <a href="https://github.com/r-tmap/tmap.mapgl/blob/main/R/mapgl_arrange.R" class="external-link"><code>R/mapgl_arrange.R</code></a>, <a href="https://github.com/r-tmap/tmap.mapgl/blob/main/R/mapgl_aux.R" class="external-link"><code>R/mapgl_aux.R</code></a>, and 12 more</small>
       <div class="d-none name"><code>tmapMapbox.Rd</code></div>
     </div>
 
@@ -238,28 +238,16 @@
 <span><span class="co"># S3 method for class 'tm_scalebar'</span></span>
 <span><span class="fu">tmapMapboxCompPlot</span><span class="op">(</span><span class="va">comp</span>, <span class="va">m</span>, <span class="va">o</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># S3 method for class 'tm_credits'</span></span>
+<span><span class="co"># S3 method for class 'tm_snow'</span></span>
 <span><span class="fu">tmapMapboxCompPrepare</span><span class="op">(</span><span class="va">comp</span>, <span class="va">o</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># S3 method for class 'tm_credits'</span></span>
+<span><span class="co"># S3 method for class 'tm_snow'</span></span>
 <span><span class="fu">tmapMapboxCompHeight</span><span class="op">(</span><span class="va">comp</span>, <span class="va">o</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># S3 method for class 'tm_credits'</span></span>
+<span><span class="co"># S3 method for class 'tm_snow'</span></span>
 <span><span class="fu">tmapMapboxCompWidth</span><span class="op">(</span><span class="va">comp</span>, <span class="va">o</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># S3 method for class 'tm_credits'</span></span>
-<span><span class="fu">tmapMapboxCompPlot</span><span class="op">(</span><span class="va">comp</span>, <span class="va">m</span>, <span class="va">o</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># S3 method for class 'tm_mouse_coordinates'</span></span>
-<span><span class="fu">tmapMapboxCompPrepare</span><span class="op">(</span><span class="va">comp</span>, <span class="va">o</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># S3 method for class 'tm_mouse_coordinates'</span></span>
-<span><span class="fu">tmapMapboxCompHeight</span><span class="op">(</span><span class="va">comp</span>, <span class="va">o</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># S3 method for class 'tm_mouse_coordinates'</span></span>
-<span><span class="fu">tmapMapboxCompWidth</span><span class="op">(</span><span class="va">comp</span>, <span class="va">o</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># S3 method for class 'tm_mouse_coordinates'</span></span>
+<span><span class="co"># S3 method for class 'tm_snow'</span></span>
 <span><span class="fu">tmapMapboxCompPlot</span><span class="op">(</span><span class="va">comp</span>, <span class="va">m</span>, <span class="va">o</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'tm_title'</span></span>
@@ -667,7 +655,41 @@
 <span></span>
 <span><span class="fu">tmapMaplibreWrap</span><span class="op">(</span><span class="va">label</span>, <span class="va">facet_row</span>, <span class="va">facet_col</span>, <span class="va">facet_page</span>, <span class="va">o</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">tmapMaplibreXtab</span><span class="op">(</span><span class="va">label</span>, <span class="va">facet_row</span>, <span class="va">facet_col</span>, <span class="va">facet_page</span>, <span class="va">o</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">tmapMaplibreXtab</span><span class="op">(</span><span class="va">label</span>, <span class="va">facet_row</span>, <span class="va">facet_col</span>, <span class="va">facet_page</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_aux_snow'</span></span>
+<span><span class="fu">tmapMapboxAuxPrepare</span><span class="op">(</span><span class="va">a</span>, <span class="va">bs</span>, <span class="va">id</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_aux_snow'</span></span>
+<span><span class="fu">tmapMapboxAuxPlot</span><span class="op">(</span></span>
+<span>  <span class="va">a</span>,</span>
+<span>  <span class="va">bi</span>,</span>
+<span>  <span class="va">bbx</span>,</span>
+<span>  <span class="va">facet_row</span>,</span>
+<span>  <span class="va">facet_col</span>,</span>
+<span>  <span class="va">facet_page</span>,</span>
+<span>  <span class="va">id</span>,</span>
+<span>  <span class="va">pane</span>,</span>
+<span>  <span class="va">group</span>,</span>
+<span>  <span class="va">o</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_aux_rain'</span></span>
+<span><span class="fu">tmapMapboxAuxPrepare</span><span class="op">(</span><span class="va">a</span>, <span class="va">bs</span>, <span class="va">id</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_aux_rain'</span></span>
+<span><span class="fu">tmapMapboxAuxPlot</span><span class="op">(</span></span>
+<span>  <span class="va">a</span>,</span>
+<span>  <span class="va">bi</span>,</span>
+<span>  <span class="va">bbx</span>,</span>
+<span>  <span class="va">facet_row</span>,</span>
+<span>  <span class="va">facet_col</span>,</span>
+<span>  <span class="va">facet_page</span>,</span>
+<span>  <span class="va">id</span>,</span>
+<span>  <span class="va">pane</span>,</span>
+<span>  <span class="va">group</span>,</span>
+<span>  <span class="va">o</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
