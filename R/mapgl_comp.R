@@ -65,13 +65,14 @@ tmapMapboxCompPlot.tm_scalebar = function(comp, m, o) {
 
 }
 
+############ credits
 
 
 
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMapboxCompPrepare.tm_credits = function(comp, o) {
+tmapMapboxCompPrepare.tm_snow = function(comp, o) {
 	comp$show = TRUE
 	comp
 }
@@ -80,31 +81,14 @@ tmapMapboxCompPrepare.tm_credits = function(comp, o) {
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMapboxCompHeight.tm_credits = function(comp, o) {
+tmapMapboxCompHeight.tm_snow = function(comp, o) {
 	comp
 }
 
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMapboxCompWidth.tm_credits = function(comp, o) {
-	comp
-}
-
-
-#' @export
-#' @keywords internal
-#' @rdname tmapMapbox
-tmapMapboxCompPlot.tm_credits = function(comp, m, o) {
-	m
-}
-
-
-#' @export
-#' @keywords internal
-#' @rdname tmapMapbox
-tmapMapboxCompPrepare.tm_mouse_coordinates = function(comp, o) {
-	comp$show = TRUE
+tmapMapboxCompWidth.tm_snow = function(comp, o) {
 	comp
 }
 
@@ -112,23 +96,8 @@ tmapMapboxCompPrepare.tm_mouse_coordinates = function(comp, o) {
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMapboxCompHeight.tm_mouse_coordinates = function(comp, o) {
-	comp
-}
-
-#' @export
-#' @keywords internal
-#' @rdname tmapMapbox
-tmapMapboxCompWidth.tm_mouse_coordinates = function(comp, o) {
-	comp
-}
-
-
-#' @export
-#' @keywords internal
-#' @rdname tmapMapbox
-tmapMapboxCompPlot.tm_mouse_coordinates = function(comp, m, o) {
-	m
+tmapMapboxCompPlot.tm_snow = function(comp, m, o) {
+	m |> mapgl::set_snow()
 }
 
 

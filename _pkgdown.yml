@@ -26,6 +26,10 @@ reference:
 - title: Geocoder component
   contents:
   - tm_geocoder
+- title: Wheather layers
+  contents:
+  - tm_rain
+  - tm_snow
 
 navbar:
   structure:

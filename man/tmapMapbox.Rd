@@ -2,7 +2,8 @@
 % Please edit documentation in R/map_variable_height.R, R/mapgl_arrange.R,
 %   R/mapgl_aux.R, R/mapgl_comp.R, R/mapgl_comp_charts.R, R/mapgl_components.R,
 %   R/mapgl_init.R, R/mapgl_layers.R, R/mapgl_legend.R, R/mapgl_providers.R,
-%   R/mapgl_run.R, R/mapgl_shape.R, R/mapgl_shiny.R, R/mapgl_wrap_xtab.R
+%   R/mapgl_run.R, R/mapgl_shape.R, R/mapgl_shiny.R, R/mapgl_wrap_xtab.R,
+%   R/tm_aux_layers.R
 \name{tmapValuesCheck_height}
 \alias{tmapValuesCheck_height}
 \alias{tmapValuesIsDiv_height}
@@ -42,14 +43,10 @@
 \alias{tmapMapboxCompHeight.tm_scalebar}
 \alias{tmapMapboxCompWidth.tm_scalebar}
 \alias{tmapMapboxCompPlot.tm_scalebar}
-\alias{tmapMapboxCompPrepare.tm_credits}
-\alias{tmapMapboxCompHeight.tm_credits}
-\alias{tmapMapboxCompWidth.tm_credits}
-\alias{tmapMapboxCompPlot.tm_credits}
-\alias{tmapMapboxCompPrepare.tm_mouse_coordinates}
-\alias{tmapMapboxCompHeight.tm_mouse_coordinates}
-\alias{tmapMapboxCompWidth.tm_mouse_coordinates}
-\alias{tmapMapboxCompPlot.tm_mouse_coordinates}
+\alias{tmapMapboxCompPrepare.tm_snow}
+\alias{tmapMapboxCompHeight.tm_snow}
+\alias{tmapMapboxCompWidth.tm_snow}
+\alias{tmapMapboxCompPlot.tm_snow}
 \alias{tmapMaplibreCompPrepare.tm_title}
 \alias{tmapMaplibreCompHeight.tm_title}
 \alias{tmapMaplibreCompWidth.tm_title}
@@ -132,6 +129,10 @@
 \alias{tmapMapboxXtab}
 \alias{tmapMaplibreWrap}
 \alias{tmapMaplibreXtab}
+\alias{tmapMapboxAuxPrepare.tm_aux_snow}
+\alias{tmapMapboxAuxPlot.tm_aux_snow}
+\alias{tmapMapboxAuxPrepare.tm_aux_rain}
+\alias{tmapMapboxAuxPlot.tm_aux_rain}
 \title{Internal tmap methods}
 \usage{
 tmapValuesCheck_height(x, is_var = TRUE)
@@ -310,21 +311,13 @@ tmapMaplibreGridYLab(bi, bbx, facet_row, facet_col, facet_page, o)
 
 \method{tmapMapboxCompPlot}{tm_scalebar}(comp, m, o)
 
-\method{tmapMapboxCompPrepare}{tm_credits}(comp, o)
+\method{tmapMapboxCompPrepare}{tm_snow}(comp, o)
 
-\method{tmapMapboxCompHeight}{tm_credits}(comp, o)
+\method{tmapMapboxCompHeight}{tm_snow}(comp, o)
 
-\method{tmapMapboxCompWidth}{tm_credits}(comp, o)
+\method{tmapMapboxCompWidth}{tm_snow}(comp, o)
 
-\method{tmapMapboxCompPlot}{tm_credits}(comp, m, o)
-
-\method{tmapMapboxCompPrepare}{tm_mouse_coordinates}(comp, o)
-
-\method{tmapMapboxCompHeight}{tm_mouse_coordinates}(comp, o)
-
-\method{tmapMapboxCompWidth}{tm_mouse_coordinates}(comp, o)
-
-\method{tmapMapboxCompPlot}{tm_mouse_coordinates}(comp, m, o)
+\method{tmapMapboxCompPlot}{tm_snow}(comp, m, o)
 
 \method{tmapMaplibreCompPrepare}{tm_title}(comp, o)
 
@@ -694,6 +687,36 @@ tmapMapboxXtab(label, facet_row, facet_col, facet_page, o)
 tmapMaplibreWrap(label, facet_row, facet_col, facet_page, o)
 
 tmapMaplibreXtab(label, facet_row, facet_col, facet_page, o)
+
+\method{tmapMapboxAuxPrepare}{tm_aux_snow}(a, bs, id, o)
+
+\method{tmapMapboxAuxPlot}{tm_aux_snow}(
+  a,
+  bi,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  o
+)
+
+\method{tmapMapboxAuxPrepare}{tm_aux_rain}(a, bs, id, o)
+
+\method{tmapMapboxAuxPlot}{tm_aux_rain}(
+  a,
+  bi,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  o
+)
 }
 \arguments{
 \item{o}{the list of options}
