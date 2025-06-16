@@ -1,54 +1,4 @@
-#' @param shpTM, dt, pdt, popup.format, hdt, idt, gp args
-#' @export
-#' @keywords internal
-#' @name tmapMapboxPolygons
-#' @rdname tmapMapbox
-tmapMapboxPolygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
-	mapgl_polygons(shpTM,
-				   dt,
-				   pdt,
-				   popup.format,
-				   hdt,
-				   idt,
-				   gp,
-				   bbx,
-				   facet_row,
-				   facet_col,
-				   facet_page,
-				   id,
-				   pane,
-				   group,
-				   o,
-				   ...,
-				   mode = "mapbox")
-}
-
-#' @export
-#' @keywords internal
-#' @rdname tmapMapbox
-tmapMaplibrePolygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
-	mapgl_polygons(shpTM,
-				   dt,
-				   pdt,
-				   popup.format,
-				   hdt,
-				   idt,
-				   gp,
-				   bbx,
-				   facet_row,
-				   facet_col,
-				   facet_page,
-				   id,
-				   pane,
-				   group,
-				   o,
-				   ...,
-				   mode = "maplibre")
-}
-
-
-
-mapgl_polygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ..., mode) {
+mapgl_polygons = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ..., mode) {
 	m = get_mapgl(facet_row, facet_col, facet_page, mode)
 
 	rc_text = frc(facet_row, facet_col)
@@ -97,54 +47,9 @@ mapgl_polygons = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet
 	NULL
 }
 
-#' @export
-#' @keywords internal
-#' @rdname tmapMapbox
-tmapMapboxPolygons3d = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
-	mapgl_polygons3d(shpTM,
-				   dt,
-				   pdt,
-				   popup.format,
-				   hdt,
-				   idt,
-				   gp,
-				   bbx,
-				   facet_row,
-				   facet_col,
-				   facet_page,
-				   id,
-				   pane,
-				   group,
-				   o,
-				   ...,
-				   mode = "mapbox")
-}
 
-#' @export
-#' @keywords internal
-#' @rdname tmapMapbox
-tmapMaplibrePolygons3d = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
-	mapgl_polygons3d(shpTM,
-				   dt,
-				   pdt,
-				   popup.format,
-				   hdt,
-				   idt,
-				   gp,
-				   bbx,
-				   facet_row,
-				   facet_col,
-				   facet_page,
-				   id,
-				   pane,
-				   group,
-				   o,
-				   ...,
-				   mode = "maplibre")
-}
 
-mapgl_polygons3d = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ..., mode) {
-	args = list(...)
+mapgl_polygons_3d = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ..., mode) {
 
 	m = get_mapgl(facet_row, facet_col, facet_page, mode)
 
@@ -179,7 +84,7 @@ mapgl_polygons3d = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, fac
 	layername1 = paste0(srcname, "polygons_fill")
 	layername2 = paste0(srcname, "polygons_border")
 
-	if (is.na(args$height.max)) {
+	if (is.na(a$height.max)) {
 		if (consider_global(shp)) {
 			height.max = sqrt(5.1e+14) * 0.1
 		} else {
@@ -193,10 +98,10 @@ mapgl_polygons3d = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, fac
 		}
 
 	} else {
-		height.max = args$height.max
+		height.max = a$height.max
 	}
 
-	shp2$height = args$height.min + shp2$height * (height.max - args$height.min)
+	shp2$height = a$height.min + shp2$height * (height.max - a$height.min)
 
 	nofill = all(gp$fill == o$value.blank$fill)
 
@@ -216,56 +121,8 @@ mapgl_polygons3d = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, fac
 }
 
 
-#' @export
-#' @keywords internal
-#' @rdname tmapMapbox
-tmapMapboxLines = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
-	mapgl_lines(shpTM,
-				   dt,
-				   pdt,
-				   popup.format,
-				   hdt,
-				   idt,
-				   gp,
-				   bbx,
-				   facet_row,
-				   facet_col,
-				   facet_page,
-				   id,
-				   pane,
-				   group,
-				   o,
-				   ...,
-				   mode = "mapbox")
 
-}
-
-#' @export
-#' @keywords internal
-#' @rdname tmapMapbox
-tmapMaplibreLines = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
-	mapgl_lines(shpTM,
-				dt,
-				pdt,
-				popup.format,
-				hdt,
-				idt,
-				gp,
-				bbx,
-				facet_row,
-				facet_col,
-				facet_page,
-				id,
-				pane,
-				group,
-				o,
-				...,
-				mode = "maplibre")
-
-}
-
-
-mapgl_lines = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ..., mode) {
+mapgl_lines = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ..., mode) {
 
 	mapbox = get_mapgl(facet_row, facet_col, facet_page, mode = mode)
 
@@ -319,57 +176,8 @@ lty2dash = function(lty) {
 
 
 
-#' @export
-#' @keywords internal
-#' @rdname tmapMapbox
-tmapMapboxSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
-	mapgl_symbols(shpTM,
-				dt,
-				pdt,
-				popup.format,
-				hdt,
-				idt,
-				gp,
-				bbx,
-				facet_row,
-				facet_col,
-				facet_page,
-				id,
-				pane,
-				group,
-				o,
-				...,
-				mode = "mapbox")
 
-}
-
-#' @export
-#' @keywords internal
-#' @rdname tmapMapbox
-tmapMaplibreSymbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
-	mapgl_symbols(shpTM,
-				dt,
-				pdt,
-				popup.format,
-				hdt,
-				idt,
-				gp,
-				bbx,
-				facet_row,
-				facet_col,
-				facet_page,
-				id,
-				pane,
-				group,
-				o,
-				...,
-				mode = "maplibre")
-
-}
-
-
-
-mapgl_symbols = function(shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ..., mode) {
+mapgl_symbols = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ..., mode) {
 	mapbox = get_mapgl(facet_row, facet_col, facet_page, mode)
 
 	rc_text = frc(facet_row, facet_col)
@@ -433,7 +241,7 @@ split_alpha_channel <- function(x, alpha) {
 
 
 
-mapgl_raster = function(shpTM, dt, gp, pdt, popup.format, hdt, idt, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ..., mode) {
+mapgl_raster = function(a, shpTM, dt, gp, pdt, popup.format, hdt, idt, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ..., mode) {
 
 	rc_text = frc(facet_row, facet_col)
 
@@ -515,62 +323,3 @@ mapgl_raster = function(shpTM, dt, gp, pdt, popup.format, hdt, idt, bbx, facet_r
 	NULL
 }
 
-
-#' @export
-#' @keywords internal
-#' @rdname tmapMapbox
-tmapMapboxRaster = function(shpTM, dt, gp, pdt, popup.format, hdt, idt, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
-	mapgl_raster(shpTM,
-				   dt,
-				   pdt,
-				   popup.format,
-				   hdt,
-				   idt,
-				   gp,
-				   bbx,
-				   facet_row,
-				   facet_col,
-				   facet_page,
-				   id,
-				   pane,
-				   group,
-				   o,
-				   ...,
-				   mode = "mapbox")
-
-	NULL
-}
-
-#' @export
-#' @keywords internal
-#' @rdname tmapMapbox
-tmapMaplibreRaster = function(shpTM, dt, gp, pdt, popup.format, hdt, idt, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
-	mapgl_raster(shpTM,
-				 dt,
-				 pdt,
-				 popup.format,
-				 hdt,
-				 idt,
-				 gp,
-				 bbx,
-				 facet_row,
-				 facet_col,
-				 facet_page,
-				 id,
-				 pane,
-				 group,
-				 o,
-				 ...,
-				 mode = "maplibre")
-
-	NULL
-}
-
-#' @export
-#' @keywords internal
-#' @name tmapMapboxText
-#' @rdname tmapMapbox
-tmapMapboxText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
-	warning("tm_text not yet implemented for this mode")
-	NULL
-}

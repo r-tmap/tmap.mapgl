@@ -41,9 +41,11 @@ mapgl_shape = function(bbx, facet_row, facet_col, facet_page, o, mode) {
 		# quick & dirty
 		if (zoom < 3) {
 			# ignore center for global view (otherwise it will be (0, -3) due to Antarctica)
-			m = mapgl::mapboxgl(center = c(0,0), zoom = zoom, pitch = o$pitch, style = style)
+			m = mapgl::mapboxgl(center = c(0,0), zoom = zoom, pitch = o$pitch, style = style) |>
+				mapgl::add_navigation_control(visualize_pitch = TRUE)
 		} else {
-			m = mapgl::mapboxgl(center = ll, zoom = zoom, pitch = o$pitch, style = style)
+			m = mapgl::mapboxgl(center = ll, zoom = zoom, pitch = o$pitch, style = style) |>
+				mapgl::add_navigation_control(visualize_pitch = TRUE)
 		}
 	} else {
 		# quick & dirty

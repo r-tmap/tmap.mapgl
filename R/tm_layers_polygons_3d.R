@@ -77,7 +77,7 @@
 #' @export
 tm_polygons_3d = function(height = tmap::tm_const(),
 						 height.scale = tmap::tm_scale(),
-						 height.legend = tmap::tm_legend(),
+						 height.legend = tmap::tm_legend_hide(),
 						 height.chart = tmap::tm_chart_none(),
 						 height.free = NA,
 					   fill = tmap::tm_const(),
@@ -126,7 +126,7 @@ tm_polygons_3d = function(height = tmap::tm_const(),
 
 
 	tmap::tm_element_list(tmap::tm_element(
-		layer = "polygons3d",
+		layer = c("polygons_3d", "polygons"),
 		trans.fun = tmap::tmapTransPolygons,
 		trans.args = options$trans.args,
 		trans.aes = list(),

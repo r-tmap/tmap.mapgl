@@ -66,7 +66,7 @@ gp_to_lpar = function(gp, mfun, shape = 20, pick_middle = TRUE) {
 				"circle", "circle", "rect", "diamond", "triangle", "polygon", "stadium") # shapes for pch 0:25 + 26 for stadium (NOTE: last one is a triangle upside-down. Since 21:25 are the defaults, and a polygon is chosen to differentiate from the other triangle)
 	lst$shape = get_pch_names(lst$shape)
 
-	if (mfun == "Lines") lst$shape = "line"
+	if ("tm_data_lines" %in% mfun) lst$shape = "line"
 
 	lst$width = lst$size * 20
 	lst$height = lst$size * 20
