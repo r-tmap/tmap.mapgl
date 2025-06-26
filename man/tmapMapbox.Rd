@@ -93,10 +93,10 @@
 \alias{tmapMaplibreInit}
 \alias{tmapMapboxAux}
 \alias{tmapMaplibreAux}
-\alias{tmapMapboxCompPlot.tm_legend_standard_portrait}
-\alias{tmapMapboxCompPlot.tm_legend_standard_landscape}
-\alias{tmapMaplibreCompPlot.tm_legend_standard_portrait}
-\alias{tmapMaplibreCompPlot.tm_legend_standard_landscape}
+\alias{tmapMapboxCompPlot.tm_legend_portrait}
+\alias{tmapMapboxCompPlot.tm_legend_landscape}
+\alias{tmapMaplibreCompPlot.tm_legend_portrait}
+\alias{tmapMaplibreCompPlot.tm_legend_landscape}
 \alias{tmapMapboxComp}
 \alias{tmapMapboxLegend}
 \alias{tmapMaplibreComp}
@@ -125,12 +125,14 @@
 \alias{tmapMapboxDataPlot}
 \alias{tmapMapboxDataPlot.default}
 \alias{tmapMapboxDataPlot.tm_data_polygons}
-\alias{tmapMapboxDataPlot.tm_data_fill}
-\alias{tmapMapboxDataPlot.tm_data_borders}
 \alias{tmapMapboxDataPlot.tm_data_polygons_3d}
 \alias{tmapMapboxDataPlot.tm_data_lines}
 \alias{tmapMapboxDataPlot.tm_data_symbols}
 \alias{tmapMapboxDataPlot.tm_data_raster}
+\alias{tmapMapboxDataPlot.tm_data_fill}
+\alias{tmapMapboxDataPlot.tm_data_borders}
+\alias{tmapMapboxDataPlot.tm_data_dots}
+\alias{tmapMapboxDataPlot.tm_data_bubbles}
 \alias{tmapMaplibreDataPlot}
 \alias{tmapMaplibreDataPlot.default}
 \alias{tmapMaplibreDataPlot.tm_data_polygons}
@@ -138,6 +140,10 @@
 \alias{tmapMaplibreDataPlot.tm_data_lines}
 \alias{tmapMaplibreDataPlot.tm_data_symbols}
 \alias{tmapMaplibreDataPlot.tm_data_raster}
+\alias{tmapMaplibreDataPlot.tm_data_fill}
+\alias{tmapMaplibreDataPlot.tm_data_borders}
+\alias{tmapMaplibreDataPlot.tm_data_dots}
+\alias{tmapMaplibreDataPlot.tm_data_bubbles}
 \title{Internal tmap methods}
 \usage{
 tmapValuesCheck_height(x, is_var = TRUE)
@@ -416,13 +422,13 @@ tmapMapboxAux(o, q)
 
 tmapMaplibreAux(o, q)
 
-\method{tmapMapboxCompPlot}{tm_legend_standard_portrait}(comp, m, o)
+\method{tmapMapboxCompPlot}{tm_legend_portrait}(comp, m, o)
 
-\method{tmapMapboxCompPlot}{tm_legend_standard_landscape}(comp, m, o)
+\method{tmapMapboxCompPlot}{tm_legend_landscape}(comp, m, o)
 
-\method{tmapMaplibreCompPlot}{tm_legend_standard_portrait}(comp, m, o)
+\method{tmapMaplibreCompPlot}{tm_legend_portrait}(comp, m, o)
 
-\method{tmapMaplibreCompPlot}{tm_legend_standard_landscape}(comp, m, o)
+\method{tmapMaplibreCompPlot}{tm_legend_landscape}(comp, m, o)
 
 tmapMapboxComp(
   comp,
@@ -578,46 +584,6 @@ tmapMapboxDataPlot(
   ...
 )
 
-\method{tmapMapboxDataPlot}{tm_data_fill}(
-  a,
-  shpTM,
-  dt,
-  pdt,
-  popup.format,
-  hdt,
-  idt,
-  gp,
-  bbx,
-  facet_row,
-  facet_col,
-  facet_page,
-  id,
-  pane,
-  group,
-  o,
-  ...
-)
-
-\method{tmapMapboxDataPlot}{tm_data_borders}(
-  a,
-  shpTM,
-  dt,
-  pdt,
-  popup.format,
-  hdt,
-  idt,
-  gp,
-  bbx,
-  facet_row,
-  facet_col,
-  facet_page,
-  id,
-  pane,
-  group,
-  o,
-  ...
-)
-
 \method{tmapMapboxDataPlot}{tm_data_polygons_3d}(
   a,
   shpTM,
@@ -679,6 +645,86 @@ tmapMapboxDataPlot(
 )
 
 \method{tmapMapboxDataPlot}{tm_data_raster}(
+  a,
+  shpTM,
+  dt,
+  pdt,
+  popup.format,
+  hdt,
+  idt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  o,
+  ...
+)
+
+\method{tmapMapboxDataPlot}{tm_data_fill}(
+  a,
+  shpTM,
+  dt,
+  pdt,
+  popup.format,
+  hdt,
+  idt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  o,
+  ...
+)
+
+\method{tmapMapboxDataPlot}{tm_data_borders}(
+  a,
+  shpTM,
+  dt,
+  pdt,
+  popup.format,
+  hdt,
+  idt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  o,
+  ...
+)
+
+\method{tmapMapboxDataPlot}{tm_data_dots}(
+  a,
+  shpTM,
+  dt,
+  pdt,
+  popup.format,
+  hdt,
+  idt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  o,
+  ...
+)
+
+\method{tmapMapboxDataPlot}{tm_data_bubbles}(
   a,
   shpTM,
   dt,
@@ -819,6 +865,86 @@ tmapMaplibreDataPlot(
 )
 
 \method{tmapMaplibreDataPlot}{tm_data_raster}(
+  a,
+  shpTM,
+  dt,
+  pdt,
+  popup.format,
+  hdt,
+  idt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  o,
+  ...
+)
+
+\method{tmapMaplibreDataPlot}{tm_data_fill}(
+  a,
+  shpTM,
+  dt,
+  pdt,
+  popup.format,
+  hdt,
+  idt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  o,
+  ...
+)
+
+\method{tmapMaplibreDataPlot}{tm_data_borders}(
+  a,
+  shpTM,
+  dt,
+  pdt,
+  popup.format,
+  hdt,
+  idt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  o,
+  ...
+)
+
+\method{tmapMaplibreDataPlot}{tm_data_dots}(
+  a,
+  shpTM,
+  dt,
+  pdt,
+  popup.format,
+  hdt,
+  idt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  o,
+  ...
+)
+
+\method{tmapMaplibreDataPlot}{tm_data_bubbles}(
   a,
   shpTM,
   dt,

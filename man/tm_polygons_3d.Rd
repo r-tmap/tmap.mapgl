@@ -8,7 +8,7 @@
 tm_polygons_3d(
   height = tmap::tm_const(),
   height.scale = tmap::tm_scale(),
-  height.legend = tmap::tm_legend(),
+  height.legend = tmap::tm_legend_hide(),
   height.chart = tmap::tm_chart_none(),
   height.free = NA,
   fill = tmap::tm_const(),

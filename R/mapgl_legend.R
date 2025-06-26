@@ -137,28 +137,28 @@ mapgl_legend = function(cmp, m, o, orientation, mode) {
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMapboxCompPlot.tm_legend_standard_portrait = function(comp, m, o) {
+tmapMapboxCompPlot.tm_legend_portrait = function(comp, m, o) {
 	mapgl_legend(comp, m, o, orientation = "vertical", mode = "mapbox")
 }
 
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMapboxCompPlot.tm_legend_standard_landscape = function(comp, m, o) {
+tmapMapboxCompPlot.tm_legend_landscape = function(comp, m, o) {
 	mapgl_legend(comp, m, o, orientation = "horizontal", mode = "mapbox")
 }
 
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMaplibreCompPlot.tm_legend_standard_portrait = function(comp, m, o) {
+tmapMaplibreCompPlot.tm_legend_portrait = function(comp, m, o) {
 	mapgl_legend(comp, m, o, orientation = "vertical", mode = "mapbox")
 }
 
 #' @export
 #' @keywords internal
 #' @rdname tmapMapbox
-tmapMaplibreCompPlot.tm_legend_standard_landscape = function(comp, m, o) {
+tmapMaplibreCompPlot.tm_legend_landscape = function(comp, m, o) {
 	mapgl_legend(comp, m, o, orientation = "horizontal", mode = "mapbox")
 }
 

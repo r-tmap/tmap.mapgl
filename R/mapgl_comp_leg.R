@@ -16,39 +16,39 @@ tmapMapboxCompPlot = function(comp, m, o) {
 
 
 #' @export
-tmapMapboxCompPrepare.tm_legend_standard_portrait = function(comp, o) {
+tmapMapboxCompPrepare.tm_legend_portrait = function(comp, o) {
 	mapgl_legend_comp(comp, o, mode = "mapbox")
 }
 
 
 #' @export
-tmapMapboxCompHeight.tm_legend_standard_portrait = function(comp, o) {
+tmapMapboxCompHeight.tm_legend_portrait = function(comp, o) {
 	mapgl_leg_height(comp, o)
 }
 
 
 
 #' @export
-tmapMapboxCompWidth.tm_legend_standard_portrait = function(comp, o) {
+tmapMapboxCompWidth.tm_legend_portrait = function(comp, o) {
 	mapgl_leg_width(comp, o)
 
 }
 
 
 #' @export
-tmapMapboxCompPrepare.tm_legend_standard_landscape = function(comp, o) {
+tmapMapboxCompPrepare.tm_legend_landscape = function(comp, o) {
 	mapgl_legend_comp(comp, o, mode = "mapbox")
 }
 
 #' @export
-tmapMapboxCompHeight.tm_legend_standard_landscape = function(comp, o) {
+tmapMapboxCompHeight.tm_legend_landscape = function(comp, o) {
 	mapgl_leg_height(comp, o)
 }
 
 
 
 #' @export
-tmapMapboxCompWidth.tm_legend_standard_landscape = function(comp, o) {
+tmapMapboxCompWidth.tm_legend_landscape = function(comp, o) {
 	mapgl_leg_width(comp, o)
 
 }
@@ -80,38 +80,38 @@ tmapMaplibreCompPlot = function(comp, m, o) {
 
 
 #' @export
-tmapMaplibreCompPrepare.tm_legend_standard_portrait = function(comp, o) {
+tmapMaplibreCompPrepare.tm_legend_portrait = function(comp, o) {
 	mapgl_legend_comp(comp, o, mode = "maplibre")
 }
 
 
 #' @export
-tmapMaplibreCompHeight.tm_legend_standard_portrait = function(comp, o) {
+tmapMaplibreCompHeight.tm_legend_portrait = function(comp, o) {
 	mapgl_leg_height(comp, o)
 }
 
 
 
 #' @export
-tmapMaplibreCompWidth.tm_legend_standard_portrait = function(comp, o) {
+tmapMaplibreCompWidth.tm_legend_portrait = function(comp, o) {
 	mapgl_leg_width(comp, o)
 }
 
 
 #' @export
-tmapMaplibreCompPrepare.tm_legend_standard_landscape = function(comp, o) {
+tmapMaplibreCompPrepare.tm_legend_landscape = function(comp, o) {
 	mapgl_legend_comp(comp, o, mode = "maplibre")
 }
 
 #' @export
-tmapMaplibreCompHeight.tm_legend_standard_landscape = function(comp, o) {
+tmapMaplibreCompHeight.tm_legend_landscape = function(comp, o) {
 	mapgl_leg_height(comp, o)
 }
 
 
 
 #' @export
-tmapMaplibreCompWidth.tm_legend_standard_landscape = function(comp, o) {
+tmapMaplibreCompWidth.tm_legend_landscape = function(comp, o) {
 	mapgl_leg_width(comp, o)
 
 }
