@@ -376,16 +376,16 @@
 <span></span>
 <span><span class="fu">tmapMaplibreAux</span><span class="op">(</span><span class="va">o</span>, <span class="va">q</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># S3 method for class 'tm_legend_standard_portrait'</span></span>
+<span><span class="co"># S3 method for class 'tm_legend_portrait'</span></span>
 <span><span class="fu">tmapMapboxCompPlot</span><span class="op">(</span><span class="va">comp</span>, <span class="va">m</span>, <span class="va">o</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># S3 method for class 'tm_legend_standard_landscape'</span></span>
+<span><span class="co"># S3 method for class 'tm_legend_landscape'</span></span>
 <span><span class="fu">tmapMapboxCompPlot</span><span class="op">(</span><span class="va">comp</span>, <span class="va">m</span>, <span class="va">o</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># S3 method for class 'tm_legend_standard_portrait'</span></span>
+<span><span class="co"># S3 method for class 'tm_legend_portrait'</span></span>
 <span><span class="fu">tmapMaplibreCompPlot</span><span class="op">(</span><span class="va">comp</span>, <span class="va">m</span>, <span class="va">o</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># S3 method for class 'tm_legend_standard_landscape'</span></span>
+<span><span class="co"># S3 method for class 'tm_legend_landscape'</span></span>
 <span><span class="fu">tmapMaplibreCompPlot</span><span class="op">(</span><span class="va">comp</span>, <span class="va">m</span>, <span class="va">o</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">tmapMapboxComp</span><span class="op">(</span></span>
@@ -548,48 +548,6 @@
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># S3 method for class 'tm_data_fill'</span></span>
-<span><span class="fu">tmapMapboxDataPlot</span><span class="op">(</span></span>
-<span>  <span class="va">a</span>,</span>
-<span>  <span class="va">shpTM</span>,</span>
-<span>  <span class="va">dt</span>,</span>
-<span>  <span class="va">pdt</span>,</span>
-<span>  <span class="va">popup.format</span>,</span>
-<span>  <span class="va">hdt</span>,</span>
-<span>  <span class="va">idt</span>,</span>
-<span>  <span class="va">gp</span>,</span>
-<span>  <span class="va">bbx</span>,</span>
-<span>  <span class="va">facet_row</span>,</span>
-<span>  <span class="va">facet_col</span>,</span>
-<span>  <span class="va">facet_page</span>,</span>
-<span>  <span class="va">id</span>,</span>
-<span>  <span class="va">pane</span>,</span>
-<span>  <span class="va">group</span>,</span>
-<span>  <span class="va">o</span>,</span>
-<span>  <span class="va">...</span></span>
-<span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># S3 method for class 'tm_data_borders'</span></span>
-<span><span class="fu">tmapMapboxDataPlot</span><span class="op">(</span></span>
-<span>  <span class="va">a</span>,</span>
-<span>  <span class="va">shpTM</span>,</span>
-<span>  <span class="va">dt</span>,</span>
-<span>  <span class="va">pdt</span>,</span>
-<span>  <span class="va">popup.format</span>,</span>
-<span>  <span class="va">hdt</span>,</span>
-<span>  <span class="va">idt</span>,</span>
-<span>  <span class="va">gp</span>,</span>
-<span>  <span class="va">bbx</span>,</span>
-<span>  <span class="va">facet_row</span>,</span>
-<span>  <span class="va">facet_col</span>,</span>
-<span>  <span class="va">facet_page</span>,</span>
-<span>  <span class="va">id</span>,</span>
-<span>  <span class="va">pane</span>,</span>
-<span>  <span class="va">group</span>,</span>
-<span>  <span class="va">o</span>,</span>
-<span>  <span class="va">...</span></span>
-<span><span class="op">)</span></span>
-<span></span>
 <span><span class="co"># S3 method for class 'tm_data_polygons_3d'</span></span>
 <span><span class="fu">tmapMapboxDataPlot</span><span class="op">(</span></span>
 <span>  <span class="va">a</span>,</span>
@@ -654,6 +612,90 @@
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'tm_data_raster'</span></span>
+<span><span class="fu">tmapMapboxDataPlot</span><span class="op">(</span></span>
+<span>  <span class="va">a</span>,</span>
+<span>  <span class="va">shpTM</span>,</span>
+<span>  <span class="va">dt</span>,</span>
+<span>  <span class="va">pdt</span>,</span>
+<span>  <span class="va">popup.format</span>,</span>
+<span>  <span class="va">hdt</span>,</span>
+<span>  <span class="va">idt</span>,</span>
+<span>  <span class="va">gp</span>,</span>
+<span>  <span class="va">bbx</span>,</span>
+<span>  <span class="va">facet_row</span>,</span>
+<span>  <span class="va">facet_col</span>,</span>
+<span>  <span class="va">facet_page</span>,</span>
+<span>  <span class="va">id</span>,</span>
+<span>  <span class="va">pane</span>,</span>
+<span>  <span class="va">group</span>,</span>
+<span>  <span class="va">o</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_data_fill'</span></span>
+<span><span class="fu">tmapMapboxDataPlot</span><span class="op">(</span></span>
+<span>  <span class="va">a</span>,</span>
+<span>  <span class="va">shpTM</span>,</span>
+<span>  <span class="va">dt</span>,</span>
+<span>  <span class="va">pdt</span>,</span>
+<span>  <span class="va">popup.format</span>,</span>
+<span>  <span class="va">hdt</span>,</span>
+<span>  <span class="va">idt</span>,</span>
+<span>  <span class="va">gp</span>,</span>
+<span>  <span class="va">bbx</span>,</span>
+<span>  <span class="va">facet_row</span>,</span>
+<span>  <span class="va">facet_col</span>,</span>
+<span>  <span class="va">facet_page</span>,</span>
+<span>  <span class="va">id</span>,</span>
+<span>  <span class="va">pane</span>,</span>
+<span>  <span class="va">group</span>,</span>
+<span>  <span class="va">o</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_data_borders'</span></span>
+<span><span class="fu">tmapMapboxDataPlot</span><span class="op">(</span></span>
+<span>  <span class="va">a</span>,</span>
+<span>  <span class="va">shpTM</span>,</span>
+<span>  <span class="va">dt</span>,</span>
+<span>  <span class="va">pdt</span>,</span>
+<span>  <span class="va">popup.format</span>,</span>
+<span>  <span class="va">hdt</span>,</span>
+<span>  <span class="va">idt</span>,</span>
+<span>  <span class="va">gp</span>,</span>
+<span>  <span class="va">bbx</span>,</span>
+<span>  <span class="va">facet_row</span>,</span>
+<span>  <span class="va">facet_col</span>,</span>
+<span>  <span class="va">facet_page</span>,</span>
+<span>  <span class="va">id</span>,</span>
+<span>  <span class="va">pane</span>,</span>
+<span>  <span class="va">group</span>,</span>
+<span>  <span class="va">o</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_data_dots'</span></span>
+<span><span class="fu">tmapMapboxDataPlot</span><span class="op">(</span></span>
+<span>  <span class="va">a</span>,</span>
+<span>  <span class="va">shpTM</span>,</span>
+<span>  <span class="va">dt</span>,</span>
+<span>  <span class="va">pdt</span>,</span>
+<span>  <span class="va">popup.format</span>,</span>
+<span>  <span class="va">hdt</span>,</span>
+<span>  <span class="va">idt</span>,</span>
+<span>  <span class="va">gp</span>,</span>
+<span>  <span class="va">bbx</span>,</span>
+<span>  <span class="va">facet_row</span>,</span>
+<span>  <span class="va">facet_col</span>,</span>
+<span>  <span class="va">facet_page</span>,</span>
+<span>  <span class="va">id</span>,</span>
+<span>  <span class="va">pane</span>,</span>
+<span>  <span class="va">group</span>,</span>
+<span>  <span class="va">o</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_data_bubbles'</span></span>
 <span><span class="fu">tmapMapboxDataPlot</span><span class="op">(</span></span>
 <span>  <span class="va">a</span>,</span>
 <span>  <span class="va">shpTM</span>,</span>
@@ -800,6 +842,90 @@
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># S3 method for class 'tm_data_raster'</span></span>
+<span><span class="fu">tmapMaplibreDataPlot</span><span class="op">(</span></span>
+<span>  <span class="va">a</span>,</span>
+<span>  <span class="va">shpTM</span>,</span>
+<span>  <span class="va">dt</span>,</span>
+<span>  <span class="va">pdt</span>,</span>
+<span>  <span class="va">popup.format</span>,</span>
+<span>  <span class="va">hdt</span>,</span>
+<span>  <span class="va">idt</span>,</span>
+<span>  <span class="va">gp</span>,</span>
+<span>  <span class="va">bbx</span>,</span>
+<span>  <span class="va">facet_row</span>,</span>
+<span>  <span class="va">facet_col</span>,</span>
+<span>  <span class="va">facet_page</span>,</span>
+<span>  <span class="va">id</span>,</span>
+<span>  <span class="va">pane</span>,</span>
+<span>  <span class="va">group</span>,</span>
+<span>  <span class="va">o</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_data_fill'</span></span>
+<span><span class="fu">tmapMaplibreDataPlot</span><span class="op">(</span></span>
+<span>  <span class="va">a</span>,</span>
+<span>  <span class="va">shpTM</span>,</span>
+<span>  <span class="va">dt</span>,</span>
+<span>  <span class="va">pdt</span>,</span>
+<span>  <span class="va">popup.format</span>,</span>
+<span>  <span class="va">hdt</span>,</span>
+<span>  <span class="va">idt</span>,</span>
+<span>  <span class="va">gp</span>,</span>
+<span>  <span class="va">bbx</span>,</span>
+<span>  <span class="va">facet_row</span>,</span>
+<span>  <span class="va">facet_col</span>,</span>
+<span>  <span class="va">facet_page</span>,</span>
+<span>  <span class="va">id</span>,</span>
+<span>  <span class="va">pane</span>,</span>
+<span>  <span class="va">group</span>,</span>
+<span>  <span class="va">o</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_data_borders'</span></span>
+<span><span class="fu">tmapMaplibreDataPlot</span><span class="op">(</span></span>
+<span>  <span class="va">a</span>,</span>
+<span>  <span class="va">shpTM</span>,</span>
+<span>  <span class="va">dt</span>,</span>
+<span>  <span class="va">pdt</span>,</span>
+<span>  <span class="va">popup.format</span>,</span>
+<span>  <span class="va">hdt</span>,</span>
+<span>  <span class="va">idt</span>,</span>
+<span>  <span class="va">gp</span>,</span>
+<span>  <span class="va">bbx</span>,</span>
+<span>  <span class="va">facet_row</span>,</span>
+<span>  <span class="va">facet_col</span>,</span>
+<span>  <span class="va">facet_page</span>,</span>
+<span>  <span class="va">id</span>,</span>
+<span>  <span class="va">pane</span>,</span>
+<span>  <span class="va">group</span>,</span>
+<span>  <span class="va">o</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_data_dots'</span></span>
+<span><span class="fu">tmapMaplibreDataPlot</span><span class="op">(</span></span>
+<span>  <span class="va">a</span>,</span>
+<span>  <span class="va">shpTM</span>,</span>
+<span>  <span class="va">dt</span>,</span>
+<span>  <span class="va">pdt</span>,</span>
+<span>  <span class="va">popup.format</span>,</span>
+<span>  <span class="va">hdt</span>,</span>
+<span>  <span class="va">idt</span>,</span>
+<span>  <span class="va">gp</span>,</span>
+<span>  <span class="va">bbx</span>,</span>
+<span>  <span class="va">facet_row</span>,</span>
+<span>  <span class="va">facet_col</span>,</span>
+<span>  <span class="va">facet_page</span>,</span>
+<span>  <span class="va">id</span>,</span>
+<span>  <span class="va">pane</span>,</span>
+<span>  <span class="va">group</span>,</span>
+<span>  <span class="va">o</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_data_bubbles'</span></span>
 <span><span class="fu">tmapMaplibreDataPlot</span><span class="op">(</span></span>
 <span>  <span class="va">a</span>,</span>
 <span>  <span class="va">shpTM</span>,</span>
