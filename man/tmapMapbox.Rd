@@ -81,6 +81,7 @@
 \alias{tmapMaplibreCompWidth}
 \alias{tmapMaplibreCompPlot}
 \alias{tmapMaplibreCompPrepare.default}
+\alias{tmapMaplibreCompPrepare.tm_chart_none}
 \alias{tmapMapboxCompPrepare.tm_geocoder}
 \alias{tmapMapboxCompHeight.tm_geocoder}
 \alias{tmapMapboxCompWidth.tm_geocoder}
@@ -397,6 +398,8 @@ tmapMaplibreCompWidth(comp, o)
 tmapMaplibreCompPlot(comp, m, o)
 
 \method{tmapMaplibreCompPrepare}{default}(comp, o)
+
+\method{tmapMaplibreCompPrepare}{tm_chart_none}(comp, o)
 
 \method{tmapMapboxCompPrepare}{tm_geocoder}(comp, o)
 

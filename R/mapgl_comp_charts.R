@@ -95,14 +95,11 @@ tmapMaplibreCompPrepare.default = function(comp, o) {
 }
 
 
-#' @method tmapMaplibreCompPlot tm_chart_histogram
 #' @export
-tmapMaplibreCompPlot.tm_chart_histogram = function(comp, m, o) {
-	m
-}
-#' @method tmapMaplibreCompPlot tm_chart
-#' @export
-tmapMaplibreCompPlot.tm_chart = function(comp, m, o) {
-	m
+#' @keywords internal
+#' @rdname tmapMapbox
+tmapMaplibreCompPrepare.tm_chart_none = function(comp, o) {
+	comp$show = FALSE
+	comp
 }
 

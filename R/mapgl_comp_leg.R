@@ -157,7 +157,7 @@ mapgl_legend_comp = function(comp, o, mode) {
 			gp$col = gp$col[1]
 		}
 
-		type = if (!any(c("col", "fill") %in% varying)) {
+		type = if (!any(c("col", "fill", "lwd", "size") %in% varying)) {
 			cli::cli_inform("No legends available in mode {.val {mode}} for map variables {.val {varying}}")
 			"none"
 		} else if ((!is.na(gp$fill[1]) && any(nchar(gp$fill) > 50)) || (!is.na(gp$fill_alpha[1]) && any(nchar(gp$fill_alpha) > 50)) ||
@@ -166,6 +166,8 @@ mapgl_legend_comp = function(comp, o, mode) {
 			"gradient"
 		} else if (any(c("bgcol", "bgcol_alpha") %in% varying)) {
 			"none"
+		} else if ("lwd" %in% varying) {
+			"lines"
 		} else {
 			"symbols"
 		}
