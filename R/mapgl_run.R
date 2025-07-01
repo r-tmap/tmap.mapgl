@@ -1,5 +1,6 @@
 #' @param show show
 #' @param knit knit
+#' @param knit_opts knit options
 #' @param args args
 #' @export
 #' @keywords internal
@@ -17,14 +18,14 @@
 #' @import cli
 #' @importFrom units drop_units set_units
 #' @rdname tmapMapbox
-tmapMapboxRun = function(o, q, show, knit, args) {
+tmapMapboxRun = function(o, q, show, knit, knit_opts, args) {
 	mapgl_run(o, q, show, knit, args, mode = "mapbox")
 }
 
 
 #' @export
 #' @rdname tmapMapbox
-tmapMaplibreRun = function(o, q, show, knit, args) {
+tmapMaplibreRun = function(o, q, show, knit, knit_opts, args) {
 	mapgl_run(o, q, show, knit, args, mode = "maplibre")
 
 }

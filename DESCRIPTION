@@ -27,10 +27,9 @@ Imports:
     sf,
     tmaptools,
     units
-Remotes: https://github.com/walkerke/mapgl
 Suggests:
     knitr
-Config/Needs/website: bookdown, rmarkdown, r-tmap/tmap, dplyr, osmdata
+Config/Needs/website: bookdown, rmarkdown, r-tmap/tmap, walkerke/mapgl, dplyr, osmdata
 URL: https://github.com/r-tmap/tmap.mapgl, https://r-tmap.github.io/tmap.mapgl/
 BugReports: https://github.com/r-tmap/tmap.mapgl/issues
 RoxygenNote: 7.3.2
