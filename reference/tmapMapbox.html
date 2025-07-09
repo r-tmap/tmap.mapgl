@@ -333,6 +333,9 @@
 <span><span class="co"># Default S3 method</span></span>
 <span><span class="fu">tmapMapboxCompPrepare</span><span class="op">(</span><span class="va">comp</span>, <span class="va">o</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># S3 method for class 'tm_chart_none'</span></span>
+<span><span class="fu">tmapMapboxCompPrepare</span><span class="op">(</span><span class="va">comp</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">tmapMaplibreCompPrepare</span><span class="op">(</span><span class="va">comp</span>, <span class="va">o</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">tmapMaplibreCompHeight</span><span class="op">(</span><span class="va">comp</span>, <span class="va">o</span><span class="op">)</span></span>
@@ -423,9 +426,9 @@
 <span></span>
 <span><span class="fu">tmapMaplibreProviders</span><span class="op">(</span><span class="va">credits</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">tmapMapboxRun</span><span class="op">(</span><span class="va">o</span>, <span class="va">q</span>, <span class="va">show</span>, <span class="va">knit</span>, <span class="va">args</span><span class="op">)</span></span>
+<span><span class="fu">tmapMapboxRun</span><span class="op">(</span><span class="va">o</span>, <span class="va">q</span>, <span class="va">show</span>, <span class="va">knit</span>, <span class="va">knit_opts</span>, <span class="va">args</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">tmapMaplibreRun</span><span class="op">(</span><span class="va">o</span>, <span class="va">q</span>, <span class="va">show</span>, <span class="va">knit</span>, <span class="va">args</span><span class="op">)</span></span>
+<span><span class="fu">tmapMaplibreRun</span><span class="op">(</span><span class="va">o</span>, <span class="va">q</span>, <span class="va">show</span>, <span class="va">knit</span>, <span class="va">knit_opts</span>, <span class="va">args</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">tmapMapboxShape</span><span class="op">(</span><span class="va">bbx</span>, <span class="va">facet_row</span>, <span class="va">facet_col</span>, <span class="va">facet_page</span>, <span class="va">o</span><span class="op">)</span></span>
 <span></span>
@@ -1064,6 +1067,10 @@
 
 <dt id="arg-credits">credits<a class="anchor" aria-label="anchor" href="#arg-credits"></a></dt>
 <dd><p>credits</p></dd>
+
+
+<dt id="arg-knit-opts">knit_opts<a class="anchor" aria-label="anchor" href="#arg-knit-opts"></a></dt>
+<dd><p>knit options</p></dd>
 
 
 <dt id="arg-label">label<a class="anchor" aria-label="anchor" href="#arg-label"></a></dt>
