@@ -46,6 +46,13 @@ tmapMapboxCompPrepare.default = function(comp, o) {
 	comp
 }
 
+#' @export
+#' @keywords internal
+#' @rdname tmapMapbox
+tmapMapboxCompPrepare.tm_chart_none = function(comp, o) {
+	comp$show = FALSE
+	comp
+}
 
 
 

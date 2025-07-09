@@ -76,6 +76,7 @@
 \alias{tmapMapboxCompWidth}
 \alias{tmapMapboxCompPlot}
 \alias{tmapMapboxCompPrepare.default}
+\alias{tmapMapboxCompPrepare.tm_chart_none}
 \alias{tmapMaplibreCompPrepare}
 \alias{tmapMaplibreCompHeight}
 \alias{tmapMaplibreCompWidth}
@@ -389,6 +390,8 @@ tmapMapboxCompPlot(comp, m, o)
 
 \method{tmapMapboxCompPrepare}{default}(comp, o)
 
+\method{tmapMapboxCompPrepare}{tm_chart_none}(comp, o)
+
 tmapMaplibreCompPrepare(comp, o)
 
 tmapMaplibreCompHeight(comp, o)
@@ -465,9 +468,9 @@ tmapMapboxProviders(credits)
 
 tmapMaplibreProviders(credits)
 
-tmapMapboxRun(o, q, show, knit, args)
+tmapMapboxRun(o, q, show, knit, knit_opts, args)
 
-tmapMaplibreRun(o, q, show, knit, args)
+tmapMaplibreRun(o, q, show, knit, knit_opts, args)
 
 tmapMapboxShape(bbx, facet_row, facet_col, facet_page, o)
 
@@ -1023,6 +1026,8 @@ tmapMaplibreDataPlot(
 \item{bbox}{bbox}
 
 \item{credits}{credits}
+
+\item{knit_opts}{knit options}
 
 \item{label}{label}
 
