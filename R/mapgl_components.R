@@ -70,6 +70,6 @@ tm_geocoder = function (stack, position, group_id, z) {
 	args$called = names(args)
 	args$group_id = args$group_id %||% NA_character_
 	args$z = args$z %||% NA_integer_
-	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_geocoder",
+	tmap::tm_element_list(do.call(tmap::tm_element, c(args, list(subclass = c("tm_geocoder",
 																  "tm_component")))))
 }

@@ -16,7 +16,7 @@
 tm_snow = function(density = 0.85, intensity = 1.0, color = "#ffffff",
 				   opacity = 1.0, center_thinning = 0.4, direction = c(0, 50),
 				   flake_size = 0.71, vignette = 0.3, vignette_color = "#ffffff") {
-	tm_element_list(tm_element(
+	tmap::tm_element_list(tmap::tm_element(
 		args = list(density = density, intensity = intensity, color = color,
 					opacity = opacity, center_thinning = center_thinning, direction = direction,
 					flake_size = flake_size, vignette = vignette, vignette_color = vignette_color),
@@ -66,7 +66,7 @@ tm_rain = function(density = 0.5, intensity = 1.0, color = "#a8adbc",
 				   opacity = 0.7, center_thinning = 0.57, direction = c(0, 80),
 				   droplet_size = c(2.6, 18.2), distortion_strength = 0.7,
 				   vignette = 1.0, vignette_color = "#464646") {
-	tm_element_list(tm_element(
+	tmap::tm_element_list(tmap::tm_element(
 		args = list(density = density, intensity = intensity, color = color,
 					opacity = opacity, center_thinning = center_thinning, direction = direction,
 					droplet_size = droplet_size, distortion_strength = distortion_strength,
