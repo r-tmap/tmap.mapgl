@@ -37,6 +37,11 @@ mapgl_run = function(o, q, show, knit, args, mode) {
 		.TMAP_MAPLIBRE
 	}
 
+	if (show && o$show_gif_ani) {
+		cli::cli_alert("{.field {mode} mode} Animations are not implemented in {mode} mode, so they are shown as facets")
+	}
+
+
 	ms = get("ms", envir = e)
 
 	ms2 = lapply(ms, function(msi) {
