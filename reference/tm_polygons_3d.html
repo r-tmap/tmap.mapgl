@@ -97,7 +97,11 @@
 <span>  options <span class="op">=</span> <span class="fu">opt_tm_polygons_3d</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">opt_tm_polygons_3d</span><span class="op">(</span>polygons.only <span class="op">=</span> <span class="st">"ifany"</span>, height.max <span class="op">=</span> <span class="cn">NA</span>, height.min <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">opt_tm_polygons_3d</span><span class="op">(</span></span>
+<span>  polygons.only <span class="op">=</span> <span class="st">"ifany"</span>,</span>
+<span>  height.max <span class="op">=</span> <span class="st">"10%"</span>,</span>
+<span>  height.min <span class="op">=</span> <span class="fl">0</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -195,12 +199,8 @@ features. Only used for `"view"` mode.</p></dd>
 <dd><p>should only polygon geometries of the shape object (defined in [tm_shape()]) be plotted? By default `"ifany"`, which means `TRUE` in case a geometry collection is specified.</p></dd>
 
 
-<dt id="arg-height-max">height.max<a class="anchor" aria-label="anchor" href="#arg-height-max"></a></dt>
-<dd><p>Maximum height. If `NA` (default), it is set to 10 percent of the square root of the bounding box area.</p></dd>
-
-
-<dt id="arg-height-min">height.min<a class="anchor" aria-label="anchor" href="#arg-height-min"></a></dt>
-<dd><p>Minimum height. By default 0.</p></dd>
+<dt id="arg-height-max-height-min">height.max, height.min<a class="anchor" aria-label="anchor" href="#arg-height-max-height-min"></a></dt>
+<dd><p>Maximum and minimum height. The data variable values assigned to `height` are are scaled between these two values. Each can be an absolute number (in meters) or relative to the bounding box area, more specifically, the percentage of the square root of the bounding box area. The default values are `"10%"` for `height.max` and `0` for `height.min`.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -243,7 +243,8 @@ so the `*.free` argument requires only one logical value.</p>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-tmap/tmap" class="external-link">tmap</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-tmap/tmap.mapgl" class="external-link">tmap.mapgl</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tmap_mode.html" class="external-link">tmap_mode</a></span><span class="op">(</span><span class="st">"maplibre"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> tmap mode set to <span style="color: #0000BB;">"maplibre"</span>.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> tmap modes <span style="color: #0000BB;">"plot"</span> -&gt; <span style="color: #0000BB;">"view"</span> -&gt; <span style="color: #0000BB;">"mapbox"</span> -&gt; <span style="color: #0000BB; font-weight: bold;">"maplibre"</span>; rotate with</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>   `tmap::rtm()`; switch to "maplibre" with `tmap::ttm()`</span>
 <span class="r-in"><span><span class="va">NLD_dist</span><span class="op">$</span><span class="va">pop_dens</span> <span class="op">=</span> <span class="va">NLD_dist</span><span class="op">$</span><span class="va">population</span> <span class="op">/</span> <span class="va">NLD_dist</span><span class="op">$</span><span class="va">area</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">NLD_dist</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu">tm_polygons_3d</span><span class="op">(</span>height <span class="op">=</span> <span class="st">"pop_dens"</span>,</span></span>
