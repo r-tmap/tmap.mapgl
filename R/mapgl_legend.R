@@ -254,19 +254,19 @@ mapgl_comp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page, c
 
 	legpos = mapgl_pos(comp[[1]]$position) # should be identical over components
 
-
 	os = 0
+	cred = 35
 	for (cmp in comp) {
 		if (is.null(cmp$height) || is.na(cmp$height)) cmp$height = 100
 		if (is.null(cmp$width) || is.na(cmp$width)) cmp$width = 500
 
 		if (stack == "vertical") {
 			if (legpos %in% c("bottom-right", "bottom-left")) {
-				cmp$margin_bottom = os
+				cmp$margin_bottom = os + ifelse(legpos == "bottom-right", cred, 0)
 				cmp$margin_top = 0
 			} else {
 				cmp$margin_top = os
-				cmp$margin_bottom = 0
+				cmp$margin_bottom =  ifelse(legpos == "bottom-right", cred, 0)
 			}
 			cmp$margin_left = 0
 			cmp$margin_right = 0
@@ -280,7 +280,7 @@ mapgl_comp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page, c
 				cmp$margin_left = 0
 			}
 			cmp$margin_top = 0
-			cmp$margin_bottom = 0
+			cmp$margin_bottom = ifelse(legpos == "bottom-right", cred, 0)
 			os = os + cmp$width
 		}
 

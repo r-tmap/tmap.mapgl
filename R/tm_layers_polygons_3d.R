@@ -201,11 +201,10 @@ tm_polygons_3d = function(height = tmap::tm_const(),
 }
 
 #' @param polygons.only should only polygon geometries of the shape object (defined in [tm_shape()]) be plotted? By default `"ifany"`, which means `TRUE` in case a geometry collection is specified.
-#' @param height.max Maximum height. If `NA` (default), it is set to 10 percent of the square root of the bounding box area.
-#' @param height.min Minimum height. By default 0.
+#' @param height.max,height.min Maximum and minimum height. The data variable values assigned to `height` are are scaled between these two values. Each can be an absolute number (in meters) or relative to the bounding box area, more specifically, the percentage of the square root of the bounding box area. The default values are `"10\%"` for `height.max` and `0` for `height.min`.
 #' @export
 #' @rdname tm_polygons_3d
-opt_tm_polygons_3d = function(polygons.only = "ifany", height.max = NA, height.min = 0) {
+opt_tm_polygons_3d = function(polygons.only = "ifany", height.max = "10%", height.min = 0) {
 	list(trans.args = list(polygons.only = polygons.only),
 		 mapping.args = list(height.max = height.max, height.min = height.min))
 }

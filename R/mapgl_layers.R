@@ -84,9 +84,28 @@ mapgl_polygons_3d = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx,
 	layername1 = paste0(srcname, "polygons_fill")
 	layername2 = paste0(srcname, "polygons_border")
 
-	if (is.na(a$height.max)) {
+	if (is.character(a$height.max)) {
+		is_perc_max = grepl("%$", a$height.max)
+		height.max = as.numeric(sub("%$", "", a$height.max))
+		if (is_perc_max) height.max = height.max / 100
+	} else {
+		is_perc_max = FALSE
+		height.max = as.numeric(a$height.max)
+	}
+
+	if (is.character(a$height.min)) {
+		is_perc_min = grepl("%$", a$height.min)
+		height.min = as.numeric(sub("%$", "", a$height.min))
+		if (is_perc_min) height.min = height.min / 100
+	} else {
+		is_perc_min = FALSE
+		height.min = as.numeric(a$height.min)
+	}
+
+
+	if (is_perc_max || is_perc_min) {
 		if (consider_global(shp)) {
-			height.max = sqrt(5.1e+14) * 0.1
+			sqrt_area_m = sqrt(5.1e+14)
 		} else {
 			sqrt_area_m = bbx |>
 				tmaptools::bb_poly() |>
@@ -94,14 +113,13 @@ mapgl_polygons_3d = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx,
 				sqrt() |>
 				units::set_units("m") |>
 				units::drop_units()
-			height.max = sqrt_area_m * 0.1
 		}
 
-	} else {
-		height.max = a$height.max
+		if (is_perc_max) height.max = sqrt_area_m * height.max
+		if (is_perc_min) height.min = sqrt_area_m * height.min
 	}
 
-	shp2$height = a$height.min + shp2$height * (height.max - a$height.min)
+	shp2$height = height.min + shp2$height * (height.max - height.min)
 
 	nofill = all(gp$fill == o$value.blank$fill)
 

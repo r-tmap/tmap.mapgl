@@ -3,31 +3,36 @@
 	requireNamespace("mapgl", quietly = TRUE)
 	requireNamespace("data.table", quietly = TRUE)
 
-	opts = list(value.const = 0,
-				value.na = 0,
-				value.blank = 0,
-				values.var = c(0, 1),
-				values.range = c(0, 1),
-				scales.var =  list(fact = "categorical", num = "continuous", datetime = "continuous", date = "continuous"))
-	mapply(tmap::tmapAddLayerOptions, names(opts), rep("height", length(opts)), opts, SIMPLIFY = FALSE)
-
-
-	tmap::tmapMode("mapbox", "Mapbox",
-				   pitch = 0,
-				   basemap.show = TRUE,
-				   scalebar.position = tmap::tm_pos_in("left", "bottom"),
-				   minimap.position = tmap::tm_pos_in("left", "top"),
-				   geocoder.position = tmap::tm_pos_in(pos.h = "left", pos.v = "top"),
-				   basemap.server = "standard",
-				   crs_basemap = 4326)
-	tmap::tmapMode("maplibre", "Maplibre",
-				   pitch = 0,
-				   basemap.show = TRUE,
-				   scalebar.position = tmap::tm_pos_in("left", "bottom"),
-				   minimap.position = tmap::tm_pos_in("left", "top"),
-				   geocoder.position = tmap::tm_pos_in(pos.h = "left", pos.v = "top"),
-				   basemap.server = "voyager",
-				   crs_basemap = 4326)
+	tmap::tmapSubmitOptions(
+		options = list(
+			value.const = list(height = 0),
+			value.na = list(height = 0),
+			value.blank = list(height = 0),
+			values.var = list(height = c(0, 1)),
+			values.range = list(height = c(0, 1)),
+			scales.var =  list(height = list(fact = "categorical", num = "continuous", datetime = "continuous", date = "continuous")),
+			modes =
+			list(mapbox =
+				list(name = "Mapbox",
+					 pitch = 0,
+					   basemap.show = TRUE,
+					   scalebar.position = tmap::tm_pos_in("left", "bottom"),
+					   minimap.position = tmap::tm_pos_in("left", "top"),
+					   geocoder.position = tmap::tm_pos_in(pos.h = "left", pos.v = "top"),
+					   basemap.server = "mapbox.standard",
+					   crs_basemap = 4326),
+				maplibre =
+				list(name = "Maplibre",
+					 pitch = 0,
+					 basemap.show = TRUE,
+					 scalebar.position = tmap::tm_pos_in("left", "bottom"),
+					 minimap.position = tmap::tm_pos_in("left", "top"),
+					 geocoder.position = tmap::tm_pos_in(pos.h = "left", pos.v = "top"),
+					 basemap.server = "ofm.liberty",
+					 crs_basemap = 4326))),
+		styleOptions = list(cobalt = list(modes =
+										  	list(mapbox = list(basemap.server = "ofm.dark"),
+										  		 maplibre = list(basemap.server = "ofm.dark")))))
 }
 
 .TMAP_MAPBOX = new.env(FALSE, parent = globalenv())
