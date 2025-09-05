@@ -24,9 +24,8 @@ tmapMaplibreShape = function(bbx, facet_row, facet_col, facet_page, o) {
 }
 
 get_style = function(name) {
-	sub("^[A-Za-z]+[._]([A-Za-z]+(?:[._][A-Za-z]+)*)$", "\\1", name) |>
-		chartr("._", "--", x = _)
-#	sub("^[A-Za-z]+[._]([A-Za-z]+)[._]([A-Za-z]+)$", "\\1-\\2", name)
+	x = sub("^[A-Za-z]+[._]([A-Za-z]+(?:[._][A-Za-z]+)*)$", "\\1", name)
+	chartr("._", "--", x = x)
 }
 
 mapgl_shape = function(bbx, facet_row, facet_col, facet_page, o, mode) {
@@ -71,10 +70,12 @@ mapgl_shape = function(bbx, facet_row, facet_col, facet_page, o, mode) {
 			# ignore center for global view (otherwise it will be (0, -3) due to Antarctica)
 			m = mapgl::maplibre(center = c(0,0), zoom = zoom, pitch = o$pitch, style = style) |>
 				mapgl::add_navigation_control(visualize_pitch = TRUE) |>
+				mapgl::set_projection("globe") |>
 				mapgl::add_globe_control()
 		} else {
 			m = mapgl::maplibre(center = ll, zoom = zoom, pitch = o$pitch, style = style) |>
 				mapgl::add_navigation_control(visualize_pitch = TRUE) |>
+				mapgl::set_projection("globe") |>
 				mapgl::add_globe_control()
 		}
 	}
