@@ -1,8 +1,8 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://r-tmap.github.io/tmap.mapgl/404.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap.mapgl/LICENSE-text.html</loc></url>
-<url><loc>https://r-tmap.github.io/tmap.mapgl/articles/components.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap.mapgl/articles/components_std.html</loc></url>
+<url><loc>https://r-tmap.github.io/tmap.mapgl/articles/geocoder.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap.mapgl/articles/index.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap.mapgl/articles/layers_std.html</loc></url>
 <url><loc>https://r-tmap.github.io/tmap.mapgl/articles/mapbox.html</loc></url>

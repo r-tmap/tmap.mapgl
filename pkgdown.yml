@@ -3,14 +3,14 @@ pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   components_std: components_std.html
-  components: components.html
+  geocoder: geocoder.html
   layers_std: layers_std.html
   mapbox: mapbox.html
   mapgl: mapgl.html
   maplibre: maplibre.html
   polygons3d: polygons3d.html
   weather: weather.html
-last_built: 2025-09-08T10:52Z
+last_built: 2025-09-08T12:50Z
 urls:
   reference: https://r-tmap.github.io/tmap.mapgl/reference
   article: https://r-tmap.github.io/tmap.mapgl/articles
