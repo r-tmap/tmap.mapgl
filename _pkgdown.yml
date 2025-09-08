@@ -33,7 +33,7 @@ reference:
 
 navbar:
   structure:
-    left:  [reference, intro, layers, components, options]
+    left:  [reference, intro, layers, comps, options]
   components:
     home: ~
     intro:
@@ -47,7 +47,7 @@ navbar:
         - text: 3d polygons
           href: articles/polygons3d
         - text: Weather (mapbox only)
-    components:
+    comps:
       text: Components
       menu:
         - text: Standard components
