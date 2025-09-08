@@ -1,5 +1,5 @@
 ---
-title: "maplibre"
+title: Providers "maplibre"
 output: 
   bookdown::html_vignette2:
 editor_options: 

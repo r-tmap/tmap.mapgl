@@ -30,6 +30,10 @@ reference:
   contents:
   - tm_rain
   - tm_snow
+- title: Export
+  contents:
+  - tmap_mapbox
+  - tmap_maplibre
 
 navbar:
   structure:
@@ -58,8 +62,8 @@ navbar:
     options:
       text: Basemaps
       menu:
-        - text: mapbox
+        - text: Providers mapbox
           href: articles/mapbox
-        - text: maplibre
+        - text: Providers maplibre
           href: articles/maplibre
 
