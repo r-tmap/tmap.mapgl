@@ -41,7 +41,7 @@ navbar:
   components:
     home: ~
     intro:
-      text: Enable
+      text: Introduction
       href: articles/mapgl
     layers:
       text: Layers
@@ -59,11 +59,14 @@ navbar:
           href: articles/components_std
         - text: Geocoder
           href: articles/geocoder
-    options:
+    basemaps:
       text: Basemaps
       menu:
         - text: Providers mapbox
           href: articles/mapbox
         - text: Providers maplibre
           href: articles/maplibre
+    projections:
+      text: Projections
+      href: articles/projections
 

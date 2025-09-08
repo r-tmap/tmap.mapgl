@@ -33,6 +33,8 @@
 		styleOptions = list(cobalt = list(modes =
 										  	list(mapbox = list(basemap.server = "ofm.dark"),
 										  		 maplibre = list(basemap.server = "ofm.dark")))))
+	.TMAP_MAPBOX$crs_options = c("eqearth" = "equalEarth", "wintri" = "winkelTripel", "aea" = "albers", "3857" = "mercator", "lcc" =  "lambertConformalConic")
+	.TMAP_MAPLIBRE$crs_options = c("3857" = "mercator")
 }
 
 .TMAP_MAPBOX = new.env(FALSE, parent = globalenv())

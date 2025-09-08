@@ -35,6 +35,12 @@ mapgl_shape = function(bbx, facet_row, facet_col, facet_page, o, mode) {
 	ll = unname(c(mean(bbx[c(1,3)]), mean(bbx[c(2,4)])))
 	zoom = findZoom(bbx)
 
+	crs = if (mode == "mapbox") {
+		.TMAP_MAPBOX$crs_new
+	} else {
+		.TMAP_MAPLIBRE$crs_new
+	}
+
 	style = if (mode == "mapbox") {
 		if (substr(.TMAP_MAPBOX$style, 1, 4) == "ofm.") {
 			paste0("https://tiles.openfreemap.org/styles/", substr(.TMAP_MAPBOX$style, 5, nchar(.TMAP_MAPBOX$style)))
@@ -59,10 +65,12 @@ mapgl_shape = function(bbx, facet_row, facet_col, facet_page, o, mode) {
 		if (zoom < 3) {
 			# ignore center for global view (otherwise it will be (0, -3) due to Antarctica)
 			m = mapgl::mapboxgl(center = c(0,0), zoom = zoom, pitch = o$pitch, style = style) |>
-				mapgl::add_navigation_control(visualize_pitch = TRUE)
+				mapgl::add_navigation_control(visualize_pitch = TRUE) |>
+				mapgl::set_projection(crs)
 		} else {
 			m = mapgl::mapboxgl(center = ll, zoom = zoom, pitch = o$pitch, style = style) |>
-				mapgl::add_navigation_control(visualize_pitch = TRUE)
+				mapgl::add_navigation_control(visualize_pitch = TRUE) |>
+				mapgl::set_projection(crs)
 		}
 	} else {
 		# quick & dirty
@@ -70,12 +78,12 @@ mapgl_shape = function(bbx, facet_row, facet_col, facet_page, o, mode) {
 			# ignore center for global view (otherwise it will be (0, -3) due to Antarctica)
 			m = mapgl::maplibre(center = c(0,0), zoom = zoom, pitch = o$pitch, style = style) |>
 				mapgl::add_navigation_control(visualize_pitch = TRUE) |>
-				mapgl::set_projection("globe") |>
+				mapgl::set_projection(crs) |>
 				mapgl::add_globe_control()
 		} else {
 			m = mapgl::maplibre(center = ll, zoom = zoom, pitch = o$pitch, style = style) |>
 				mapgl::add_navigation_control(visualize_pitch = TRUE) |>
-				mapgl::set_projection("globe") |>
+				mapgl::set_projection(crs) |>
 				mapgl::add_globe_control()
 		}
 	}

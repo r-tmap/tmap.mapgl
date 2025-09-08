@@ -1,0 +1,89 @@
+---
+title: "Introduction"
+output: 
+  bookdown::html_vignette2:
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  fig.width = 8,
+  comment = "#>"
+)
+hook_output <- knitr::knit_hooks$get("output")
+knitr::knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+
+```
+
+```{r, echo = FALSE, message = FALSE}
+library(tmap)
+library(tmap.mapgl)
+```
+
+Both `"mapbox"` and `"maplibre"` offer Web Mercator and 'Globe' projections:
+
+## Globe projection (default)
+
+```{r, fig.height = 5}
+tmap_mode("maplibre")
+
+tm_shape(metro) + tm_bubbles(size = "pop2030", fill = "red")
+```
+
+
+## Mercator projection
+
+```{r, fig.height = 5}
+tmap_mode("maplibre")
+
+tm_shape(metro) + tm_bubbles(size = "pop2030", fill = "red") + tm_crs(3857)
+```
+
+In addition, `"mapbox"` offers a couple of other projections:
+
+## Other projections
+
+### Pseudo-cylindrical
+
+```{r, fig.height = 5, eval = FALSE}
+tmap_mode("mapbox")
+
+tm_shape(metro) + tm_bubbles(size = "pop2030", fill = "red") + tm_crs("+proj=eqearth")
+```
+
+
+```{r, fig.height = 5, eval = FALSE}
+tm_shape(metro) + tm_bubbles(size = "pop2030", fill = "red") + tm_crs("+proj=wintri")
+```
+
+
+## Conic
+
+
+```{r, fig.height = 5, eval = FALSE}
+tm_shape(metro) + tm_bubbles(size = "pop2030", fill = "red") + tm_crs("+proj=eqearth")
+```
+
+```{r, fig.height = 5, eval = FALSE}
+tm_shape(metro) + tm_bubbles(size = "pop2030", fill = "red") + tm_crs("+proj=eqearth")
+```
