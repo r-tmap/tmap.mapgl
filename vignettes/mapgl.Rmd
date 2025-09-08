@@ -56,13 +56,13 @@ tmap_mode()
 
 Switch to mapbox
 
-```{r, fig.height = 3.5, eval=FALSE}
+```{r}
 tmap_mode("mapbox")
 ```
 
 Alternatively, `rtm()` can be used to rotate between modes:
 
-```{r, fig.height = 3.5, eval=FALSE}
+```{r}
 rtm()
 ```
 

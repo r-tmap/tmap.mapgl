@@ -41,23 +41,6 @@ library(tmap.mapgl)
 ```
 
 
-## Enable `"maplibre"` mode
-
-
-```{r}
-tmap_mode("maplibre")
-```
-
-## Example
-
-```{r, eval=FALSE}
-tm_shape(World) + 
-  tm_polygons("well_being",
-    fill.scale = tm_scale_continuous(values = "pu_gn"))
-```
-
-
-
 ## Basemaps
 
 Mapbox offers several basemap providers, namely:
@@ -70,5 +53,14 @@ tmap_providers()
 ```{r, fig.height = 3.5}
 tm_shape(metro) + 
   tm_dots(size = "pop2020", fill = "red")+
-tm_basemap("positron")
+tm_basemap("ofm.liberty")
+```
+
+Note that this default basemap from Open Free Maps also renders the buildings in 3d!
+
+```{r, fig.height = 3.5}
+tm_shape(NLD_dist[NLD_dist$code == "WK093500", ]) + 
+  tm_borders() +
+tm_basemap("ofm.liberty") +
+	tm_maplibre(pitch = 60)
 ```

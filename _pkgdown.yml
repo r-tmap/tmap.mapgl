@@ -33,7 +33,7 @@ reference:
 
 navbar:
   structure:
-    left:  [reference, intro, layers, comps, options]
+    left:  [reference, intro, layers, comps, basemaps]
   components:
     home: ~
     intro:
@@ -56,7 +56,7 @@ navbar:
         - text: Geocoder
           href: articles/geocoder
     options:
-      text: Options
+      text: Basemaps
       menu:
         - text: mapbox
           href: articles/mapbox
