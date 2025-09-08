@@ -40,22 +40,34 @@ pak::pak("r-tmap/tmap.mapgl")
 install.packages("tmap.mapgl", repos = c("https://r-tmap.r-universe.dev", "https://cloud.r-project.org"))
 ```
 
+For `"mapbox"` an API key is required, which is free for personal use.
+
+#### mapbox API key
+
+1.  Go to [Mapbox Access
+    Tokens](https://docs.mapbox.com/help/getting-started/access-tokens/)
+    and follow the instructions
+2.  Set the API key as a system environment variable. This can be done
+    by
+    1.  running `usethis::edit_r_environ()` which creates/opens a text
+        file named `.Renviron` in your user’s home folder
+    2.  adding the line `MAPBOX_PUBLIC_TOKEN="abc123"`, where abc123
+        should be replaced by your API key obtained in step 1.
+
 ## Example
 
 ``` r
 library(tmap)
 library(tmap.mapgl)
 
-tmap_mode("mapbox")
+tmap_mode("maplibre")
 
 tm_shape(World) + 
-  tm_polygons("well_being",
-    fill.scale = tm_scale_continuous(values = "pu_gn"))
+  tm_polygons("well_being")
 ```
 
-<figure>
-<img
-src="https://r-tmap.github.io/tmap.mapgl/reference/figures/mapbox_well_being.jpg"
-alt="tmap mapbox mode" />
-<figcaption aria-hidden="true">tmap mapbox mode</figcaption>
-</figure>
+    #> ℹ tmap modes "plot" -> "view" -> "mapbox" -> "maplibre"
+    #> ℹ rotate with `tmap::rtm()`switch to "plot" with `tmap::ttm()`
+    #> file:////private/var/folders/1h/l6qmb8r1343ctyswcq3dxg4r0000gq/T/Rtmpjy4YnI/file2c3d439a39e8/widget2c3d424fd104.html screenshot completed
+
+![](man/figures/README-unnamed-chunk-4-1.png)

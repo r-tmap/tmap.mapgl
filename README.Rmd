@@ -7,7 +7,7 @@ editor_options:
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  fig.width = 8,
+  fig.path = "man/figures/README-", # where preview images are stored
   comment = "#>"
 )
 hook_output <- knitr::knit_hooks$get("output")
@@ -30,6 +30,8 @@ knitr::knit_hooks$set(output = function(x, options) {
    x <- paste(c(x, ""), collapse = "\n")
    hook_output(x, options)
  })
+
+is_html_output <- function() knitr::is_html_output(excludes = c("markdown"))
 ```
 
 # tmap.mapgl: two new tmap modes: mapbox and maplibre <img src="man/figures/logo.png" align="right" height="139" alt="" />
@@ -82,15 +84,38 @@ For `"mapbox"` an API key is required, which is free for personal use.
 
 ## Example
 
-```{r, eval=TRUE, fig.height = 3.5}
+```{r, eval=FALSE}
 library(tmap)
 library(tmap.mapgl)
 
 tmap_mode("maplibre")
 
 tm_shape(World) + 
-  tm_polygons("well_being",
-    fill.scale = tm_scale_continuous(values = "pu_gn"))
+  tm_polygons("well_being")
 ```
+
+
+```{r, eval=TRUE, fig.height = 3.5, fig.show='hide', echo = FALSE}
+library(tmap)
+library(tmap.mapgl)
+
+tmap_mode("maplibre")
+
+tm = tm_shape(World) + 
+  tm_polygons("well_being")
+
+if (is_html_output()) {
+	tm
+} else {
+	m  = print(tm, show = FALSE)
+	if (requireNamespace("mapview", quietly = TRUE)) {
+		if (!dir.exists("man/figures")) dir.create("man/figures", recursive = TRUE)
+		mapview::mapshot2(m, file = "man/figures/README-map.png", vwidth = 1600, vheight = 1200, )
+	}
+	knitr::include_graphics("man/figures/README-map.png")
+}
+```
+
+
 
 
