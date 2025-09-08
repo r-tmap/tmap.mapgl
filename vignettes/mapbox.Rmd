@@ -46,6 +46,7 @@ library(tmap.mapgl)
 Mapbox offers several basemap providers, namely:
 
 ```{r}
+tmap_mode("mapbox")
 tmap_providers()
 ```
 
