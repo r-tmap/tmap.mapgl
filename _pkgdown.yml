@@ -37,7 +37,7 @@ reference:
 
 navbar:
   structure:
-    left:  [reference, intro, layers, comps, basemaps]
+    left:  [reference, intro, layers, comps, basemaps, projections]
   components:
     home: ~
     intro:
