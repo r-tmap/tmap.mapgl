@@ -1,9 +1,9 @@
 
-# tmap.mapgl: two new tmap modes: mapbox and maplibre <img src="man/figures/logo.png" align="right" height="139" alt="" />
+# “mapbox” and “maplibre” modes in **tmap** <img src="man/figures/logo.png" align="right" height="139" alt="" />
 
 [tmap](https://r-tmap.github.io/tmap/) is a R package for visualizing
-spatial data. This package is an extension. It features two new modes:
-`"mapbox"` and `"maplibre"`.
+spatial data. This package, **tmap.mapgl** is an extension which
+features two new modes: `"mapbox"` and `"maplibre"`.
 
 ## Installation
 
@@ -56,12 +56,39 @@ For `"mapbox"` an API key is required, which is free for personal use.
 
 ## Example
 
+### mapbox
+
 ``` r
 library(tmap)
 library(tmap.mapgl)
 
+tmap_mode("mapbox")
+
+tm_shape(World) + 
+  tm_polygons("well_being",
+    fill.scale = tm_scale_continuous(values = "pu_gn"))
+```
+
+<figure>
+<img
+src="https://r-tmap.github.io/tmap.mapgl/reference/figures/mapbox_well_being.jpg"
+alt="tmap mapbox mode" />
+<figcaption aria-hidden="true">tmap mapbox mode</figcaption>
+</figure>
+
+### maplibre
+
+``` r
 tmap_mode("maplibre")
 
 tm_shape(World) + 
-  tm_polygons("well_being")
+  tm_polygons("well_being",
+    fill.scale = tm_scale_continuous(values = "pu_gn"))
 ```
+
+<figure>
+<img
+src="https://r-tmap.github.io/tmap.mapgl/reference/figures/maplibre_well_being.jpg"
+alt="tmap maplibre mode" />
+<figcaption aria-hidden="true">tmap maplibre mode</figcaption>
+</figure>
