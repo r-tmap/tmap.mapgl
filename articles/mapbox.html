@@ -91,29 +91,18 @@
 </h2>
 <p>Mapbox offers several basemap providers, namely:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tmap_providers.html" class="external-link">tmap_providers</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  [1] "OpenStreetMap"                  "OpenStreetMap.DE"              </span></span>
-<span><span class="co">#&gt;  [3] "OpenStreetMap.France"           "OpenStreetMap.HOT"             </span></span>
-<span><span class="co">#&gt;  [5] "OpenTopoMap"                    "Stadia.AlidadeSmooth"          </span></span>
-<span><span class="co">#&gt;  [7] "Stadia.AlidadeSmoothDark"       "Stadia.OSMBright"              </span></span>
-<span><span class="co">#&gt;  [9] "Stadia.Outdoors"                "Stadia.StamenToner"            </span></span>
-<span><span class="co">#&gt; [11] "Stadia.StamenTonerBackground"   "Stadia.StamenTonerLines"       </span></span>
-<span><span class="co">#&gt; [13] "Stadia.StamenTonerLabels"       "Stadia.StamenTonerLite"        </span></span>
-<span><span class="co">#&gt; [15] "Stadia.StamenWatercolor"        "Stadia.StamenTerrain"          </span></span>
-<span><span class="co">#&gt; [17] "Stadia.StamenTerrainBackground" "Stadia.StamenTerrainLabels"    </span></span>
-<span><span class="co">#&gt; [19] "Esri.WorldStreetMap"            "Esri.WorldTopoMap"             </span></span>
-<span><span class="co">#&gt; [21] "Esri.WorldImagery"              "Esri.WorldTerrain"             </span></span>
-<span><span class="co">#&gt; [23] "Esri.WorldShadedRelief"         "Esri.OceanBasemap"             </span></span>
-<span><span class="co">#&gt; [25] "Esri.NatGeoWorldMap"            "Esri.WorldGrayCanvas"          </span></span>
-<span><span class="co">#&gt; [27] "CartoDB.Positron"               "CartoDB.PositronNoLabels"      </span></span>
-<span><span class="co">#&gt; [29] "CartoDB.PositronOnlyLabels"     "CartoDB.DarkMatter"            </span></span>
-<span><span class="co">#&gt; [31] "CartoDB.DarkMatterNoLabels"     "CartoDB.DarkMatterOnlyLabels"  </span></span>
-<span><span class="co">#&gt; [33] "CartoDB.Voyager"                "CartoDB.VoyagerNoLabels"       </span></span>
-<span><span class="co">#&gt; [35] "CartoDB.VoyagerOnlyLabels"      "Thunderforest.OpenCycleMap"    </span></span>
-<span><span class="co">#&gt; [37] "Thunderforest.Transport"        "Thunderforest.TransportDark"   </span></span>
-<span><span class="co">#&gt; [39] "Thunderforest.SpinalMap"        "Thunderforest.Landscape"       </span></span>
-<span><span class="co">#&gt; [41] "Thunderforest.Outdoors"         "Thunderforest.Pioneer"         </span></span>
-<span><span class="co">#&gt; [43] "Thunderforest.MobileAtlas"      "Thunderforest.Neighbourhood"</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tmap_mode.html" class="external-link">tmap_mode</a></span><span class="op">(</span><span class="st">"mapbox"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> tmap modes <span style="color: #0000BB;">"plot"</span> -&gt; <span style="color: #0000BB;">"view"</span> -&gt; <span style="color: #0000BB; font-weight: bold;">"mapbox"</span> -&gt; <span style="color: #0000BB;">"maplibre"</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> rotate with `tmap::rtm()`switch to "plot" with `tmap::ttm()`</span></span>
+<span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tmap_providers.html" class="external-link">tmap_providers</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  [1] "mapbox.standard"           "mapbox.streets"           </span></span>
+<span><span class="co">#&gt;  [3] "mapbox.outdoors"           "mapbox.light"             </span></span>
+<span><span class="co">#&gt;  [5] "mapbox.dark"               "mapbox.satellite"         </span></span>
+<span><span class="co">#&gt;  [7] "mapbox.satellite_streets"  "mapbox.navigation_day"    </span></span>
+<span><span class="co">#&gt;  [9] "navigation_night"          "mapbox.standard_satellite"</span></span>
+<span><span class="co">#&gt; [11] "ofm.liberty"               "ofm.bright"               </span></span>
+<span><span class="co">#&gt; [13] "ofm.positron"              "ofm.dark"                 </span></span>
+<span><span class="co">#&gt; [15] "ofm.fiord"</span></span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">metro</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>  <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_symbols.html" class="external-link">tm_dots</a></span><span class="op">(</span>size <span class="op">=</span> <span class="st">"pop2020"</span>, fill <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span><span class="op">+</span></span>
