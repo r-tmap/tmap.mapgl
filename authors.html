@@ -16,11 +16,23 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
-<li class="nav-item"><a class="nav-link" href="articles/mapgl">Introduction</a></li>
-<li class="nav-item"><a class="nav-link" href="articles/mapbox">mapbox</a></li>
-<li class="nav-item"><a class="nav-link" href="articles/maplibre">maplibre</a></li>
-<li class="nav-item"><a class="nav-link" href="articles/polygons3d">Polygons 3d</a></li>
-<li class="nav-item"><a class="nav-link" href="articles/components">Geocoder</a></li>
+<li class="nav-item"><a class="nav-link" href="articles/mapgl">Enable</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-layers" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Layers</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-layers"><li><a class="dropdown-item" href="articles/layers_std">Standard layers</a></li>
+    <li><a class="dropdown-item" href="articles/polygons3d">3d polygons</a></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Weather (mapbox only)</h6></li>
+  </ul></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-components" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Components</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-components"><li><a class="dropdown-item" href="articles/components_std">Standard components</a></li>
+    <li><a class="dropdown-item" href="articles/geocoder">Geocoder</a></li>
+  </ul></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-options" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Options</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-options"><li><a class="dropdown-item" href="articles/mapbox">mapbox</a></li>
+    <li><a class="dropdown-item" href="articles/maplibre">maplibre</a></li>
+  </ul></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/r-tmap/tmap.mapgl/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
