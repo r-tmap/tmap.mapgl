@@ -4,13 +4,9 @@
 #' * `tmap_maplibre()` a [`mapgl`][mapgl::maplibregl()] object (`"maplibre"` mode).
 #'
 #' @param x a tmap object.
-#' @param asp,scale the desired aspect ratio and scale of the map. Only applicable for `"plot"` mode.
 #' @param show show the map?
-#' @inheritDotParams print.tmap
-#' @return
-#' * `tmap_grob()` returns a [`grob`][grid::grob()] object (`"plot"` mode)
-#' * `tmap_leaflet()` a [`leaflet`][leaflet::leaflet()] object (`"view"` mode).
-#'   In case small multiples are shown, a list is returned.
+#' @param ... passed on to [`tmap`][tmap::print.tmap()]
+#' @return  a [`mapgl`][mapgl::mapboxgl()] object (`"mapbox" mode`) or a [`mapgl`][mapgl::maplibregl()] object (`"maplibre"` mode). In case small multiples are shown, a list is returned.
 #' @export
 #' @examples
 #' map = tm_shape(World) + tm_polygons()

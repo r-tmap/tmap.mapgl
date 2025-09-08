@@ -4,11 +4,9 @@
 \alias{tm_maplibre}
 \title{Maplibre mode options}
 \usage{
-tm_maplibre(style, pitch)
+tm_maplibre(pitch)
 }
 \arguments{
-\item{style}{To do: migrate with tmap styles and basemaps?}
-
 \item{pitch}{The pitch angle}
 }
 \description{

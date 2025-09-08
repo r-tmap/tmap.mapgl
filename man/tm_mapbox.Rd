@@ -4,11 +4,9 @@
 \alias{tm_mapbox}
 \title{Mapbox mode options}
 \usage{
-tm_mapbox(style, pitch)
+tm_mapbox(pitch)
 }
 \arguments{
-\item{style}{To do: migrate with tmap styles and basemaps?}
-
 \item{pitch}{The pitch angle}
 }
 \description{

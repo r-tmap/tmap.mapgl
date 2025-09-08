@@ -38,9 +38,15 @@ tm_rain(
 
 \item{vignette_color}{A string specifying the rain vignette screen-space corners tint color. Default is "#464646".}
 }
+\value{
+tmap layer
+}
 \description{
 Map layer that generates rain. Only available in "mapbox" mode.
 }
 \details{
 Arguments and their default values have been taken from [mapbox::set_rain()] (package version 0.2.2)
+}
+\seealso{
+[tm_show()]
 }

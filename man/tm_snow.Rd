@@ -35,9 +35,15 @@ tm_snow(
 
 \item{vignette_color}{A string specifying the snow vignette screen-space corners tint color. Default is "#ffffff".}
 }
+\value{
+tmap layer
+}
 \description{
 Map layer that generates snow.
 }
 \details{
 Arguments and their default values have been taken from [mapbox::set_snow()] (package version 0.2.2)
+}
+\seealso{
+[tm_rain()]
 }
