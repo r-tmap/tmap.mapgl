@@ -105,6 +105,20 @@
 <span></span>
 <span><span class="co"># Or from r-universe</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"tmap.mapgl"</span>, repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://r-tmap.r-universe.dev"</span>, <span class="st">"https://cloud.r-project.org"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>For <code>"mapbox"</code> an API key is required, which is free for personal use.</p>
+<div class="section level4">
+<h4 id="mapbox-api-key">mapbox API key<a class="anchor" aria-label="anchor" href="#mapbox-api-key"></a>
+</h4>
+<ol style="list-style-type: decimal">
+<li>Go to <a href="https://docs.mapbox.com/help/getting-started/access-tokens/" class="external-link">Mapbox Access Tokens</a> and follow the instructions</li>
+<li>Set the API key as a system environment variable. This can be done by
+<ol style="list-style-type: decimal">
+<li>running <code>usethis::edit_r_environ()</code> which creates/opens a text file named <code>.Renviron</code> in your user’s home folder</li>
+<li>adding the line <code>MAPBOX_PUBLIC_TOKEN="abc123"</code>, where abc123 should be replaced by your API key obtained in step 1.</li>
+</ol>
+</li>
+</ol>
+</div>
 </div>
 </div>
 <div class="section level2">
@@ -114,14 +128,14 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-tmap/tmap" class="external-link">tmap</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-tmap/tmap.mapgl" class="external-link">tmap.mapgl</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tmap_mode.html" class="external-link">tmap_mode</a></span><span class="op">(</span><span class="st">"mapbox"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tmap_mode.html" class="external-link">tmap_mode</a></span><span class="op">(</span><span class="st">"maplibre"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_polygons.html" class="external-link">tm_polygons</a></span><span class="op">(</span><span class="st">"well_being"</span>,</span>
-<span>    fill.scale <span class="op">=</span> <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_scale_continuous.html" class="external-link">tm_scale_continuous</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"pu_gn"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<figure><img src="https://r-tmap.github.io/tmap.mapgl/reference/figures/mapbox_well_being.jpg" alt="tmap mapbox mode"><figcaption aria-hidden="true">
-tmap mapbox mode
-</figcaption></figure>
+<span>  <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_polygons.html" class="external-link">tm_polygons</a></span><span class="op">(</span><span class="st">"well_being"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co">#&gt; ℹ tmap modes "plot" -&gt; "view" -&gt; "mapbox" -&gt; "maplibre"</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co">#&gt; ℹ rotate with `tmap::rtm()`switch to "plot" with `tmap::ttm()`</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt; file:////private/var/folders/1h/l6qmb8r1343ctyswcq3dxg4r0000gq/T/Rtmpjy4YnI/file2c3d439a39e8/widget2c3d424fd104.html screenshot completed</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-4-1.png"></p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
