@@ -94,28 +94,3 @@ tm_shape(World) +
   tm_polygons("well_being")
 ```
 
-
-```{r, eval=TRUE, fig.height = 3.5, fig.show='hide', echo = FALSE}
-library(tmap)
-library(tmap.mapgl)
-
-tmap_mode("maplibre")
-
-tm = tm_shape(World) + 
-  tm_polygons("well_being")
-
-if (is_html_output()) {
-	tm
-} else {
-	m  = print(tm, show = FALSE)
-	if (requireNamespace("mapview", quietly = TRUE)) {
-		if (!dir.exists("man/figures")) dir.create("man/figures", recursive = TRUE)
-		mapview::mapshot2(m, file = "man/figures/README-map.png", vwidth = 1600, vheight = 1200, )
-	}
-	knitr::include_graphics("man/figures/README-map.png")
-}
-```
-
-
-
-

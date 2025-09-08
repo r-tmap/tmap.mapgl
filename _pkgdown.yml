@@ -47,6 +47,7 @@ navbar:
         - text: 3d polygons
           href: articles/polygons3d
         - text: Weather (mapbox only)
+          href: articles/weather
     comps:
       text: Components
       menu:

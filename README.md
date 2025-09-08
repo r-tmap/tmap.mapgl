@@ -65,9 +65,3 @@ tmap_mode("maplibre")
 tm_shape(World) + 
   tm_polygons("well_being")
 ```
-
-    #> ℹ tmap modes "plot" -> "view" -> "mapbox" -> "maplibre"
-    #> ℹ rotate with `tmap::rtm()`switch to "plot" with `tmap::ttm()`
-    #> file:////private/var/folders/1h/l6qmb8r1343ctyswcq3dxg4r0000gq/T/Rtmpjy4YnI/file2c3d439a39e8/widget2c3d424fd104.html screenshot completed
-
-![](man/figures/README-unnamed-chunk-4-1.png)

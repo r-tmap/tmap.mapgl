@@ -54,37 +54,26 @@ Get the current mode
 tmap_mode()
 ```
 
-For this example we'll create a choropleth of well being per country. We assign the map to `map` without showing it.
-
-```{r}
-map = tm_shape(World) + 
-  tm_polygons("well_being",
-    fill.scale = tm_scale_continuous(values = "pu_gn"))
-```
-
-Now we'll show the map in all (now four) modes
-
-### The modes
-
-```{r, fig.height = 3.5}
-tmap_mode("plot")
-map
-```
-
-```{r, fig.height = 3.5}
-tmap_mode("view")
-map
-```
+Switch to mapbox
 
 ```{r, fig.height = 3.5, eval=FALSE}
 tmap_mode("mapbox")
-map
 ```
 
-![tmap mapbox mode](https://r-tmap.github.io/tmap.mapgl/reference/figures/mapbox_well_being.jpg)
+Alternatively, `rtm()` can be used to rotate between modes:
 
+```{r, fig.height = 3.5, eval=FALSE}
+rtm()
+```
 
-```{r, fig.height = 3.5}
-tmap_mode("maplibre")
-map
+Now we are in `maplibre` mode:
+
+## Making the map
+
+The syntax to create the map is exactly the same as for the other tmap modes:
+
+```{r, fig.height = 5}
+tm_shape(World) + 
+  tm_polygons("well_being",
+    fill.scale = tm_scale_continuous(values = "pu_gn"))
 ```
