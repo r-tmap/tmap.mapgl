@@ -49,6 +49,7 @@ navbar:
         - text: Weather (mapbox only)
     components:
       text: Components
+      menu:
         - text: Standard components
           href: articles/components_std
         - text: Geocoder
