@@ -33,22 +33,31 @@ reference:
 
 navbar:
   structure:
-    left:  [reference, intro, mapbox, maplibre, polygons3d, components, news]
+    left:  [reference, intro, layers, components, options]
   components:
     home: ~
     intro:
-      text: Introduction
+      text: Enable
       href: articles/mapgl
-    mapbox:
-      text: "mapbox"
-      href: articles/mapbox
-    maplibre:
-      text: "maplibre"
-      href: articles/maplibre
-    polygons3d:
-      text: Polygons 3d
-      href: articles/polygons3d
+    layers:
+      text: Layers
+      menu:
+        - text: Standard layers
+          href: articles/layers_std
+        - text: 3d polygons
+          href: articles/polygons3d
+        - text: Weather (mapbox only)
     components:
-      text: Geocoder
-      href: articles/components
+      text: Components
+        - text: Standard components
+          href: articles/components_std
+        - text: Geocoder
+          href: articles/geocoder
+    options:
+      text: Options
+      menu:
+        - text: mapbox
+          href: articles/mapbox
+        - text: maplibre
+          href: articles/maplibre
 

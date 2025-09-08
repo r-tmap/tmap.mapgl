@@ -1,0 +1,70 @@
+---
+title: "Weather (mapbox only)"
+output: 
+  bookdown::html_vignette2:
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  fig.width = 8,
+  comment = "#>"
+)
+hook_output <- knitr::knit_hooks$get("output")
+knitr::knit_hooks$set(output = function(x, options) {
+   lines <- options$output.lines
+   if (is.null(lines)) {
+     return(hook_output(x, options))  # pass to default hook
+   }
+   x <- unlist(strsplit(x, "\n"))
+   more <- "..."
+   if (length(lines)==1) {        # first n lines
+     if (length(x) > lines) {
+       # truncate the output, but add ....
+       x <- c(head(x, lines), more)
+     }
+   } else {
+     x <- c(more, x[lines], more)
+   }
+   # paste these lines together
+   x <- paste(c(x, ""), collapse = "\n")
+   hook_output(x, options)
+ })
+
+```
+
+```{r, echo = FALSE, message = FALSE}
+library(tmap)
+library(tmap.mapgl)
+```
+
+These layers are only available in `"mapbox"` mode:
+
+```{r}
+tmap_mode("mapbox")
+```
+
+Let's create a choropleth of the Netherlands
+
+```{r}
+tm = tm_shape(NLD_dist) + 
+	tm_polygons(lwd = 0.5, fill = "income_high", fill.scale = tm_scale_continuous(values = "-pu_gn")) +
+	tm_shape(NLD_muni) +
+	tm_borders(col = "black") 
+```
+
+
+## Rain
+
+```{r, eval = FALSE}
+tm + tm_rain()
+```
+
+## Show
+
+
+```{r, eval = FALSE}
+tm + tm_snow()
+```

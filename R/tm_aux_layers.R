@@ -13,6 +13,9 @@
 #' @param flake_size A number between 0 and 5 controlling the snow flake particle size. Default is 0.71.
 #' @param vignette A number between 0 and 1 controlling the snow vignette screen-space effect. Default is 0.3.
 #' @param vignette_color A string specifying the snow vignette screen-space corners tint color. Default is "#ffffff".
+#' @return tmap layer
+#' @seealso [tm_rain()]
+#' @export
 tm_snow = function(density = 0.85, intensity = 1.0, color = "#ffffff",
 				   opacity = 1.0, center_thinning = 0.4, direction = c(0, 50),
 				   flake_size = 0.71, vignette = 0.3, vignette_color = "#ffffff") {
@@ -62,6 +65,9 @@ tmapMapboxAuxPlot.tm_aux_snow = function(a, bi, bbx, facet_row, facet_col, facet
 #' @param distortion_strength A number between 0 and 1 controlling the rain particles screen-space distortion strength. Default is 0.7.
 #' @param vignette A number between 0 and 1 controlling the screen-space vignette rain tinting effect intensity. Default is 1.0.
 #' @param vignette_color A string specifying the rain vignette screen-space corners tint color. Default is "#464646".
+#' @return tmap layer
+#' @seealso [tm_show()]
+#' @export
 tm_rain = function(density = 0.5, intensity = 1.0, color = "#a8adbc",
 				   opacity = 0.7, center_thinning = 0.57, direction = c(0, 80),
 				   droplet_size = c(2.6, 18.2), distortion_strength = 0.7,

@@ -1,5 +1,5 @@
 ---
-title: "new tmap modes"
+title: "Enabling the modes"
 output: 
   bookdown::html_vignette2:
 editor_options: 

@@ -57,7 +57,7 @@ tm_polygons_3d(
 opt_tm_polygons_3d(
   polygons.only = "ifany",
   height.max = "10\%",
-  height.min = 0
+  height.min = "0.1\%"
 )
 }
 \arguments{
@@ -116,7 +116,7 @@ features. Only used for `"view"` mode.}
 
 \item{polygons.only}{should only polygon geometries of the shape object (defined in [tm_shape()]) be plotted? By default `"ifany"`, which means `TRUE` in case a geometry collection is specified.}
 
-\item{height.max, height.min}{Maximum and minimum height. The data variable values assigned to `height` are are scaled between these two values. Each can be an absolute number (in meters) or relative to the bounding box area, more specifically, the percentage of the square root of the bounding box area. The default values are `"10\%"` for `height.max` and `0` for `height.min`.}
+\item{height.max, height.min}{Maximum and minimum height. The data variable values assigned to `height` are are scaled between these two values. Each can be an absolute number (in meters) or relative to the bounding box area, more specifically, the percentage of the square root of the bounding box area. The default values are `"10\%"` for `height.max` and `0.1\%` for `height.min`. The latter is not set to 0 because of artefacts with maplibre in globe view.}
 }
 \description{
 Map layer that draws 3d (extruded) polygons. Supported visual variables are: `height` (the ), `fill` (the fill color),

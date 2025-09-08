@@ -7,11 +7,8 @@ editor_options:
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  out.width = "100%",
-  dpi = 300,
-  fig.width = 7.2916667,
-  comment = "#>",
-  fig.path = "man/figures/README-"
+  fig.width = 8,
+  comment = "#>"
 )
 hook_output <- knitr::knit_hooks$get("output")
 knitr::knit_hooks$set(output = function(x, options) {
@@ -73,18 +70,27 @@ pak::pak("r-tmap/tmap.mapgl")
 install.packages("tmap.mapgl", repos = c("https://r-tmap.r-universe.dev", "https://cloud.r-project.org"))
 ```
 
+For `"mapbox"` an API key is required, which is free for personal use.
+
+#### mapbox API key
+
+1. Go to [Mapbox Access Tokens](https://docs.mapbox.com/help/getting-started/access-tokens/) and follow the instructions
+2. Set the API key as a system environment variable. This can be done by
+    a. running `usethis::edit_r_environ()` which creates/opens a text file named `.Renviron` in your user's home folder
+    b. adding the line `MAPBOX_PUBLIC_TOKEN="abc123"`, where abc123 should be replaced by your API key obtained in step 1.  
+
+
 ## Example
 
-```{r, eval=FALSE}
+```{r, eval=TRUE, fig.height = 3.5}
 library(tmap)
 library(tmap.mapgl)
 
-tmap_mode("mapbox")
+tmap_mode("maplibre")
 
 tm_shape(World) + 
   tm_polygons("well_being",
     fill.scale = tm_scale_continuous(values = "pu_gn"))
 ```
 
-![tmap mapbox mode](https://r-tmap.github.io/tmap.mapgl/reference/figures/mapbox_well_being.jpg)
 
