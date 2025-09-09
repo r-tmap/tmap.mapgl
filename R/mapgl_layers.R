@@ -123,7 +123,9 @@ mapgl_polygons_3d = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx,
 
 	nofill = all(gp$fill == o$value.blank$fill)
 
-	m |> mapgl::add_source(srcname, data = shp2) |>
+	shp2_naomit = shp2[!is.na(shp2$height), ]
+
+	m |> mapgl::add_source(srcname, data = shp2_naomit) |>
 		mapgl::add_line_layer(layername2, source = srcname,
 							  line_color = mapgl::get_column("col"),
 							  line_opacity = mapgl::get_column("col_alpha"),

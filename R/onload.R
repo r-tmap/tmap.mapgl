@@ -6,7 +6,7 @@
 	tmap::tmapSubmitOptions(
 		options = list(
 			value.const = list(height = 0),
-			value.na = list(height = 0),
+			value.na = list(height = NA),
 			value.blank = list(height = 0),
 			values.var = list(height = c(0, 1)),
 			values.range = list(height = c(0, 1)),

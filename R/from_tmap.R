@@ -206,8 +206,14 @@ regular_intervals = function (x, epsilon = 1e-10) {
 consider_global = function (x, th = 0.6)
 {
 	b = sf::st_bbox(x)
-	if (b$xmin == b$xmax || b$ymin == b$ymax)
-		return(FALSE)
+	# in case margins are applied
+	if (sf::st_is_longlat(b)) {
+		b["xmin"] = max(b["xmin"], -180)
+		b["xmax"] = min(b["xmax"], 180)
+		b["ymin"] = max(b["ymin"], -90)
+		b["ymax"] = min(b["ymax"], 90)
+	}
+	if (b$xmin == b$xmax || b$ymin == b$ymax) return(FALSE)
 	earth_surface = 5.1e+14
 	area = as.numeric(sf::st_area(sf::st_as_sfc(b)))
 	area > (earth_surface * 0.6)

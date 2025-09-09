@@ -35,28 +35,48 @@ mapgl_shape = function(bbx, facet_row, facet_col, facet_page, o, mode) {
 	ll = unname(c(mean(bbx[c(1,3)]), mean(bbx[c(2,4)])))
 	zoom = findZoom(bbx)
 
-	crs = if (mode == "mapbox") {
-		.TMAP_MAPBOX$crs_new
+
+	e = if (mode == "mapbox") {
+		.TMAP_MAPBOX
 	} else {
-		.TMAP_MAPLIBRE$crs_new
+		.TMAP_MAPLIBRE
 	}
 
+	# set projection
+	crs_o = if (!is.na(o$crs)) o$crs else "auto"
+
+	crs_str = if (inherits(crs_o, "crs")) {
+		sf::st_crs(crs_o)$input
+	} else {
+		crs_o
+	}
+
+	crs = "globe"
+	for (i in 1L:length(e$crs_options)) {
+		if (length(grep(names(e$crs_options[i]), crs_str, fixed = TRUE)) > 0) {
+			crs = unname(e$crs_options[i])
+			break
+		}
+	}
+
+
+
 	style = if (mode == "mapbox") {
-		if (substr(.TMAP_MAPBOX$style, 1, 4) == "ofm.") {
-			paste0("https://tiles.openfreemap.org/styles/", substr(.TMAP_MAPBOX$style, 5, nchar(.TMAP_MAPBOX$style)))
-		} else if (.TMAP_MAPBOX$style %in% tmap_providers()) {
-			mapgl::mapbox_style(get_style(.TMAP_MAPBOX$style))
+		if (substr(e$style, 1, 4) == "ofm.") {
+			paste0("https://tiles.openfreemap.org/styles/", substr(e$style, 5, nchar(e$style)))
+		} else if (e$style %in% tmap_providers()) {
+			mapgl::mapbox_style(get_style(e$style))
 		} else {
-			.TMAP_MAPBOX$style
+			e$style
 		}
 
 	} else {
-		if (substr(.TMAP_MAPLIBRE$style, 1, 4) == "ofm.") {
-			paste0("https://tiles.openfreemap.org/styles/", substr(.TMAP_MAPLIBRE$style, 5, nchar(.TMAP_MAPLIBRE$style)))
-		} else if (.TMAP_MAPLIBRE$style %in% tmap_providers()) {
-			mapgl::carto_style(get_style(.TMAP_MAPLIBRE$style))
+		if (substr(e$style, 1, 4) == "ofm.") {
+			paste0("https://tiles.openfreemap.org/styles/", substr(e$style, 5, nchar(e$style)))
+		} else if (e$style %in% tmap_providers()) {
+			mapgl::carto_style(get_style(e$style))
 		} else {
-			.TMAP_MAPLIBRE$style
+			e$style
 		}
 	}
 
