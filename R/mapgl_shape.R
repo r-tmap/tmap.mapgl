@@ -59,8 +59,6 @@ mapgl_shape = function(bbx, facet_row, facet_col, facet_page, o, mode) {
 		}
 	}
 
-
-
 	style = if (mode == "mapbox") {
 		if (substr(e$style, 1, 4) == "ofm.") {
 			paste0("https://tiles.openfreemap.org/styles/", substr(e$style, 5, nchar(e$style)))

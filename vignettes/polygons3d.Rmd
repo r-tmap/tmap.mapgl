@@ -82,7 +82,7 @@ tm_shape(buildings_poly) +
 	tm_maplibre(pitch = 60)
 ```
 
-## Example: population density data 
+## Example: population density data (Netherlands)
 
 ```{r, fig.height = 6}
 NLD_dist$pop_dens = NLD_dist$population / NLD_dist$area
@@ -92,6 +92,32 @@ tm_shape(NLD_dist) +
     fill = "edu_appl_sci",
     fill.scale = tm_scale_intervals(style = "kmeans", values = "-pu_gn"),
     fill.legend = tm_legend("University degree")) +
-tm_maplibre(pitch = 45)
+tm_maplibre(pitch = 45) +
+tm_crs(3857)
 ```
 
+The last code line is to enable the mercator projection. The default projection, "globe" is similar at this zoom level, but triggers some artefacts around the polygon borders.
+
+## Example: population density data (World)
+
+```{r, eval = FALSE}
+
+library(terra)
+
+# downloaded from WorldPop
+# https://hub.worldpop.org/geodata/summary?id=80031
+x_1km = rast("~/Downloads/global_pop_2025_CN_1km_R2025A_UA_v1.tif")
+x_16km = terra::aggregate(x_1km, fact = 16, fun = sum, na.rm = TRUE)
+x_64km = terra::aggregate(x_16km, fact = 4, fun = sum, na.rm = TRUE)
+names(x_64km) = "pop"
+
+tm_shape(x_64km) + 
+  tm_polygons_3d(
+    height = "pop",
+    fill = "pop",
+    fill.scale = tm_scale_intervals(values = "-ocean.thermal", style = "kmeans"),
+    fill.legend = tm_legend_hide())
+```
+
+<iframe src="https://10mapz.com/pop64_2025.html" width="100%" height="500px" style="border:none;">
+</iframe>
