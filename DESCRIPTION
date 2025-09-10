@@ -1,13 +1,13 @@
 Package: tmap.mapgl
-Title: Extension for 'tmap' featuring two new modes: mapbox and maplibre
+Title: Extensions to 'tmap' with Two New Modes: 'mapbox' and 'mapLibre'
 Type: Package
 LazyData: true
 Authors@R: c(
 	person("Martijn", "Tennekes", email = "mtennekes@gmail.com", role = c("aut", "cre"))
 	)
-Description: Extension package for tmap, which adds two new modes, namely mapbox and maplibre.
+Description: Provides extensions to 'tmap' by adding two new visualization modes, 'mapbox' and 'mapLibre'.
 License: GPL-3
-Version: 0.1
+Version: 0.1.0
 Encoding: UTF-8
 Depends:
     R (>= 4.1),
