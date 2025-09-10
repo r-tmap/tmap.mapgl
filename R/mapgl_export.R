@@ -9,8 +9,10 @@
 #' @return  a [`mapgl`][mapgl::mapboxgl()] object (`"mapbox" mode`) or a [`mapgl`][mapgl::maplibregl()] object (`"maplibre"` mode). In case small multiples are shown, a list is returned.
 #' @export
 #' @examples
+#' library(tmap)
+#' library(tmap.mapgl)
 #' map = tm_shape(World) + tm_polygons()
-#' tmap_mapbox(map, show = TRUE)
+#' tmap_maplibre(map, show = TRUE)
 tmap_mapbox = function(x,
 						show = FALSE,
 						...) {

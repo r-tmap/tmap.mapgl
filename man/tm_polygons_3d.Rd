@@ -167,7 +167,8 @@ tm_shape(NLD_dist) +
     fill = "edu_appl_sci",
     fill.scale = tm_scale_intervals(style = "kmeans", values = "-pu_gn"),
     fill.legend = tm_legend("Univeristy degree")) +
-tm_maplibre(pitch = 45)
+tm_maplibre(pitch = 45) +
+tm_crs(3857)
 }
 }
 \seealso{

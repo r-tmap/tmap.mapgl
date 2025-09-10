@@ -62,7 +62,7 @@ mapgl_shape = function(bbx, facet_row, facet_col, facet_page, o, mode) {
 	style = if (mode == "mapbox") {
 		if (substr(e$style, 1, 4) == "ofm.") {
 			paste0("https://tiles.openfreemap.org/styles/", substr(e$style, 5, nchar(e$style)))
-		} else if (e$style %in% tmap_providers()) {
+		} else if (e$style %in% tmap::tmap_providers()) {
 			mapgl::mapbox_style(get_style(e$style))
 		} else {
 			e$style
@@ -71,7 +71,7 @@ mapgl_shape = function(bbx, facet_row, facet_col, facet_page, o, mode) {
 	} else {
 		if (substr(e$style, 1, 4) == "ofm.") {
 			paste0("https://tiles.openfreemap.org/styles/", substr(e$style, 5, nchar(e$style)))
-		} else if (e$style %in% tmap_providers()) {
+		} else if (e$style %in% tmap::tmap_providers()) {
 			mapgl::carto_style(get_style(e$style))
 		} else {
 			e$style

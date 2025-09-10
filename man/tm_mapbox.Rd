@@ -30,6 +30,6 @@ tm_shape(NLD_dist) +
 tm_shape(NLD_muni) +
   tm_polygons(fill = NULL, lwd = 1) +
 tm_mapbox(pitch = 60) +
-tm_basemap(.tmap_providers$dark)
+tm_basemap("mapbox.dark")
 }
 }
