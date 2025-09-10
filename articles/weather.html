@@ -96,21 +96,15 @@
 <code class="sourceCode R"><span><span class="va">tm</span> <span class="op">=</span> <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">NLD_dist</span><span class="op">)</span> <span class="op">+</span> </span>
 <span>    <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_polygons.html" class="external-link">tm_polygons</a></span><span class="op">(</span>lwd <span class="op">=</span> <span class="fl">0.5</span>, fill <span class="op">=</span> <span class="st">"income_high"</span>, fill.scale <span class="op">=</span> <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_scale_continuous.html" class="external-link">tm_scale_continuous</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"-pu_gn"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
-<span>    <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_polygons.html" class="external-link">tm_borders</a></span><span class="op">(</span>col <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> </span></code></pre></div>
-<div class="section level2">
-<h2 id="rain">Rain<a class="anchor" aria-label="anchor" href="#rain"></a>
-</h2>
+<span>    <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_polygons.html" class="external-link">tm_borders</a></span><span class="op">(</span>col <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="../reference/tm_mapbox.html">tm_mapbox</a></span><span class="op">(</span>pitch <span class="op">=</span> <span class="fl">65</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tm</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_rain.html">tm_rain</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">tm</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_rain.html">tm_rain</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">tm</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_snow.html">tm_snow</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="float">
+<img src="https://r-tmap.github.io/tmap.mapgl/reference/figures/mapbox_snow.jpg" alt="tmap maplibre mode"><div class="figcaption">tmap maplibre mode</div>
 </div>
-<div class="section level2">
-<h2 id="show">Show<a class="anchor" aria-label="anchor" href="#show"></a>
-</h2>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tm</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_snow.html">tm_snow</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-</div>
-  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
-    </nav></aside>
+  </main>
 </div>
 
 
