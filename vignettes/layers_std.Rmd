@@ -67,9 +67,8 @@ tm_shape(World) +
 ## Lines
 
 ```{r, fig.height = 3.5}
-tm_shape(World) + 
 tm_shape(World_rivers) +
-	tm_lines(lwd = "strokelwd")
+	tm_lines(lwd = "strokelwd", lwd.scale = tm_scale_continuous(values.scale = 5))
 ```
 
 # Bubbles

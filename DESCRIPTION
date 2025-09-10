@@ -8,7 +8,6 @@ Authors@R: c(
 Description: Extension package for tmap, which adds two new modes, namely mapbox and maplibre.
 License: GPL-3
 Version: 0.1
-Date: 2025-04-30
 Encoding: UTF-8
 Depends:
     R (>= 4.1),

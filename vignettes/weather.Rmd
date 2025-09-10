@@ -52,19 +52,16 @@ Let's create a choropleth of the Netherlands
 tm = tm_shape(NLD_dist) + 
 	tm_polygons(lwd = 0.5, fill = "income_high", fill.scale = tm_scale_continuous(values = "-pu_gn")) +
 	tm_shape(NLD_muni) +
-	tm_borders(col = "black") 
+	tm_borders(col = "black") +
+	tm_mapbox(pitch = 65)
 ```
 
 
-## Rain
 
 ```{r, eval = FALSE}
 tm + tm_rain()
-```
-
-## Show
-
-
-```{r, eval = FALSE}
 tm + tm_snow()
 ```
+
+![tmap maplibre mode](https://r-tmap.github.io/tmap.mapgl/reference/figures/mapbox_snow.jpg)
+
