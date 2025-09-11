@@ -21,7 +21,7 @@ tmap_mapbox = function(x,
 		options(tmap.mode = current_mode)
 	})
 	options(tmap.mode = "mapbox")
-	print.tmap(x, show = show, ...)
+	print(x, show = show, ...)
 }
 
 #' @rdname tmap_mapbox
@@ -34,5 +34,5 @@ tmap_maplibre = function(x,
 		options(tmap.mode = current_mode)
 	})
 	options(tmap.mode = "maplibre")
-	print.tmap(x, show = show, ...)
+	print(x, show = show, ...)
 }
