@@ -15,6 +15,9 @@ tm_geocoder(stack, position, group_id, z)
 
 \item{z}{z index, e.g. the place of the component relative to the other componets}
 }
+\value{
+a [tmap::tmap-element]
+}
 \description{
 Map component that adds a text, typically used as credits. This function is the same as [tm_title()] but with different default values.
 }

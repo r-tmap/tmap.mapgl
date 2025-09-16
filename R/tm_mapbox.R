@@ -4,6 +4,7 @@
 #'
 #' @param pitch The pitch angle
 #' @example examples/mapbox.R
+#' @return a [tmap::tmap-element]
 #' @export
 tm_mapbox = function(pitch) {
 	args = lapply(as.list(rlang::call_match(dots_expand = TRUE)[-1]), eval, envir = parent.frame())
@@ -17,6 +18,7 @@ tm_mapbox = function(pitch) {
 #'
 #' @param pitch The pitch angle
 #' @example examples/maplibre.R
+#' @return a [tmap::tmap-element]
 #' @export
 tm_maplibre = function(pitch) {
 	args = lapply(as.list(rlang::call_match(dots_expand = TRUE)[-1]), eval, envir = parent.frame())

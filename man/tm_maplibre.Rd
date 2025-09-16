@@ -9,6 +9,9 @@ tm_maplibre(pitch)
 \arguments{
 \item{pitch}{The pitch angle}
 }
+\value{
+a [tmap::tmap-element]
+}
 \description{
 Maplibre mode options. These options are specific to the maplibre mode.
 }

@@ -64,6 +64,7 @@ tmapMaplibreCompPlot.tm_geocoder = function(comp, m, o) {
 #' @param group_id Component group id name. All components (e.g. legends, titles, etc) with the same `group_id` will be grouped. The specifications of how they are placed (e.g. stacking, margins etc.) are determined in [tm_comp_group()] where its argument `id` should correspond to `group_id`.
 #' @param z z index, e.g. the place of the component relative to the other componets
 #' @seealso \href{https://r-tmap.github.io/tmap/articles/basics_components}{Vignette about components}
+#' @return a [tmap::tmap-element]
 #' @export
 tm_geocoder = function (stack, position, group_id, z) {
 	args = lapply(as.list(rlang::call_match()[-1]), eval, envir = parent.frame())

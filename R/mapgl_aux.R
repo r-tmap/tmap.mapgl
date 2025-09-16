@@ -4,6 +4,7 @@
 #' @param bs bs
 #' @export
 #' @keywords internal
+#' @return internal tmap lists
 #' @rdname tmapMapbox
 tmapMapboxAuxPrepare = function(a, bs, id, o) {
 	UseMethod("tmapMapboxAuxPrepare")

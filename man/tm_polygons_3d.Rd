@@ -118,6 +118,9 @@ features. Only used for `"view"` mode.}
 
 \item{height.max, height.min}{Maximum and minimum height. The data variable values assigned to `height` are are scaled between these two values. Each can be an absolute number (in meters) or relative to the bounding box area, more specifically, the percentage of the square root of the bounding box area. The default values are `"10\%"` for `height.max` and `0.1\%` for `height.min`. The latter is not set to 0 because of artefacts with maplibre in globe view.}
 }
+\value{
+a [tmap::tmap-element], supposed to be stacked after [tmap::tm_shape()] using the `+` operator. The `opt_<layer_function>` function returns a list that should be passed on to the `options` argument.
+}
 \description{
 Map layer that draws 3d (extruded) polygons. Supported visual variables are: `height` (the ), `fill` (the fill color),
 `col` (the border color), `lwd` (line width), `lty` (line type),

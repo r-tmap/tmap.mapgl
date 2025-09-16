@@ -9,6 +9,9 @@ tm_mapbox(pitch)
 \arguments{
 \item{pitch}{The pitch angle}
 }
+\value{
+a [tmap::tmap-element]
+}
 \description{
 Mapbox mode options. These options are specific to the mapbox mode.
 }

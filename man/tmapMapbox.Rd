@@ -1033,6 +1033,9 @@ tmapMaplibreDataPlot(
 
 \item{shpTM, }{dt, pdt, popup.format, hdt, idt, gp args}
 }
+\value{
+internal tmap lists
+}
 \description{
 Internal tmap methods
 }

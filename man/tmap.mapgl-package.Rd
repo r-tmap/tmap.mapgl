@@ -4,9 +4,14 @@
 \name{tmap.mapgl-package}
 \alias{tmap.mapgl}
 \alias{tmap.mapgl-package}
-\title{Extension for tmap: maps are shown via mapbox.gl}
+\title{Extensions to 'tmap' with Two New Modes: 'mapbox' and 'maplibre'}
 \description{
-A new tmap mode, enabled via tmap_mode("mapbox").
+The 'tmap' package provides two plotting modes for static and interactive
+thematic maps. This package extends 'tmap' with two additional modes based
+on 'mapbox' <https://mapbox.com> and 'maplibre' <https://maplibre.org>.
+These modes feature interactive vector tiles, globe views, and other modern
+web-mapping capabilities, while using the same 'tmap' syntax for creating
+maps (Tennekes 2018, <doi:10.32614/RJ-2018-027>).
 }
 \examples{
 \donttest{
