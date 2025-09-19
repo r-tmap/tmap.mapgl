@@ -49,7 +49,7 @@ This map layer is the same as `tm_polygons`, with one addition: polygons can be 
 
 ## Example: buildings heights
 
-```{r}
+```{r, eval = FALSE}
 tmap_mode("maplibre")
 
 # get vector buildings
@@ -70,9 +70,14 @@ buildings_poly <- buildings$osm_polygons |>
          height = if_else(is.na(height), levels * 3, height))
 ```
 
+```{r, echo=FALSE, eval=FALSE}
+#saveRDS(buildings_poly, file = "vignettes/data/buildings_poly.rds")
+buildings_poly = readRDS(file = "https://r-tmap.github.io/tmap.mapgl/reference/data/buildings_poly.rds")
+```
+
 For the time being, we need to compute the maximum building height, because `tm_scale_asis` doesn't support units yet.
 
-```{r, fig.height = 6}
+```{r, fig.height = 6, eval=FALSE}
 # maximum building height
 mx = max(buildings_poly$height)
 
