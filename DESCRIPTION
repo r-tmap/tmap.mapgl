@@ -7,7 +7,7 @@ Authors@R: c(
 	)
 Description: The 'tmap' package provides two plotting modes for static and interactive thematic maps. This package extends 'tmap' with two additional modes based on 'Mapbox GL JS' and 'MapLibre GL JS'. These modes feature interactive vector tiles, globe views, and other modern web-mapping capabilities, while maintaining a consistent 'tmap' interface across all plotting modes.
 License: GPL-3
-Version: 0.1.0
+Version: 0.1.0.9000
 Encoding: UTF-8
 Depends:
     R (>= 4.1),
