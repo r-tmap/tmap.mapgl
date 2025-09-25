@@ -46,3 +46,21 @@ assign_mapgl = function(m, facet_row, facet_col, facet_page, mode) {
 	assign("ms", ms, envir = e)
 	NULL
 }
+
+
+mapgl_submit_group = function(group, layers, mode) {
+	e = if (mode == "mapbox") {
+		.TMAP_MAPBOX
+	} else {
+		.TMAP_MAPLIBRE
+	}
+
+	grps = get("grps", envir = e)
+	if (group %in% names(grps)) {
+		grps[[group]] = unique(c(grps[[group]], layers))
+	} else {
+		grps[[group]] = layers
+	}
+	assign("grps", grps, envir = e)
+	NULL
+}

@@ -13,7 +13,7 @@ Depends:
     R (>= 4.1),
 Imports:
     tmap (>= 4.2),
-    mapgl (>= 0.4),
+    mapgl (>= 0.4.1),
     terra,
     rlang,
     cli,

@@ -47,6 +47,7 @@ mapgl_init = function(o, return.asp, vp, prx, dg, e,...) {
 	e$nrow = o$nrows
 	e$ncol = o$ncols
 	e$leg_id = 1
+	e$grps = list()
 	NULL
 }
 

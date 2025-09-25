@@ -43,10 +43,12 @@ mapgl_run = function(o, q, show, knit, args, mode) {
 
 
 	ms = get("ms", envir = e)
+	grps = get("grps", envir = e)
 
 	ms2 = lapply(ms, function(msi) {
 		x = if (o$nrows == 1 && o$ncols == 1) {
-			msi[[1]]
+			msi[[1]] |>
+				mapgl::add_layers_control(layers = grps)
 				#mapgl::add_layers_control() # in development #3
 		} else {
 			if (length(msi) > 2) cli::cli_warn("more than 2 facets not supported for the mode {.str mapbox}")

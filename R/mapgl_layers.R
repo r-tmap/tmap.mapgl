@@ -26,7 +26,14 @@ mapgl_polygons = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, fa
 		gp$col_alpha = gp$fill_alpha * fill_alpha$opacity
 	}
 
+
 	shp2 = sf::st_sf(unclass(gp[c("fill", "col", "lwd", "fill_alpha", "col_alpha")]), id = 1:length(shp), geometry = shp)
+
+	if (!is.null(hdt)) {
+		shp2$hover = hdt$hover[match(dt$tmapID__, hdt$tmapID__)]
+		hdt = mapgl::get_column("hover")
+	}
+
 
 	srcname = paste0("layer", pane)
 	layername1 = paste0(srcname, "polygons_fill")
@@ -37,15 +44,19 @@ mapgl_polygons = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, fa
 	m |> mapgl::add_source(srcname, data = shp2) |>
 		mapgl::add_fill_layer(layername1, source = srcname,
 							  fill_color = mapgl::get_column("fill"),
-							  fill_opacity = mapgl::get_column("fill_alpha")) |>
+							  fill_opacity = mapgl::get_column("fill_alpha"),
+							  tooltip = hdt) |>
 		mapgl::add_line_layer(layername2, source = srcname,
 							  line_color = mapgl::get_column("col"),
 							  line_opacity = mapgl::get_column("col_alpha"),
 							  line_width = mapgl::get_column("lwd")) |>
 		assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
 
+	mapgl_submit_group(group, c(layername1, layername2), mode)
 	NULL
 }
+
+
 
 
 
@@ -136,8 +147,8 @@ mapgl_polygons_3d = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx,
 										fill_extrusion_base = 0,
 										fill_extrusion_height = mapgl::get_column("height")) |>
 		assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
-
-
+	mapgl_submit_group(group, c(layername1, layername2), mode)
+	NULL
 }
 
 
@@ -162,12 +173,16 @@ mapgl_lines = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet
 
 	shp2 = sf::st_sf(unclass(gp[c("col", "lwd", "col_alpha")]), id = 1:length(shp), geometry = shp)
 
-	mapbox |> mapgl::add_source("sourceLines", data = shp2) |>
-		mapgl::add_line_layer("layerLine", source = "sourceLines",
+	srcname = paste0("layer", pane)
+	layername1 = paste0(srcname, "lines")
+
+	mapbox |> mapgl::add_source(srcname, data = shp2) |>
+		mapgl::add_line_layer(layername1, source = srcname,
 							  line_color = mapgl::get_column("col"),
 							  line_opacity = mapgl::get_column("col_alpha"),
 							  line_width = mapgl::get_column("lwd")) |>
 		assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
+	mapgl_submit_group(group, layername1, mode)
 	NULL
 }
 
@@ -245,6 +260,7 @@ mapgl_symbols = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, fac
 								circle_stroke_width = mapgl::get_column("lwd"),
 								circle_radius = mapgl::get_column("size")) |>
 		assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
+	mapgl_submit_group(group, layername1, mode)
 	NULL
 }
 
@@ -314,14 +330,23 @@ mapgl_raster = function(a, shpTM, dt, gp, pdt, popup.format, hdt, idt, bbx, face
 
 		rst2 = terra::crop(rst, ext2)
 
+
+		srcname = paste0("layer", pane)
+		layername1 = paste0(srcname, "raster")
+
+
+
 		m = get_mapgl(facet_row, facet_col, facet_page, mode = mode)
 
-		m |> mapgl::add_image_source("sourceRaster",
+
+
+		m |> mapgl::add_image_source(srcname,
 							   data = rst2, colors = pal) |>
-			mapgl::add_raster_layer("layerRaster", source = "sourceRaster",
+			mapgl::add_raster_layer(layername1, source = srcname,
 								 raster_opacity = pal_opacity,
 									raster_resampling = "nearest") |>
 			assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
+		mapgl_submit_group(group, layername1, mode)
 	} else {
 		#shp2 = stars::st_as_stars(list(values = tmapID), dimensions = shp)
 		#shpTM = shapeTM(sf::st_geometry(sf::st_as_sf(shp2)), as.vector(tmapID))
