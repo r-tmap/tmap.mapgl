@@ -1,5 +1,9 @@
-version 0.1.1
-- group names implemented
+version 0.2.0
+- tm_draw added
+- tm_fullscreen
+- layer control improved
+- tm_geocoder improved
+-
 
 version 0.1.0
 - development version
