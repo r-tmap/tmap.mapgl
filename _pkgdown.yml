@@ -23,9 +23,11 @@ reference:
 - title: Polygons in 3d
   contents:
   - tm_polygons_3d
-- title: Geocoder component
+- title: Map components
   contents:
   - tm_geocoder
+  - tm_draw
+  - tm_fullscreen
 - title: Wheather layers
   contents:
   - tm_rain
