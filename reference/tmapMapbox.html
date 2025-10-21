@@ -45,7 +45,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Internal tmap methods</h1>
-      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap.mapgl/blob/main/R/map_variable_height.R" class="external-link"><code>R/map_variable_height.R</code></a>, <a href="https://github.com/r-tmap/tmap.mapgl/blob/main/R/mapgl_arrange.R" class="external-link"><code>R/mapgl_arrange.R</code></a>, <a href="https://github.com/r-tmap/tmap.mapgl/blob/main/R/mapgl_aux.R" class="external-link"><code>R/mapgl_aux.R</code></a>, and 13 more</small>
+      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap.mapgl/blob/main/R/map_variable_height.R" class="external-link"><code>R/map_variable_height.R</code></a>, <a href="https://github.com/r-tmap/tmap.mapgl/blob/main/R/mapgl_arrange.R" class="external-link"><code>R/mapgl_arrange.R</code></a>, <a href="https://github.com/r-tmap/tmap.mapgl/blob/main/R/mapgl_aux.R" class="external-link"><code>R/mapgl_aux.R</code></a>, and 15 more</small>
       <div class="d-none name"><code>tmapMapbox.Rd</code></div>
     </div>
 
@@ -363,6 +363,30 @@
 <span><span class="co"># S3 method for class 'tm_chart_none'</span></span>
 <span><span class="fu">tmapMaplibreCompPrepare</span><span class="op">(</span><span class="va">comp</span>, <span class="va">o</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># S3 method for class 'tm_draw'</span></span>
+<span><span class="fu">tmapMapboxCompPrepare</span><span class="op">(</span><span class="va">comp</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_draw'</span></span>
+<span><span class="fu">tmapMapboxCompHeight</span><span class="op">(</span><span class="va">comp</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_draw'</span></span>
+<span><span class="fu">tmapMapboxCompWidth</span><span class="op">(</span><span class="va">comp</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_draw'</span></span>
+<span><span class="fu">tmapMapboxCompPlot</span><span class="op">(</span><span class="va">comp</span>, <span class="va">m</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_draw'</span></span>
+<span><span class="fu">tmapMaplibreCompPrepare</span><span class="op">(</span><span class="va">comp</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_draw'</span></span>
+<span><span class="fu">tmapMaplibreCompHeight</span><span class="op">(</span><span class="va">comp</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_draw'</span></span>
+<span><span class="fu">tmapMaplibreCompWidth</span><span class="op">(</span><span class="va">comp</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_draw'</span></span>
+<span><span class="fu">tmapMaplibreCompPlot</span><span class="op">(</span><span class="va">comp</span>, <span class="va">m</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
 <span><span class="co"># S3 method for class 'tm_geocoder'</span></span>
 <span><span class="fu">tmapMapboxCompPrepare</span><span class="op">(</span><span class="va">comp</span>, <span class="va">o</span><span class="op">)</span></span>
 <span></span>
@@ -504,6 +528,30 @@
 <span>  <span class="va">group</span>,</span>
 <span>  <span class="va">o</span></span>
 <span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_fullscreen'</span></span>
+<span><span class="fu">tmapMapboxCompPrepare</span><span class="op">(</span><span class="va">comp</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_fullscreen'</span></span>
+<span><span class="fu">tmapMapboxCompHeight</span><span class="op">(</span><span class="va">comp</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_fullscreen'</span></span>
+<span><span class="fu">tmapMapboxCompWidth</span><span class="op">(</span><span class="va">comp</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_fullscreen'</span></span>
+<span><span class="fu">tmapMapboxCompPlot</span><span class="op">(</span><span class="va">comp</span>, <span class="va">m</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_fullscreen'</span></span>
+<span><span class="fu">tmapMaplibreCompPrepare</span><span class="op">(</span><span class="va">comp</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_fullscreen'</span></span>
+<span><span class="fu">tmapMaplibreCompHeight</span><span class="op">(</span><span class="va">comp</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_fullscreen'</span></span>
+<span><span class="fu">tmapMaplibreCompWidth</span><span class="op">(</span><span class="va">comp</span>, <span class="va">o</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for class 'tm_fullscreen'</span></span>
+<span><span class="fu">tmapMaplibreCompPlot</span><span class="op">(</span><span class="va">comp</span>, <span class="va">m</span>, <span class="va">o</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">tmapMapboxDataPlot</span><span class="op">(</span></span>
 <span>  <span class="va">a</span>,</span>
