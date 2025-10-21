@@ -56,7 +56,6 @@ tmapMaplibreCompPlot.tm_draw = function(comp, m, o) {
 }
 
 mapgl_draw_plot = function(comp, m, o) {
-	mapgl_draw_plot(comp, m, o)
 	unit = if (o$unit %in% c("mi", "imperial")) {
 		"imperial"
 	} else {
