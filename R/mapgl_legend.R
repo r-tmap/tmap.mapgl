@@ -1,4 +1,5 @@
 mapgl_pos = function(pos) {
+	if (is.character(pos)) pos = tm_pos_in(pos[1], pos[2])
 	if (pos$type %in% c("out", "autoout")) {
 		sel = c("cell.v", "cell.h")
 	} else {

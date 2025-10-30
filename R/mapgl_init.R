@@ -47,7 +47,7 @@ mapgl_init = function(o, return.asp, vp, prx, dg, e,...) {
 	e$nrow = o$nrows
 	e$ncol = o$ncols
 	e$leg_id = 1
-	e$grps = list()
+	e$grps = list() #data.frame(id = integer(), group = character(), layer = character())
 	NULL
 }
 
@@ -65,6 +65,19 @@ tmapMapboxAux = function(o, q) {
 #' @keywords internal
 #' @rdname tmapMapbox
 tmapMaplibreAux = function(o, q) {
+	lfs = .TMAP_LEAFLET$lfs
+
+
+	isTMAP = substr(q$pane, 1, 4) == "tmap"
+	isNEW = q$new
+
+	lids = setdiff(q$lid[isTMAP & isNEW], .TMAP$pane_ids)
+
+	groups_radio = unique(unlist(strsplit(q$group[q$group.control == "radio"], split = "__", fixed = TRUE)))
+	groups_check = unique(unlist(strsplit(q$group[q$group.control == "check"], split = "__", fixed = TRUE)))
+
+
+
 	NULL
 }
 

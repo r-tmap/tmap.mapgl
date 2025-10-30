@@ -45,11 +45,24 @@ mapgl_run = function(o, q, show, knit, args, mode) {
 	ms = get("ms", envir = e)
 	grps = get("grps", envir = e)
 
+	ctrl = split(q$group.control, f = q$group)
+	ctrl = sapply(ctrl, tail, 1)
+
+	no_grp = names(ctrl)[ctrl == "none"]
+
+	if (length(no_grp)) {
+		grps[no_grp] = NULL
+	}
+
+
 	ms2 = lapply(ms, function(msi) {
 		x = if (o$nrows == 1 && o$ncols == 1) {
-			msi[[1]] |>
-				mapgl::add_layers_control(layers = grps)
-				#mapgl::add_layers_control() # in development #3
+			if (length(grps)) {
+				msi[[1]] |>
+					mapgl::add_layers_control(layers = grps, collapsible = o$control.collapse, position = mapgl_pos(o$control.position))
+			} else {
+				msi[[1]]
+			}
 		} else {
 			if (length(msi) > 2) cli::cli_warn("more than 2 facets not supported for the mode {.str mapbox}")
 			orientation = ifelse(o$ncols >= o$nrows, "vertical", "horizontal")

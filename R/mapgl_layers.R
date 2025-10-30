@@ -1,3 +1,64 @@
+view_format_popups_mapgl <- function(id=NULL, titles, format, values) {
+
+
+
+	# isnull <- vapply(values, is.null, logical(1))
+	#
+	# titles <- titles[!isnull]
+	# titles[names(titles)!=""] <- names(titles)[names(titles)!=""]
+	#
+	# values <- values[!isnull]
+
+	# islist <- is.list(format) && length(format)>0 && is.list(format[[1]])
+	# if (!islist) {
+	# 	format <- lapply(1:length(titles), function(i) format)
+	# }
+	h = lapply(format, function(f) {
+		if (f$html.escape) {
+			htmltools::htmlEscape
+		} else {
+			function(x) x
+		}
+	})
+	if (!is.null(id)) {
+		labels <- paste("<b>", h[[1]](id), "</b>", sep="")
+	} else {
+		labels <- ""
+	}
+
+	titles_format <- mapply(function(ti, hi) {
+		hi(ti)
+	}, titles, h, SIMPLIFY = FALSE)
+	values_format <- mapply(function(v, f, hi) {
+		if (inherits(v, "units")) {
+			popup_append <- paste0(" ", as.character(attr(v, "units")))
+		} else {
+			popup_append <- ""
+		}
+		numbers <- hi(if (is.numeric(v)) do.call("fancy_breaks", c(list(vec=as.numeric(v), intervals=FALSE), f)) else v)
+		paste0(numbers, popup_append)
+	}, values, format, h, SIMPLIFY = FALSE)
+
+
+	labels2 <- mapply(function(l, v) {
+		paste0("<tr><td style=\"color: #888888;\"><nobr>", l, "</nobr></td><td align=\"right\"><nobr>", v, "</nobr></td>")
+	}, titles_format, values_format, SIMPLIFY=FALSE)
+
+	labels3 <- paste0(do.call("paste", c(labels2, list(sep="</tr>"))), "</tr>")
+
+	padding_right <- ifelse(length(titles_format) > 13, 200, 0) # add padding for horizontal scroll bar. These will appear on most browsers when there are over 13 normal lines (tested: RStudio, FF, Chrome)
+
+	x <- paste0(
+		"<div style='width:auto; max-height:25em; overflow-y:auto; overflow-x:hidden;'>",
+		"<table style='width:100%; table-layout:fixed;'>",
+		"<thead><tr><th colspan='2'>", labels, "</th></tr></thead>",
+		labels3,
+		"</table></div>"
+	)
+
+	x
+}
+
 mapgl_polygons = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ..., mode) {
 	m = get_mapgl(facet_row, facet_col, facet_page, mode)
 
@@ -31,7 +92,24 @@ mapgl_polygons = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, fa
 
 	if (!is.null(hdt)) {
 		shp2$hover = hdt$hover[match(dt$tmapID__, hdt$tmapID__)]
+		shp2$hover = vapply(shp2$hover, htmltools::HTML, FUN.VALUE = character(1))
+
 		hdt = mapgl::get_column("hover")
+	}
+
+	if (!is.null(pdt)) {
+		mtch = match(dt$tmapID__, pdt$tmapID__)
+		pdt = pdt[mtch][, tmapID__ := NULL]
+
+		if (is.null(idt) && !is.null(hdt)) {
+			shp2$popup = view_format_popups_mapgl(id = shp2$hover, titles = names(pdt), values = pdt, format = popup.format)
+		} else {
+			shp2$popup = view_format_popups_mapgl(id = shp2$hover, titles = names(pdt), values = pdt, format = popup.format)
+		}
+		popup = mapgl::get_column("popup")
+
+	} else {
+		popup = NULL
 	}
 
 
@@ -45,7 +123,8 @@ mapgl_polygons = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, fa
 		mapgl::add_fill_layer(layername1, source = srcname,
 							  fill_color = mapgl::get_column("fill"),
 							  fill_opacity = mapgl::get_column("fill_alpha"),
-							  tooltip = hdt) |>
+							  tooltip = hdt,popup = popup
+							  ) |>
 		mapgl::add_line_layer(layername2, source = srcname,
 							  line_color = mapgl::get_column("col"),
 							  line_opacity = mapgl::get_column("col_alpha"),
@@ -90,6 +169,29 @@ mapgl_polygons_3d = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx,
 	}
 
 	shp2 = sf::st_sf(unclass(gp[c("height", "fill", "col", "lwd", "fill_alpha", "col_alpha")]), id = 1:length(shp), geometry = shp)
+
+	if (!is.null(hdt)) {
+		shp2$hover = hdt$hover[match(dt$tmapID__, hdt$tmapID__)]
+		shp2$hover = vapply(shp2$hover, htmltools::HTML, FUN.VALUE = character(1))
+
+		hdt = mapgl::get_column("hover")
+	}
+
+	if (!is.null(pdt)) {
+		mtch = match(dt$tmapID__, pdt$tmapID__)
+		pdt = pdt[mtch][, tmapID__ := NULL]
+
+		if (is.null(idt) && !is.null(hdt)) {
+			shp2$popup = view_format_popups_mapgl(id = shp2$hover, titles = names(pdt), values = pdt, format = popup.format)
+		} else {
+			shp2$popup = view_format_popups_mapgl(id = shp2$hover, titles = names(pdt), values = pdt, format = popup.format)
+		}
+		popup = mapgl::get_column("popup")
+
+	} else {
+		popup = NULL
+	}
+
 
 	srcname = paste0("layer", pane)
 	layername1 = paste0(srcname, "polygons_fill")
@@ -145,7 +247,9 @@ mapgl_polygons_3d = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx,
 										fill_extrusion_color = mapgl::get_column("fill"),
 										#fill_extrusion_opacity = mapgl::get_column("fill_alpha"),
 										fill_extrusion_base = 0,
-										fill_extrusion_height = mapgl::get_column("height")) |>
+										fill_extrusion_height = mapgl::get_column("height"),
+										tooltip = hdt,popup = popup
+										) |>
 		assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
 	mapgl_submit_group(group, c(layername1, layername2), mode)
 	NULL

@@ -56,6 +56,11 @@ mapgl_submit_group = function(group, layers, mode) {
 	}
 
 	grps = get("grps", envir = e)
+
+	#id = if (nrow(grps) == 0) 1L else max(grps$id) + 1L
+
+	#grps = rbind(grps, data.frame(id = id, group = group, layer = layers))
+
 	if (group %in% names(grps)) {
 		grps[[group]] = unique(c(grps[[group]], layers))
 	} else {
