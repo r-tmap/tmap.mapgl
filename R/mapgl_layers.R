@@ -59,7 +59,7 @@ view_format_popups_mapgl <- function(id=NULL, titles, format, values) {
 	x
 }
 
-mapgl_polygons = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ..., mode) {
+mapgl_polygons = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ..., mode) {
 	m = get_mapgl(facet_row, facet_col, facet_page, mode)
 
 	rc_text = frc(facet_row, facet_col)
@@ -114,11 +114,11 @@ mapgl_polygons = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, fa
 
 
 	srcname = paste0("layer", pane)
-	layername1 = paste0(srcname, "polygons_fill")
-	layername2 = paste0(srcname, "polygons_border")
+	layername1 = paste0(glid, "polygons_fill")
+	layername2 = paste0(glid, "polygons_border")
 
 	nofill = all(gp$fill == o$value.blank$fill)
-
+po(layername1, layername2)
 	m |> mapgl::add_source(srcname, data = shp2) |>
 		mapgl::add_fill_layer(layername1, source = srcname,
 							  fill_color = mapgl::get_column("fill"),
@@ -139,7 +139,7 @@ mapgl_polygons = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, fa
 
 
 
-mapgl_polygons_3d = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ..., mode) {
+mapgl_polygons_3d = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ..., mode) {
 
 	m = get_mapgl(facet_row, facet_col, facet_page, mode)
 
@@ -257,7 +257,7 @@ mapgl_polygons_3d = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx,
 
 
 
-mapgl_lines = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ..., mode) {
+mapgl_lines = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ..., mode) {
 
 	mapbox = get_mapgl(facet_row, facet_col, facet_page, mode = mode)
 
@@ -316,7 +316,7 @@ lty2dash = function(lty) {
 
 
 
-mapgl_symbols = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ..., mode) {
+mapgl_symbols = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ..., mode) {
 	mapbox = get_mapgl(facet_row, facet_col, facet_page, mode)
 
 	rc_text = frc(facet_row, facet_col)
@@ -381,7 +381,7 @@ split_alpha_channel <- function(x, alpha) {
 
 
 
-mapgl_raster = function(a, shpTM, dt, gp, pdt, popup.format, hdt, idt, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ..., mode) {
+mapgl_raster = function(a, shpTM, dt, gp, pdt, popup.format, hdt, idt, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ..., mode) {
 
 	rc_text = frc(facet_row, facet_col)
 
@@ -467,7 +467,7 @@ mapgl_raster = function(a, shpTM, dt, gp, pdt, popup.format, hdt, idt, bbx, face
 
 		gp$lty = "solid"
 
-		mapgl_polygons(shpTM, dt, pdt, popup.format = NULL, hdt = NULL, idt = NULL, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o)
+		mapgl_polygons(shpTM, dt, pdt, popup.format = NULL, hdt = NULL, idt = NULL, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o)
 	}
 	NULL
 }

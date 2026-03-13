@@ -126,7 +126,7 @@ mapgl_legend = function(cmp, m, o, orientation, mode) {
 		circular_patches = !any(is.na(cmp$gp$shape)) && all(cmp$gp$shape %in% c(1, 10, 16, 19:21))
 
 		m |> mapgl::add_categorical_legend(colors = gp2$fillColor, values = cmp$labels, position = legpos, legend_title = cmp$title,
-										   circular_patches = circular_patches, add = TRUE,patch_shape = "line", sizes = cmp$gp$lwd,
+										   circular_patches = circular_patches, add = TRUE,patch_shape = "line", sizes = cmp$gp$lwd, interactive = TRUE,
 										   margin_top = cmp$margin_top,
 										   margin_bottom = cmp$margin_bottom,
 										   margin_left = cmp$margin_left,
@@ -139,12 +139,12 @@ mapgl_legend = function(cmp, m, o, orientation, mode) {
 		patches = if (!any(is.na(cmp$gp$shape)) && all(cmp$gp$shape %in% c(1, 10, 16, 19:21))) "circle" else "square"
 
 		sizes = if (!is.na(cmp$gp$size[1])) cmp$gp$size * 20 else NULL
-		m |> mapgl::add_legend(colors = gp2$fillColor, values = cmp$labels, position = legpos, legend_title = cmp$title, type = "categorical", patch_shape = patches, add = TRUE,
+		m |> mapgl::add_categorical_legend(colors = gp2$fillColor, values = cmp$labels, position = legpos, legend_title = cmp$title, patch_shape = patches, add = TRUE, interactive = TRUE,
 							   sizes = sizes,
 							   margin_top = cmp$margin_top,
 							   margin_bottom = cmp$margin_bottom,
 							   margin_left = cmp$margin_left,
-							   margin_right = cmp$margin_right)
+							   margin_right = cmp$margin_right, layer_id = "group1_layer1polygons_border")
 	}
 	m2
 

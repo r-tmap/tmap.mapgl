@@ -33,7 +33,7 @@ mapgl_shape = function(bbx, facet_row, facet_col, facet_page, o, mode) {
 
 	bbx = sf::st_bbox(sf::st_transform(tmaptools::bb_poly(bbx), crs = 4326))
 	ll = unname(c(mean(bbx[c(1,3)]), mean(bbx[c(2,4)])))
-	zoom = findZoom(bbx)
+	zoom = if (is.na(o$zoom)) findZoom(bbx) else o$zoom
 
 
 	e = if (mode == "mapbox") {

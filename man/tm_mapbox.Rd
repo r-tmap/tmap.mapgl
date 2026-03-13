@@ -4,10 +4,16 @@
 \alias{tm_mapbox}
 \title{Mapbox mode options}
 \usage{
-tm_mapbox(pitch)
+tm_mapbox(pitch, control.position, control.collapse, zoom)
 }
 \arguments{
 \item{pitch}{The pitch angle}
+
+\item{control.position}{The position of the layer control box}
+
+\item{control.collapse}{Should the layer control box be collapsed?}
+
+\item{zoom}{The zoom level of the map}
 }
 \value{
 a [tmap::tmap-element]

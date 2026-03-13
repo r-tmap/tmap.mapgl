@@ -595,6 +595,7 @@ tmapMapboxDataPlot(
   id,
   pane,
   group,
+  glid,
   o,
   ...
 )
@@ -615,6 +616,7 @@ tmapMapboxDataPlot(
   id,
   pane,
   group,
+  glid,
   o,
   ...
 )
@@ -635,6 +637,7 @@ tmapMapboxDataPlot(
   id,
   pane,
   group,
+  glid,
   o,
   ...
 )
@@ -655,6 +658,7 @@ tmapMapboxDataPlot(
   id,
   pane,
   group,
+  glid,
   o,
   ...
 )
@@ -675,6 +679,7 @@ tmapMapboxDataPlot(
   id,
   pane,
   group,
+  glid,
   o,
   ...
 )
@@ -695,6 +700,7 @@ tmapMapboxDataPlot(
   id,
   pane,
   group,
+  glid,
   o,
   ...
 )
@@ -715,6 +721,7 @@ tmapMapboxDataPlot(
   id,
   pane,
   group,
+  glid,
   o,
   ...
 )
@@ -735,6 +742,7 @@ tmapMapboxDataPlot(
   id,
   pane,
   group,
+  glid,
   o,
   ...
 )
@@ -755,6 +763,7 @@ tmapMapboxDataPlot(
   id,
   pane,
   group,
+  glid,
   o,
   ...
 )
@@ -775,6 +784,7 @@ tmapMapboxDataPlot(
   id,
   pane,
   group,
+  glid,
   o,
   ...
 )
@@ -795,6 +805,7 @@ tmapMapboxDataPlot(
   id,
   pane,
   group,
+  glid,
   o,
   ...
 )
@@ -815,6 +826,7 @@ tmapMaplibreDataPlot(
   id,
   pane,
   group,
+  glid,
   o,
   ...
 )
@@ -835,6 +847,7 @@ tmapMaplibreDataPlot(
   id,
   pane,
   group,
+  glid,
   o,
   ...
 )
@@ -855,6 +868,7 @@ tmapMaplibreDataPlot(
   id,
   pane,
   group,
+  glid,
   o,
   ...
 )
@@ -875,6 +889,7 @@ tmapMaplibreDataPlot(
   id,
   pane,
   group,
+  glid,
   o,
   ...
 )
@@ -895,6 +910,7 @@ tmapMaplibreDataPlot(
   id,
   pane,
   group,
+  glid,
   o,
   ...
 )
@@ -915,6 +931,7 @@ tmapMaplibreDataPlot(
   id,
   pane,
   group,
+  glid,
   o,
   ...
 )
@@ -935,6 +952,7 @@ tmapMaplibreDataPlot(
   id,
   pane,
   group,
+  glid,
   o,
   ...
 )
@@ -955,6 +973,7 @@ tmapMaplibreDataPlot(
   id,
   pane,
   group,
+  glid,
   o,
   ...
 )
@@ -975,6 +994,7 @@ tmapMaplibreDataPlot(
   id,
   pane,
   group,
+  glid,
   o,
   ...
 )
@@ -995,6 +1015,7 @@ tmapMaplibreDataPlot(
   id,
   pane,
   group,
+  glid,
   o,
   ...
 )
@@ -1015,6 +1036,7 @@ tmapMaplibreDataPlot(
   id,
   pane,
   group,
+  glid,
   o,
   ...
 )
