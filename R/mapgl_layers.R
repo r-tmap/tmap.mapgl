@@ -64,72 +64,119 @@ mapgl_polygons = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, fa
 
 	rc_text = frc(facet_row, facet_col)
 
-	res = select_sf(shpTM, dt)
-	shp = res$shp
-	dt = res$dt
+	shp_is_pointer = inherits(shpTM$shp, "character")
 
-	popups = NULL
-
-	x = sf::st_sfc(list(sf::st_point(c(mean(bbx[c(1,3)]), bbx[2]))), crs = sf::st_crs(bbx))
-	y = sf::st_sfc(list(sf::st_point(c(mean(bbx[c(1,3)]), bbx[4]))), crs = sf::st_crs(bbx))
-
-	gp = impute_gp(gp, dt)
-	gp = rescale_gp(gp, o$scale_down)
-
-	if (any(nchar(gp$fill) == 9)) {
-		fill_alpha = split_alpha_channel(gp$fill, alpha = gp$fill_alpha)
-		gp$fill = fill_alpha$col
-		gp$fill_alpha = gp$fill_alpha * fill_alpha$opacity
-	}
-	if (any(nchar(gp$col) == 9)) {
-		fill_alpha = split_alpha_channel(gp$col, alpha = gp$col_alpha)
-		gp$col = fill_alpha$col
-		gp$col_alpha = gp$fill_alpha * fill_alpha$opacity
-	}
-
-
-	shp2 = sf::st_sf(unclass(gp[c("fill", "col", "lwd", "fill_alpha", "col_alpha")]), id = 1:length(shp), geometry = shp)
-
-	if (!is.null(hdt)) {
-		shp2$hover = hdt$hover[match(dt$tmapID__, hdt$tmapID__)]
-		shp2$hover = vapply(shp2$hover, htmltools::HTML, FUN.VALUE = character(1))
-
-		hdt = mapgl::get_column("hover")
-	}
-
-	if (!is.null(pdt)) {
-		mtch = match(dt$tmapID__, pdt$tmapID__)
-		pdt = pdt[mtch][, tmapID__ := NULL]
-
-		if (is.null(idt) && !is.null(hdt)) {
-			shp2$popup = view_format_popups_mapgl(id = shp2$hover, titles = names(pdt), values = pdt, format = popup.format)
-		} else {
-			shp2$popup = view_format_popups_mapgl(id = shp2$hover, titles = names(pdt), values = pdt, format = popup.format)
+	if (shp_is_pointer) {
+		if (mode == "mapbox") {
+			cli::cli_inform("Source shapes not supported in {.str mapbox} mode yet, only in {.str maplibre}")
+			return(NULL)
 		}
-		popup = mapgl::get_column("popup")
+
+		srcname = paste0("layer", pane)
+		layername1 = paste0(glid, "polygons_fill")
+		layername2 = paste0(glid, "polygons_border")
+
+		smeta = shpTM$smeta
+
+		if (smeta$type != "pmtiles") {
+			cli::cli_inform("Source shapes other than PMTiles not supported yet")
+			return(NULL)
+		}
+
+
+		url = smeta$url
+
+		get_pmt_aes = function(a) {
+			if (substr(dt[[a]][1], 1, 4) == "ref:") mapgl::get_column(substr(dt[[a]][1], 5, nchar(dt[[a]][1]))) else dt[[a]][1]
+		}
+
+		aes_f = get_pmt_aes("fill")
+		aes_fo = get_pmt_aes("fill_alpha")
+		aes_c = get_pmt_aes("col")
+		aes_co = get_pmt_aes("col_alpha")
+		aes_lwd = get_pmt_aes("lwd")
+
+		m |> mapgl::add_pmtiles_source(id = glid, url = url) |>
+			mapgl::add_fill_layer(layername1, source = glid, source_layer = shpTM$smeta$layer,
+								  fill_color = aes_f,
+								  fill_opacity = aes_fo
+			) |>
+			mapgl::add_line_layer(layername2, source = glid, source_layer = shpTM$smeta$layer,
+								  line_color = aes_c,
+								  line_opacity = aes_co,
+								  line_width = aes_lwd) |>
+			assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
 
 	} else {
-		popup = NULL
+		res = select_sf(shpTM, dt)
+		shp = res$shp
+		dt = res$dt
+
+		popups = NULL
+
+		x = sf::st_sfc(list(sf::st_point(c(mean(bbx[c(1,3)]), bbx[2]))), crs = sf::st_crs(bbx))
+		y = sf::st_sfc(list(sf::st_point(c(mean(bbx[c(1,3)]), bbx[4]))), crs = sf::st_crs(bbx))
+
+		gp = impute_gp(gp, dt)
+		gp = rescale_gp(gp, o$scale_down)
+
+		if (any(nchar(gp$fill) == 9)) {
+			fill_alpha = split_alpha_channel(gp$fill, alpha = gp$fill_alpha)
+			gp$fill = fill_alpha$col
+			gp$fill_alpha = gp$fill_alpha * fill_alpha$opacity
+		}
+		if (any(nchar(gp$col) == 9)) {
+			fill_alpha = split_alpha_channel(gp$col, alpha = gp$col_alpha)
+			gp$col = fill_alpha$col
+			gp$col_alpha = gp$fill_alpha * fill_alpha$opacity
+		}
+
+
+		shp2 = sf::st_sf(unclass(gp[c("fill", "col", "lwd", "fill_alpha", "col_alpha")]), id = 1:length(shp), geometry = shp)
+
+		if (!is.null(hdt)) {
+			shp2$hover = hdt$hover[match(dt$tmapID__, hdt$tmapID__)]
+			shp2$hover = vapply(shp2$hover, htmltools::HTML, FUN.VALUE = character(1))
+
+			hdt = mapgl::get_column("hover")
+		}
+
+		if (!is.null(pdt)) {
+			mtch = match(dt$tmapID__, pdt$tmapID__)
+			pdt = pdt[mtch][, tmapID__ := NULL]
+
+			if (is.null(idt) && !is.null(hdt)) {
+				shp2$popup = view_format_popups_mapgl(id = shp2$hover, titles = names(pdt), values = pdt, format = popup.format)
+			} else {
+				shp2$popup = view_format_popups_mapgl(id = shp2$hover, titles = names(pdt), values = pdt, format = popup.format)
+			}
+			popup = mapgl::get_column("popup")
+
+		} else {
+			popup = NULL
+		}
+
+
+		srcname = paste0("layer", pane)
+		layername1 = paste0(glid, "polygons_fill")
+		layername2 = paste0(glid, "polygons_border")
+
+		nofill = all(gp$fill == o$value.blank$fill)
+
+		m |> mapgl::add_source(srcname, data = shp2) |>
+			mapgl::add_fill_layer(layername1, source = srcname,
+								  fill_color = mapgl::get_column("fill"),
+								  fill_opacity = mapgl::get_column("fill_alpha"),
+								  tooltip = hdt,popup = popup
+			) |>
+			mapgl::add_line_layer(layername2, source = srcname,
+								  line_color = mapgl::get_column("col"),
+								  line_opacity = mapgl::get_column("col_alpha"),
+								  line_width = mapgl::get_column("lwd")) |>
+			assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
+
+
 	}
-
-
-	srcname = paste0("layer", pane)
-	layername1 = paste0(glid, "polygons_fill")
-	layername2 = paste0(glid, "polygons_border")
-
-	nofill = all(gp$fill == o$value.blank$fill)
-po(layername1, layername2)
-	m |> mapgl::add_source(srcname, data = shp2) |>
-		mapgl::add_fill_layer(layername1, source = srcname,
-							  fill_color = mapgl::get_column("fill"),
-							  fill_opacity = mapgl::get_column("fill_alpha"),
-							  tooltip = hdt,popup = popup
-							  ) |>
-		mapgl::add_line_layer(layername2, source = srcname,
-							  line_color = mapgl::get_column("col"),
-							  line_opacity = mapgl::get_column("col_alpha"),
-							  line_width = mapgl::get_column("lwd")) |>
-		assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
 
 	mapgl_submit_group(group, c(layername1, layername2), mode)
 	NULL

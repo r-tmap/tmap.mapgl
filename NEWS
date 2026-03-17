@@ -3,7 +3,7 @@ version 0.2.0
 - tm_fullscreen
 - layer control improved
 - tm_geocoder improved
--
+- support for PMTiles (via new pacakge tmap.sources)
 
 version 0.1.0
 - development version
