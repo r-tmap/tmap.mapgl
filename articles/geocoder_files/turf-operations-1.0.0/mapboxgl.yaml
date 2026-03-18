@@ -1,8 +1,8 @@
 dependencies:
   - name: mapbox-gl-js
-    version: "3.15.0"
+    version: "3.19.1"
     src:
-      href: "https://api.mapbox.com/mapbox-gl-js/v3.15.0/"
+      href: "https://api.mapbox.com/mapbox-gl-js/v3.19.1"
     script:
       - "mapbox-gl.js"
     stylesheet:
@@ -10,7 +10,7 @@ dependencies:
   - name: mapbox-gl-draw
     version: "1.5.0"
     src:
-      href: "https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.5.0/"
+      href: "https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.5.0"
     script:
       - "mapbox-gl-draw.js"
     stylesheet:
@@ -33,7 +33,7 @@ dependencies:
   - name: mapbox-gl-geocoder
     version: 5.0.0
     src:
-      href: "https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/"
+      href: "https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0"
     script:
       - "mapbox-gl-geocoder.min.js"
     stylesheet:
@@ -44,7 +44,7 @@ dependencies:
     script:
       - "bundle.js"
   - name: pmtiles
-    version: 4.3.0
+    version: 4.4.0
     src: "htmlwidgets/lib/pmtiles"
     script:
       - "pmtiles.js"
@@ -54,7 +54,7 @@ dependencies:
     script:
       - "pmtiles-source-optimized-v2.js"
   - name: turf
-    version: "7.2.0"
+    version: "7.3.0"
     src: "htmlwidgets/lib/turf"
     script:
       - "turf.min.js"
@@ -63,3 +63,15 @@ dependencies:
     src: "htmlwidgets"
     script:
       - "turf-operations.js"
+  - name: html2canvas
+    version: "1.4.1"
+    src: "htmlwidgets/lib/html2canvas"
+    script:
+      - "html2canvas.min.js"
+  - name: legend-interactivity
+    version: "1.0.0"
+    src: "htmlwidgets/lib/legend-interactivity"
+    script:
+      - "legend-interactivity.js"
+    stylesheet:
+      - "legend-interactivity.css"

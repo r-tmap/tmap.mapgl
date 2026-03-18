@@ -1,0 +1,65 @@
+# 3D polygon layer
+
+**tmap.mapgl** also features a new layer type, `tm_polygons_3d`, which
+is only available for the `"mapbox"` and `"maplibre"` modes.
+
+This map layer is the same as `tm_polygons`, with one addition: polygons
+can be extruded into 3D shapes. The visual variable to control this is
+called `height`.
+
+## Example: buildings heights
+
+``` r
+tmap_mode("maplibre")
+
+# get vector buildings
+library(osmdata)
+buildings <- opq(bbox = "Marina Bay, Singapore") |>
+    add_osm_feature(key = "building") |>
+    osmdata_sf()
+
+library(dplyr, warn.conflicts = FALSE)
+# only keep polygons
+buildings_poly <- buildings$osm_polygons |>
+  # convert height and levels from string to numeric
+  mutate(levels = as.numeric(`building:levels`),
+         height = as.numeric(height)) |>
+  # assume 2 levels if NA
+  mutate(levels = if_else(is.na(levels), 2, levels),
+         # assume height of 3 m per level if no height
+         height = if_else(is.na(height), levels * 3, height))
+```
+
+For the time being, we need to compute the maximum building height,
+because `tm_scale_asis` doesn’t support units yet.
+
+``` r
+# maximum building height
+mx = max(buildings_poly$height)
+
+# plot
+tm_shape(buildings_poly) +
+    tm_polygons_3d(height = "height", options = opt_tm_polygons_3d(height.max = mx)) + 
+    tm_maplibre(pitch = 60)
+```
+
+## Example: population density data (Netherlands)
+
+``` r
+NLD_dist$pop_dens = NLD_dist$population / NLD_dist$area
+
+tm_shape(NLD_dist) +
+  tm_polygons_3d(height = "pop_dens",
+    fill = "edu_appl_sci",
+    fill.scale = tm_scale_intervals(style = "kmeans", values = "-pu_gn"),
+    fill.legend = tm_legend("University degree")) +
+tm_maplibre(pitch = 45) +
+tm_crs(3857)
+#> [plot mode] map layer `tm_polygons_3d` not available for mode "plot". This map
+#> layer is only available for modes "mapbox" and "maplibre"
+#> [nothing to show] no data layers defined after `tm_shape()`
+```
+
+The last code line is to enable the mercator projection. The default
+projection, “globe” is similar at this zoom level, but triggers some
+artefacts around the polygon borders.
