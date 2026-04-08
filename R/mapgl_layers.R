@@ -67,8 +67,21 @@ mapgl_polygons = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, fa
 	shp_is_pointer = inherits(shpTM$shp, "character")
 
 	if (shp_is_pointer) {
+
+
+		smeta = shpTM$smeta
 		if (mode == "mapbox") {
-			cli::cli_inform("Source shapes not supported in {.str mapbox} mode yet, only in {.str maplibre}")
+			cli::cli_inform("Source shapes are not supported in {.str mapbox} mode yet, only in {.str maplibre}")
+			return(NULL)
+		}
+		if (smeta$type != "pmtiles") {
+			cli::cli_inform("Source shapes other than PMTiles not supported yet")
+			return(NULL)
+		}
+
+
+		if (smeta$type == "pmtiles" && smeta$tile_type != "mvt") {
+			cli::cli_inform("Source shape is not a vector format")
 			return(NULL)
 		}
 
@@ -76,18 +89,38 @@ mapgl_polygons = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, fa
 		layername1 = paste0(glid, "polygons_fill")
 		layername2 = paste0(glid, "polygons_border")
 
-		smeta = shpTM$smeta
-
-		if (smeta$type != "pmtiles") {
-			cli::cli_inform("Source shapes other than PMTiles not supported yet")
-			return(NULL)
-		}
 
 
 		url = smeta$url
 
+		build_match_expr <- function(var, mapping) {
+			expr <- list("match", list("get", var))
+			for (i in seq_along(mapping$levels_orig)) {
+				expr <- c(expr, list(mapping$levels_orig[i], mapping$values_orig[i]))
+			}
+			expr <- c(expr, list(mapping$value_na))
+			expr
+		}
+
 		get_pmt_aes = function(a) {
-			if (substr(dt[[a]][1], 1, 4) == "ref:") mapgl::get_column(substr(dt[[a]][1], 5, nchar(dt[[a]][1]))) else dt[[a]][1]
+			v = dt[[a]][1]
+			is_var = (substr(v, 1, 5) == "scale")
+
+			if (is_var) {
+				snr  = as.numeric(substr(v, 6, 8))
+				leg = .TMAP$legs[[snr]]
+				var = substr(v, 10, nchar(v))
+				mapping = leg$layer_args$mapping
+
+				if (!is.null(mapping$levels_orig)) {
+					build_match_expr(var, mapping)
+				} else {
+					mapgl::get_column(var)
+				}
+
+			} else {
+				dt[[a]][1]
+			}
 		}
 
 		aes_f = get_pmt_aes("fill")
@@ -436,8 +469,39 @@ mapgl_raster = function(a, shpTM, dt, gp, pdt, popup.format, hdt, idt, bbx, face
 	shp = shpTM$shp
 	tmapID = shpTM$tmapID
 
+	shp_is_pointer = inherits(shp, "character")
 
-	if (is_regular_grid(shp)) {
+
+	if (shp_is_pointer) {
+		if (mode == "mapbox") {
+			cli::cli_inform("Source shapes are not supported in {.str mapbox} mode yet, only in {.str maplibre}")
+			return(NULL)
+		}
+
+		smeta = shpTM$smeta
+
+		if (smeta$type == "pmtiles" && smeta$tile_type == "mvt") {
+			cli::cli_inform("Source shape is a vector format")
+			return(NULL)
+		}
+
+		srcname = paste0("layer", pane)
+		layername1 = paste0(srcname, "raster")
+
+		url = smeta$url
+
+		get_pmt_aes = function(a) {
+			if (substr(dt[[a]][1], 1, 4) == "ref:") mapgl::get_column(substr(dt[[a]][1], 5, nchar(dt[[a]][1]))) else dt[[a]][1]
+		}
+
+		m = get_mapgl(facet_row, facet_col, facet_page, mode = mode)
+
+		m |> mapgl::add_pmtiles_source(id = glid, url = url, source_type = "raster") |>
+			mapgl::add_raster_layer(layername1, source = glid) |>
+			assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
+
+
+	} else if (is_regular_grid(shp)) {
 
 		tid = intersect(tmapID, dt$tmapID__)
 
