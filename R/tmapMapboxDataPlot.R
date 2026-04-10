@@ -18,7 +18,7 @@ tmapMapboxDataPlot.default = function(a, shpTM, dt, pdt, popup.format, hdt, idt,
 #' @keywords internal
 #' @rdname tmapMapbox
 tmapMapboxDataPlot.tm_data_polygons = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ...) {
-	mapgl_polygons(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ..., mode = "mapbox")
+	mapgl_polygons(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ..., mode = "mapbox")
 }
 
 
@@ -26,7 +26,7 @@ tmapMapboxDataPlot.tm_data_polygons = function(a, shpTM, dt, pdt, popup.format, 
 #' @keywords internal
 #' @rdname tmapMapbox
 tmapMapboxDataPlot.tm_data_polygons_3d = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ...) {
-	mapgl_polygons_3d(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ..., mode = "mapbox")
+	mapgl_polygons_3d(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ..., mode = "mapbox")
 }
 
 
@@ -34,7 +34,7 @@ tmapMapboxDataPlot.tm_data_polygons_3d = function(a, shpTM, dt, pdt, popup.forma
 #' @keywords internal
 #' @rdname tmapMapbox
 tmapMapboxDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ...) {
-	mapgl_lines(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ..., mode = "mapbox")
+	mapgl_lines(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ..., mode = "mapbox")
 }
 
 
@@ -42,7 +42,7 @@ tmapMapboxDataPlot.tm_data_lines = function(a, shpTM, dt, pdt, popup.format, hdt
 #' @keywords internal
 #' @rdname tmapMapbox
 tmapMapboxDataPlot.tm_data_symbols = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ...) {
-	mapgl_symbols(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ..., mode = "mapbox")
+	mapgl_symbols(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ..., mode = "mapbox")
 }
 
 
@@ -50,7 +50,7 @@ tmapMapboxDataPlot.tm_data_symbols = function(a, shpTM, dt, pdt, popup.format, h
 #' @keywords internal
 #' @rdname tmapMapbox
 tmapMapboxDataPlot.tm_data_raster = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ...) {
-	mapgl_raster(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ..., mode = "mapbox")
+	mapgl_raster(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ..., mode = "mapbox")
 }
 
 
