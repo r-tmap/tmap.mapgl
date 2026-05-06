@@ -446,3 +446,11 @@ fancy_breaks <- function(vec, as.count = FALSE, interval.disjoint = FALSE, inter
 	attr(y, "align") <- text.align
 	y
 }
+
+paste2 = function(x, y, flipped) {
+	if (flipped) {
+		paste(y, x, sep = " ")
+	} else {
+		paste(x, y, sep = " ")
+	}
+}

@@ -166,7 +166,7 @@ mapgl_legend_comp = function(comp, o, mode) {
 			"gradient"
 		} else if (any(c("bgcol", "bgcol_alpha") %in% varying)) {
 			"none"
-		} else if ("lwd" %in% varying) {
+		} else if ("lwd" %in% varying || "lines" %in% layer) {
 			"lines"
 		} else {
 			"symbols"

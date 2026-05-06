@@ -265,6 +265,32 @@ mapgl_polygons <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 		geometry = shp
 	)
 
+	# --- Add categorical column for interactive legend ---
+	legs = .TMAP$legs
+	lid = which(vapply(legs, FUN = function(l) {
+		("glid" %in% names(l)) && l$glid == glid
+	}, FUN.VALUE = logical(1)))[1]
+	leg = legs[[lid]]
+
+	cat_colors <- leg$vvalues   # per-category hex colors
+	cat_values <- leg$labels    # category labels
+
+	stopifnot(length(cat_colors) == length(cat_values))  # sanity check
+
+	shp2[["__tmap_cat__"]] <- cat_values[match(shp2$fill, cat_colors)]
+
+	attr(shp2, "tmap_cat_col")    <- "__tmap_cat__"
+	attr(shp2, "tmap_cat_values") <- cat_values
+	attr(shp2, "tmap_cat_colors") <- cat_colors
+	# -----------------------------------------------------
+
+	ahp  <- attach_hover_popup(shp2, dt, hdt, pdt, idt, popup.format)
+	shp2 <- ahp$shp2
+
+	srcname    <- paste0("layer", pane)
+	layername1 <- paste0(glid, "polygons_fill")
+	layername2 <- paste0(glid, "polygons_border")
+
 	ahp  <- attach_hover_popup(shp2, dt, hdt, pdt, idt, popup.format)
 	shp2 <- ahp$shp2
 
@@ -505,32 +531,25 @@ mapgl_polygons_3d <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 # ============================================================
 #  mapgl_lines
 # ============================================================
-
 mapgl_lines <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 						bbx, facet_row, facet_col, facet_page,
 						id, pane, group, glid, o, ..., mode) {
-
 	m          <- get_mapgl(facet_row, facet_col, facet_page, mode = mode)
 	rc_text    <- frc(facet_row, facet_col)
 	shp_is_pointer <- inherits(shpTM$shp, "character")
-
 	# ----------------------------------------------------------
 	#  PMTiles branch
 	# ----------------------------------------------------------
 	if (shp_is_pointer) {
 		if (pmtiles_unsupported(shpTM, mode)) return(NULL)
-
 		smeta      <- shpTM$smeta
 		srcname    <- paste0("layer", pane)
 		layername1 <- paste0(glid, "lines")
 		url        <- smeta$url
-
 		get_pmt_aes <- make_get_pmt_aes(dt)
-
 		aes_c   <- get_pmt_aes("col")
 		aes_co  <- get_pmt_aes("col_alpha")
 		aes_lwd <- get_pmt_aes("lwd")
-
 		m |>
 			mapgl::add_pmtiles_source(id = glid, url = url) |>
 			mapgl::add_line_layer(layername1, source = glid,
@@ -539,36 +558,49 @@ mapgl_lines <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 								  line_opacity  = aes_co,
 								  line_width    = aes_lwd) |>
 			assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
-
 		mapgl_submit_group(group, layername1, mode)
 		return(NULL)
 	}
-
 	# ----------------------------------------------------------
 	#  sf branch
 	# ----------------------------------------------------------
 	res <- select_sf(shpTM, dt)
 	shp <- res$shp
 	dt  <- res$dt
-
 	x <- sf::st_sfc(list(sf::st_point(c(mean(bbx[c(1, 3)]), bbx[2]))), crs = sf::st_crs(bbx))
 	y <- sf::st_sfc(list(sf::st_point(c(mean(bbx[c(1, 3)]), bbx[4]))), crs = sf::st_crs(bbx))
-
 	gp <- impute_gp(gp, dt)
 	gp <- rescale_gp(gp, o$scale_down)
-
 	shp2 <- sf::st_sf(
 		unclass(gp[c("col", "lwd", "col_alpha")]),
 		id       = 1:length(shp),
 		geometry = shp
 	)
 
+	# --- Add categorical column for interactive legend ---
+	legs <- .TMAP$legs
+	lid  <- which(vapply(legs, FUN = function(l) {
+		("glid" %in% names(l)) && l$glid == glid
+	}, FUN.VALUE = logical(1)))[1]
+	leg <- legs[[lid]]
+
+	cat_colors <- leg$vvalues
+	cat_values <- leg$labels
+
+	stopifnot(length(cat_colors) == length(cat_values))
+
+	shp2[["__tmap_cat__"]] <- cat_values[match(shp2$col, cat_colors)]
+
+	attr(shp2, "tmap_cat_col")    <- "__tmap_cat__"
+	attr(shp2, "tmap_cat_values") <- cat_values
+	attr(shp2, "tmap_cat_colors") <- cat_colors
+	# -----------------------------------------------------
+
 	ahp  <- attach_hover_popup(shp2, dt, hdt, pdt, idt, popup.format)
 	shp2 <- ahp$shp2
-
 	srcname    <- paste0("layer", pane)
-	layername1 <- paste0(srcname, "lines")
-
+	layername1 <- paste0(glid, "lines")  # was paste0(srcname, "lines") — fixed to match legend
+	print(layername1)
 	m |>
 		mapgl::add_source(srcname, data = shp2) |>
 		mapgl::add_line_layer(layername1, source = srcname,
@@ -578,7 +610,6 @@ mapgl_lines <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 							  tooltip      = ahp$hdt_arg,
 							  popup        = ahp$pdt_arg) |>
 		assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
-
 	mapgl_submit_group(group, layername1, mode)
 	NULL
 }
@@ -663,13 +694,32 @@ mapgl_symbols <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 		id       = 1:length(shp),
 		geometry = shp
 	)
+
 	shp2$size <- shp2$size * 10
+
+	# --- Add categorical column for interactive legend ---
+	legs <- .TMAP$legs
+	lid  <- which(vapply(legs, FUN = function(l) {
+		("glid" %in% names(l)) && l$glid == glid
+	}, FUN.VALUE = logical(1)))[1]
+	leg <- legs[[lid]]
+
+	cat_colors <- leg$vvalues
+	cat_values <- leg$labels
+
+	stopifnot(length(cat_colors) == length(cat_values))
+
+	shp2[["__tmap_cat__"]] <- cat_values[match(shp2$fill, cat_colors)]
+
+	attr(shp2, "tmap_cat_col")    <- "__tmap_cat__"
+	attr(shp2, "tmap_cat_values") <- cat_values
+	attr(shp2, "tmap_cat_colors") <- cat_colors
+	# -----------------------------------------------------
 
 	ahp  <- attach_hover_popup(shp2, dt, hdt, pdt, idt, popup.format)
 	shp2 <- ahp$shp2
-
 	srcname    <- paste0("layer", pane)
-	layername1 <- paste0(srcname, "symbols_fill")
+	layername1 <- paste0(glid, "symbols_fill")  # was paste0(srcname, ...) — fixed
 
 	m |>
 		mapgl::add_source(srcname, data = shp2) |>

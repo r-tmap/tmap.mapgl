@@ -1,4 +1,5 @@
 version 0.2.0
+- tm_legend improved: draggable and interactive
 - tm_draw added
 - tm_fullscreen
 - layer control improved

@@ -7,12 +7,12 @@ Authors@R: c(
 	)
 Description: The 'tmap' package provides two plotting modes for static and interactive thematic maps. This package extends 'tmap' with two additional modes based on 'Mapbox GL JS' and 'MapLibre GL JS'. These modes feature interactive vector tiles, globe views, and other modern web-mapping capabilities, while maintaining a consistent 'tmap' interface across all plotting modes.
 License: GPL-3
-Version: 0.1.0.9000
+Version: 0.2
 Encoding: UTF-8
 Depends:
     R (>= 4.1),
 Imports:
-    tmap (>= 4.2),
+    tmap (>= 4.3),
     mapgl (>= 0.4.1),
     terra,
     rlang,
@@ -31,4 +31,4 @@ Suggests:
 Config/Needs/website: bookdown, rmarkdown, r-tmap/tmap, walkerke/mapgl, dplyr, osmdata, mapview
 URL: https://github.com/r-tmap/tmap.mapgl, https://r-tmap.github.io/tmap.mapgl/
 BugReports: https://github.com/r-tmap/tmap.mapgl/issues
-RoxygenNote: 7.3.3
+Config/roxygen2/version: 8.0.0

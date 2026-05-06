@@ -1,5 +1,5 @@
 mapgl_pos = function(pos) {
-	if (is.character(pos)) pos = tm_pos_in(pos[1], pos[2])
+	if (is.character(pos)) pos = tmap::tm_pos_in(pos[1], pos[2])
 	if (pos$type %in% c("out", "autoout")) {
 		sel = c("cell.v", "cell.h")
 	} else {
@@ -117,34 +117,72 @@ mapgl_legend = function(cmp, m, o, orientation, mode) {
 										  margin_top = cmp$margin_top,
 										  margin_bottom = cmp$margin_bottom,
 										  margin_left = cmp$margin_left,
-										  margin_right = cmp$margin_right)
+										  margin_right = cmp$margin_right, draggable = TRUE)
 	} else if (cmp$type == "lines") {
-		colVary = length(cmp$gp2$color) > 1L
-		gp2 = make_equal_list(cmp$gp2)
-		if (colVary) gp2$fillColor = gp2$color
-
-		circular_patches = !any(is.na(cmp$gp$shape)) && all(cmp$gp$shape %in% c(1, 10, 16, 19:21))
-
-		m |> mapgl::add_categorical_legend(colors = gp2$fillColor, values = cmp$labels, position = legpos, legend_title = cmp$title,
-										   circular_patches = circular_patches, add = TRUE,patch_shape = "line", sizes = cmp$gp$lwd, interactive = TRUE,
-										   margin_top = cmp$margin_top,
-										   margin_bottom = cmp$margin_bottom,
-										   margin_left = cmp$margin_left,
-										   margin_right = cmp$margin_right)
+		layername1 <- paste0(cmp$glid, "lines")
+		cat_col    <- "__tmap_cat__"
+		colVary    <- length(cmp$gp2$color) > 1L
+		gp2        <- make_equal_list(cmp$gp2)
+		if (colVary) gp2$fillColor <- gp2$color
+		circular_patches <- !any(is.na(cmp$gp$shape)) && all(cmp$gp$shape %in% c(1, 10, 16, 19:21))
+		m |> mapgl::add_categorical_legend(
+			colors           = gp2$fillColor,
+			values           = cmp$labels,
+			position         = legpos,
+			legend_title     = cmp$title,
+			circular_patches = circular_patches,
+			add              = TRUE,
+			patch_shape      = "line",
+			sizes            = cmp$gp$lwd,
+			interactive      = TRUE,
+			margin_top       = cmp$margin_top,
+			margin_bottom    = cmp$margin_bottom,
+			margin_left      = cmp$margin_left,
+			margin_right     = cmp$margin_right,
+			layer_id         = layername1,
+			draggable        = TRUE,
+			filter_column    = cat_col
+		)
 	} else { # "symbols"
-		colVary = length(cmp$gp2$color) > 1L
-		gp2 = make_equal_list(cmp$gp2)
-		if (colVary) gp2$fillColor = gp2$color
+		if ("polygons" %in% cmp$layer) {
+			layername1 <- paste0(cmp$glid, "polygons_fill")
+		} else if ("symbols" %in% cmp$layer) {
+			layername1 <- paste0(cmp$glid, "symbols_fill")
+		} else {
+			layername1 <- paste0(cmp$glid, cmp$layer[1], "_fill")
+		}
 
-		patches = if (!any(is.na(cmp$gp$shape)) && all(cmp$gp$shape %in% c(1, 10, 16, 19:21))) "circle" else "square"
+		colVary <- length(cmp$gp2$color) > 1L
+		gp2     <- make_equal_list(cmp$gp2)
+		if (colVary) gp2$fillColor <- gp2$color
 
-		sizes = if (!is.na(cmp$gp$size[1])) cmp$gp$size * 20 else NULL
-		m |> mapgl::add_categorical_legend(colors = gp2$fillColor, values = cmp$labels, position = legpos, legend_title = cmp$title, patch_shape = patches, add = TRUE, interactive = TRUE,
-							   sizes = sizes,
-							   margin_top = cmp$margin_top,
-							   margin_bottom = cmp$margin_bottom,
-							   margin_left = cmp$margin_left,
-							   margin_right = cmp$margin_right, layer_id = "group1_layer1polygons_border")
+		patches <- if (!any(is.na(cmp$gp$shape)) && all(cmp$gp$shape %in% c(1, 10, 16, 19:21))) {
+			"circle"
+		} else {
+			"square"
+		}
+		sizes <- if (!is.na(cmp$gp$size[1])) cmp$gp$size * 20 else NULL
+
+		# Determine the classification column name (must match what was stored above)
+		cat_col <- "__tmap_cat__"
+
+
+		m |> mapgl::add_categorical_legend(
+			colors         = gp2$fillColor,
+			values         = cmp$labels,
+			position       = legpos,
+			legend_title   = cmp$title,
+			patch_shape    = patches,
+			add            = TRUE,
+			interactive    = TRUE,
+			sizes          = sizes,
+			margin_top     = cmp$margin_top,
+			margin_bottom  = cmp$margin_bottom,
+			margin_left    = cmp$margin_left,
+			margin_right   = cmp$margin_right,
+			layer_id       = layername1,draggable = TRUE,
+			filter_column  = cat_col          # <-- this is the new addition
+		)
 	}
 	m2
 
