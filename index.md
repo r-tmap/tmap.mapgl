@@ -12,6 +12,7 @@ This package is in development so the development version of both
 ### tmap
 
 ``` r
+
 # install.packages("remotes")
 remotes::install_github("r-tmap/tmap")
 
@@ -29,6 +30,7 @@ automatically installed for Windows users).
 ### tmap.mapgl
 
 ``` r
+
 # install.packages("remotes")
 remotes::install_github("r-tmap/tmap.mapgl")
 
@@ -58,6 +60,7 @@ For `"mapbox"` an API key is required, which is free for personal use.
 ### mapbox
 
 ``` r
+
 library(tmap)
 library(tmap.mapgl)
 
@@ -76,6 +79,7 @@ tmap mapbox mode
 ### maplibre
 
 ``` r
+
 tmap_mode("maplibre")
 
 tm_shape(World) + 

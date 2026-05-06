@@ -10,6 +10,7 @@ called `height`.
 ## Example: buildings heights
 
 ``` r
+
 tmap_mode("maplibre")
 
 # get vector buildings
@@ -34,6 +35,7 @@ For the time being, we need to compute the maximum building height,
 because `tm_scale_asis` doesn’t support units yet.
 
 ``` r
+
 # maximum building height
 mx = max(buildings_poly$height)
 
@@ -46,6 +48,7 @@ tm_shape(buildings_poly) +
 ## Example: population density data (Netherlands)
 
 ``` r
+
 NLD_dist$pop_dens = NLD_dist$population / NLD_dist$area
 
 tm_shape(NLD_dist) +

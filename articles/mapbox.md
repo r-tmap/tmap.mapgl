@@ -5,6 +5,7 @@
 Mapbox offers several basemap providers, namely:
 
 ``` r
+
 tmap_mode("mapbox")
 #> ℹ tmap modes "plot" -> "view" -> "mapbox" -> "maplibre"
 #> ℹ rotate with `tmap::rtm()`switch to "plot" with `tmap::ttm()`
@@ -20,6 +21,7 @@ tmap_providers()
 ```
 
 ``` r
+
 tm_shape(metro) + 
   tm_dots(size = "pop2020", fill = "red")+
 tm_basemap("mapbox.streets")

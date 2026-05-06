@@ -9,6 +9,7 @@ One is already implemented: \[tm_geocoder()\]
 ## Example: metro
 
 ``` r
+
 tmap_mode("maplibre")
 #> ℹ tmap modes "plot" -> "view" -> "mapbox" -> "maplibre"
 #> ℹ rotate with `tmap::rtm()`switch to "plot" with `tmap::ttm()`

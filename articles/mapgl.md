@@ -25,6 +25,7 @@ See
 Get the current mode
 
 ``` r
+
 tmap_mode()
 #> ℹ tmap modes "plot" -> "view" -> "mapbox" -> "maplibre"
 #> ℹ rotate with `tmap::rtm()`switch to "plot" with `tmap::ttm()`
@@ -33,6 +34,7 @@ tmap_mode()
 Switch to mapbox
 
 ``` r
+
 tmap_mode("mapbox")
 #> ℹ tmap modes "plot" -> "view" ->
 #> "mapbox" -> "maplibre"
@@ -43,6 +45,7 @@ Alternatively,
 used to rotate between modes:
 
 ``` r
+
 rtm()
 #> ℹ tmap modes "plot" -> "view" ->
 #> "mapbox" -> "maplibre"
@@ -56,6 +59,7 @@ The syntax to create the map is exactly the same as for the other tmap
 modes:
 
 ``` r
+
 tm_shape(World) + 
   tm_polygons("well_being",
     fill.scale = tm_scale_continuous(values = "pu_gn"))
