@@ -600,7 +600,7 @@ mapgl_lines <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 	shp2 <- ahp$shp2
 	srcname    <- paste0("layer", pane)
 	layername1 <- paste0(glid, "lines")  # was paste0(srcname, "lines") — fixed to match legend
-	print(layername1)
+
 	m |>
 		mapgl::add_source(srcname, data = shp2) |>
 		mapgl::add_line_layer(layername1, source = srcname,

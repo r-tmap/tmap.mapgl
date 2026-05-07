@@ -1,4 +1,4 @@
-\donttest{
+\dontrun{
 library(tmap)
 library(tmap.mapgl)
 # getting API: https://walker-data.com/mapgl/articles/getting-started.html

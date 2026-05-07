@@ -22,7 +22,7 @@ a [tmap::tmap-element]
 Mapbox mode options. These options are specific to the mapbox mode.
 }
 \examples{
-\donttest{
+\dontrun{
 library(tmap)
 library(tmap.mapgl)
 # getting API: https://walker-data.com/mapgl/articles/getting-started.html

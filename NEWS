@@ -1,3 +1,6 @@
+version 0.2.1
+- fixed minor bug
+
 version 0.2.0
 - tm_legend improved: draggable and interactive
 - tm_draw added

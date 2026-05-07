@@ -14,7 +14,7 @@ web-mapping capabilities, while using the same 'tmap' syntax for creating
 maps (Tennekes 2018, <doi:10.32614/RJ-2018-027>).
 }
 \examples{
-\donttest{
+\dontrun{
 library(tmap)
 library(tmap.mapgl)
 # getting API: https://walker-data.com/mapgl/articles/getting-started.html
