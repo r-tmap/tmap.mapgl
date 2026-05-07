@@ -35,7 +35,6 @@ tm_shape(World) +
 
 tm_shape(World_rivers) +
     tm_lines(lwd = "strokelwd", lwd.scale = tm_scale_continuous(values.scale = 5))
-#> [1] "group1_layer1lines"
 ```
 
 ## Bubbles

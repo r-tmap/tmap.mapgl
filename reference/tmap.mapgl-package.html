@@ -17,7 +17,7 @@ maps (Tennekes 2018, &amp;lt;doi:10.32614/RJ-2018-027&amp;gt;)."><meta property=
 
     <a class="navbar-brand me-2" href="../index.html">tmap.mapgl</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2-1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -83,20 +83,15 @@ maps (Tennekes 2018, &lt;doi:10.32614/RJ-2018-027&gt;).</p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-tmap/tmap" class="external-link">tmap</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-tmap/tmap.mapgl" class="external-link">tmap.mapgl</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># getting API: https://walker-data.com/mapgl/articles/getting-started.html</span></span></span>
 <span class="r-in"><span><span class="co"># check API envir var: Sys.getenv("MAPBOX_PUBLIC_TOKEN")</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tmap_mode.html" class="external-link">tmap_mode</a></span><span class="op">(</span><span class="st">"mapbox"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> tmap modes <span style="color: #0000BB;">"plot"</span> -&gt; <span style="color: #0000BB;">"view"</span> -&gt; <span style="color: #0000BB; font-weight: bold;">"mapbox"</span> -&gt; <span style="color: #0000BB;">"maplibre"</span></span>
 <span class="r-in"><span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_polygons.html" class="external-link">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>, fill.scale <span class="op">=</span> <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_scale_intervals.html" class="external-link">tm_scale_intervals</a></span><span class="op">(</span>values <span class="op">=</span> <span class="st">"brewer.rd_yl_gn"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in mapgl::mapboxgl(center = c(0, 0), zoom = zoom, pitch = o$pitch,     style = style):</span> A Mapbox access token is required. Get one from your account at https://www.mapbox.com, and do one of the following:</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> Run `usethis::edit_r_environ()` and add the line MAPBOX_PUBLIC_TOKEN='your_token_goes_here';</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> Install the mapboxapi R package and run `mb_access_token('your_token_goes_here', install = TRUE)`</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> Alternatively, supply your token to the `access_token` parameter in this function or run `Sys.setenv(MAPBOX_PUBLIC_TOKEN='your_token_goes_here') for this session.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">NLD_dist</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_polygons.html" class="external-link">tm_polygons</a></span><span class="op">(</span><span class="st">"employment_rate"</span>,</span></span>
@@ -106,11 +101,7 @@ maps (Tennekes 2018, &lt;doi:10.32614/RJ-2018-027&gt;).</p>
 <span class="r-in"><span>  <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_polygons.html" class="external-link">tm_polygons</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="cn">NULL</span>, lwd <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="tm_mapbox.html">tm_mapbox</a></span><span class="op">(</span>pitch <span class="op">=</span> <span class="fl">60</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_basemap.html" class="external-link">tm_basemap</a></span><span class="op">(</span><span class="st">"mapbox.dark"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in mapgl::mapboxgl(center = ll, zoom = zoom, pitch = o$pitch, style = style):</span> A Mapbox access token is required. Get one from your account at https://www.mapbox.com, and do one of the following:</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> Run `usethis::edit_r_environ()` and add the line MAPBOX_PUBLIC_TOKEN='your_token_goes_here';</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> Install the mapboxapi R package and run `mb_access_token('your_token_goes_here', install = TRUE)`</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #0000BB;">ℹ</span> Alternatively, supply your token to the `access_token` parameter in this function or run `Sys.setenv(MAPBOX_PUBLIC_TOKEN='your_token_goes_here') for this session.</span>
-<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

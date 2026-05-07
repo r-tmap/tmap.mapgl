@@ -38,6 +38,8 @@ library(tmap)
 library(tmap.mapgl)
 tmap_mode("maplibre")
 #> ℹ tmap modes "plot" -> "view" -> "mapbox" -> "maplibre"
+#> ℹ rotate with `tmap::rtm()`switch to "plot" with `tmap::ttm()`
+#> This message is displayed once per session.
 tm_shape(World) +
   tm_polygons("HPI", fill.scale = tm_scale_intervals(values = "brewer.rd_yl_gn"))
 
