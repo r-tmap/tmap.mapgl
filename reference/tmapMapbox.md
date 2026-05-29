@@ -361,9 +361,9 @@ tmapMaplibreCompWidth(comp, o)
 # S3 method for class 'tm_geocoder'
 tmapMaplibreCompPlot(comp, m, o)
 
-tmapMapboxInit(o, return.asp = FALSE, vp, prx, dg = NULL, ...)
+tmapMapboxInit(o, return.asp = FALSE, vp, prx, dg = NULL, m = NULL, ...)
 
-tmapMaplibreInit(o, return.asp = FALSE, vp, prx, dg = NULL, ...)
+tmapMaplibreInit(o, return.asp = FALSE, vp, prx, dg = NULL, m = NULL, ...)
 
 tmapMapboxAux(o, q)
 
@@ -424,18 +424,6 @@ tmapMaplibreShape(bbx, facet_row, facet_col, facet_page, o)
 tmapMapboxOverlay(bbx, facet_row, facet_col, facet_page, o)
 
 tmapMaplibreOverlay(bbx, facet_row, facet_col, facet_page, o)
-
-renderTmapMapbox(expr, env, quoted, execOnResize)
-
-tmapOutputMapbox(outputId, width, height)
-
-tmapProxyMapbox(mapId, session, x)
-
-renderTmapMaplibre(expr, env, quoted, execOnResize)
-
-tmapOutputMaplibre(outputId, width, height)
-
-tmapProxyMaplibre(mapId, session, x)
 
 tmapMapboxWrap(label, facet_row, facet_col, facet_page, o)
 
@@ -1058,7 +1046,8 @@ tmapMaplibreDataPlot(
 
 - m:
 
-  mapbox oer maplibre object
+  the proxy object from \`maplibre_proxy()\`/\`mapboxgl_proxy()\`,
+  supplied in proxy mode
 
 - return.asp:
 

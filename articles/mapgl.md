@@ -63,4 +63,5 @@ modes:
 tm_shape(World) + 
   tm_polygons("well_being",
     fill.scale = tm_scale_continuous(values = "pu_gn"))
+#> == mapgl_polygons: class(m) = maplibregl, htmlwidget | pane = tmap401
 ```

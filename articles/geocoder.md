@@ -19,4 +19,5 @@ tm_shape(World) +
 tm_shape(metro) +
   tm_dots(size = "pop2030", fill = "gold") +
 tm_geocoder()
+#> == mapgl_polygons: class(m) = maplibregl, htmlwidget | pane = tmap401
 ```

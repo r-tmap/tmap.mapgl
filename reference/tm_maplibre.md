@@ -42,6 +42,7 @@ tmap_mode("maplibre")
 #> This message is displayed once per session.
 tm_shape(World) +
   tm_polygons("HPI", fill.scale = tm_scale_intervals(values = "brewer.rd_yl_gn"))
+#> == mapgl_polygons: class(m) = maplibregl, htmlwidget | pane = tmap401
 
 tm_shape(NLD_dist) +
   tm_polygons("employment_rate",
@@ -51,5 +52,7 @@ tm_shape(NLD_dist) +
   tm_polygons(fill = NULL, lwd = 1) +
 tm_mapbox(pitch = 60) +
 tm_basemap("carto.dark_matter")
+#> == mapgl_polygons: class(m) = maplibregl, htmlwidget | pane = tmap401
+#> == mapgl_polygons: class(m) = maplibregl, htmlwidget | pane = tmap402
 # }
 ```
