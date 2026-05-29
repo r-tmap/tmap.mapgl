@@ -18,7 +18,6 @@ assign the map to `map` without showing it.
 
 tm_shape(World) + 
   tm_polygons("well_being")
-#> == mapgl_polygons: class(m) = maplibregl, htmlwidget | pane = tmap401
 ```
 
 With a continuous diverging color scale:
@@ -28,7 +27,6 @@ With a continuous diverging color scale:
 tm_shape(World) + 
   tm_polygons("well_being",
     fill.scale = tm_scale_continuous(values = "pu_gn"))
-#> == mapgl_polygons: class(m) = maplibregl, htmlwidget | pane = tmap401
 ```
 
 ### Lines

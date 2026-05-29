@@ -19,7 +19,6 @@ assign the map to `map` without showing it.
 tm_shape(World) + 
   tm_polygons("well_being") +
     tm_scalebar()
-#> == mapgl_polygons: class(m) = maplibregl, htmlwidget | pane = tmap401
 ```
 
 ## Minimap
@@ -31,6 +30,4 @@ tm_shape(NLD_dist) +
     tm_shape(NLD_muni) +
     tm_borders(col = "black") +
 tm_minimap()
-#> == mapgl_polygons: class(m) = maplibregl, htmlwidget | pane = tmap401
-#> == mapgl_polygons: class(m) = maplibregl, htmlwidget | pane = tmap402
 ```

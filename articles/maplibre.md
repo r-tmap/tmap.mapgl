@@ -31,5 +31,4 @@ tm_shape(NLD_dist[NLD_dist$code == "WK093500", ]) +
   tm_borders() +
 tm_basemap("ofm.liberty") +
     tm_maplibre(pitch = 60)
-#> == mapgl_polygons: class(m) = maplibregl, htmlwidget | pane = tmap401
 ```

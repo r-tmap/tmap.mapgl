@@ -39,5 +39,4 @@ library(tmap)
 library(tmap.mapgl)
 map = tm_shape(World) + tm_polygons()
 tmap_maplibre(map, show = TRUE)
-#> == mapgl_polygons: class(m) = maplibregl, htmlwidget | pane = tmap401
 ```

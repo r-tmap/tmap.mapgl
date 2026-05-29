@@ -1057,6 +1057,11 @@ tmapMaplibreDataPlot(
 
   vp
 
+- dg:
+
+  base map widget (internal; `NULL` in proxy mode, where the proxy
+  object `m` is used as the drawing canvas instead)
+
 - q:
 
   q
