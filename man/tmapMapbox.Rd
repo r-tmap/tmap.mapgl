@@ -1063,6 +1063,9 @@ tmapMaplibreDataPlot(
 
 \item{vp}{vp}
 
+\item{dg}{base map widget (internal; \code{NULL} in proxy mode, where the
+proxy object \code{m} is used as the drawing canvas instead)}
+
 \item{q}{q}
 
 \item{class}{class}

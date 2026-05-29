@@ -183,6 +183,18 @@ lty2dash <- function(lty) {
 }
 
 # ============================================================
+#  Source id helper
+# ============================================================
+
+# Source ids must be unique per render. clear_layer() (used by tm_remove_layer
+# in proxy mode) removes *layers* but not their *sources*, so reusing a source
+# id on a redraw collides with the still-present stale source: MapLibre keeps
+# the old data and the re-added layers recolour from it. .TMAP$stamp is bumped
+# by print.tmap() on every render, giving a fresh source id each time. Layer
+# ids stay stable (glid-based) so the tm_remove_layer registry keeps matching.
+mapgl_srcid <- function(base) sprintf("%s_%.0f", base, .TMAP$stamp * 1e6)
+
+# ============================================================
 #  mapgl_polygons
 # ============================================================
 
@@ -191,9 +203,6 @@ mapgl_polygons <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 						   id, pane, group, glid, o, ..., mode) {
 
 	m <- get_mapgl(facet_row, facet_col, facet_page, mode)
-	message("== mapgl_polygons: class(m) = ", paste(class(m), collapse=", "),
-			" | pane = ", pane)
-
 	rc_text    <- frc(facet_row, facet_col)
 	shp_is_pointer <- inherits(shpTM$shp, "character")
 
@@ -204,7 +213,7 @@ mapgl_polygons <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 		if (pmtiles_unsupported(shpTM, mode)) return(NULL)
 
 		smeta      <- shpTM$smeta
-		srcname    <- paste0("layer", pane, "_", .TMAP$stamp)
+		srcname    <- mapgl_srcid(paste0("layer", pane))
 		layername1 <- paste0(glid, "polygons_fill")
 		layername2 <- paste0(glid, "polygons_border")
 		url        <- smeta$url
@@ -222,12 +231,12 @@ mapgl_polygons <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 		# so there is no row-level join available at render time.
 
 		m |>
-			mapgl::add_pmtiles_source(id = glid, url = url) |>
-			mapgl::add_fill_layer(layername1, source = glid,
+			mapgl::add_pmtiles_source(id = srcname, url = url) |>
+			mapgl::add_fill_layer(layername1, source = srcname,
 								  source_layer  = smeta$layer,
 								  fill_color    = aes_f,
 								  fill_opacity  = aes_fo) |>
-			mapgl::add_line_layer(layername2, source = glid,
+			mapgl::add_line_layer(layername2, source = srcname,
 								  source_layer  = smeta$layer,
 								  line_color    = aes_c,
 								  line_opacity  = aes_co,
@@ -290,7 +299,7 @@ mapgl_polygons <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 	ahp  <- attach_hover_popup(shp2, dt, hdt, pdt, idt, popup.format)
 	shp2 <- ahp$shp2
 
-	srcname    <- paste0("layer", pane, "_", .TMAP$stamp)
+	srcname    <- mapgl_srcid(paste0("layer", pane))
 	layername1 <- paste0(glid, "polygons_fill")
 	layername2 <- paste0(glid, "polygons_border")
 
@@ -329,7 +338,7 @@ mapgl_polygons_3d <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 		if (pmtiles_unsupported(shpTM, mode)) return(NULL)
 
 		smeta      <- shpTM$smeta
-		srcname    <- paste0("layer", pane)
+		srcname    <- mapgl_srcid(paste0("layer", pane))
 		layername1 <- paste0(glid, "polygons_fill")
 		layername2 <- paste0(glid, "polygons_border")
 		url        <- smeta$url
@@ -416,13 +425,13 @@ mapgl_polygons_3d <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 		)
 
 		m |>
-			mapgl::add_pmtiles_source(id = glid, url = url) |>
-			mapgl::add_line_layer(layername2, source = glid,
+			mapgl::add_pmtiles_source(id = srcname, url = url) |>
+			mapgl::add_line_layer(layername2, source = srcname,
 								  source_layer          = smeta$layer,
 								  line_color            = aes_c,
 								  line_opacity          = aes_co,
 								  line_width            = aes_lwd) |>
-			mapgl::add_fill_extrusion_layer(layername1, source = glid,
+			mapgl::add_fill_extrusion_layer(layername1, source = srcname,
 											source_layer           = smeta$layer,
 											fill_extrusion_color   = aes_f,
 											fill_extrusion_base    = 0,
@@ -463,12 +472,23 @@ mapgl_polygons_3d <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 		geometry = shp
 	)
 
+	# NOTE on transparency: fill-extrusion layers do NOT support per-feature alpha.
+	# The GL spec ignores the alpha channel of fill-extrusion-color (and a long-
+	# standing engine bug renders alpha=0 as solid black), and fill-extrusion-opacity
+	# is per-LAYER only, not data-driven. So we honour transparency as a single
+	# layer-wide opacity, taken as the mean of the per-feature fill_alpha values.
+	fill_ext_opacity <- {
+		fa <- suppressWarnings(as.numeric(shp2$fill_alpha))
+		fa <- fa[is.finite(fa)]
+		if (!length(fa)) 1 else min(max(mean(fa), 0), 1)
+	}
+
 	ahp  <- attach_hover_popup(shp2, dt, hdt, pdt, idt, popup.format)
 	shp2 <- ahp$shp2
 
-	srcname    <- paste0("layer", pane)
-	layername1 <- paste0(srcname, "polygons_fill")
-	layername2 <- paste0(srcname, "polygons_border")
+	srcname    <- mapgl_srcid(paste0("layer", pane))
+	layername1 <- paste0(glid, "polygons_fill")
+	layername2 <- paste0(glid, "polygons_border")
 
 	if (is.character(a$height.max)) {
 		is_perc_max <- grepl("%$", a$height.max)
@@ -513,11 +533,12 @@ mapgl_polygons_3d <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 							  line_opacity = mapgl::get_column("col_alpha"),
 							  line_width   = mapgl::get_column("lwd")) |>
 		mapgl::add_fill_extrusion_layer(layername1, source = srcname,
-										fill_extrusion_color  = mapgl::get_column("fill"),
-										fill_extrusion_base   = 0,
-										fill_extrusion_height = mapgl::get_column("height"),
-										tooltip               = ahp$hdt_arg,
-										popup                 = ahp$pdt_arg) |>
+										fill_extrusion_color   = mapgl::get_column("fill"),
+										fill_extrusion_opacity = fill_ext_opacity,
+										fill_extrusion_base    = 0,
+										fill_extrusion_height  = mapgl::get_column("height"),
+										tooltip                = ahp$hdt_arg,
+										popup                  = ahp$pdt_arg) |>
 		assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
 
 	mapgl_submit_group(group, c(layername1, layername2), mode, pane)
@@ -539,7 +560,7 @@ mapgl_lines <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 	if (shp_is_pointer) {
 		if (pmtiles_unsupported(shpTM, mode)) return(NULL)
 		smeta      <- shpTM$smeta
-		srcname    <- paste0("layer", pane)
+		srcname    <- mapgl_srcid(paste0("layer", pane))
 		layername1 <- paste0(glid, "lines")
 		url        <- smeta$url
 		get_pmt_aes <- make_get_pmt_aes(dt)
@@ -547,8 +568,8 @@ mapgl_lines <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 		aes_co  <- get_pmt_aes("col_alpha")
 		aes_lwd <- get_pmt_aes("lwd")
 		m |>
-			mapgl::add_pmtiles_source(id = glid, url = url) |>
-			mapgl::add_line_layer(layername1, source = glid,
+			mapgl::add_pmtiles_source(id = srcname, url = url) |>
+			mapgl::add_line_layer(layername1, source = srcname,
 								  source_layer  = smeta$layer,
 								  line_color    = aes_c,
 								  line_opacity  = aes_co,
@@ -594,7 +615,7 @@ mapgl_lines <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 
 	ahp  <- attach_hover_popup(shp2, dt, hdt, pdt, idt, popup.format)
 	shp2 <- ahp$shp2
-	srcname    <- paste0("layer", pane, "_", .TMAP$stamp)
+	srcname    <- mapgl_srcid(paste0("layer", pane))
 	layername1 <- paste0(glid, "lines")  # was paste0(srcname, "lines") — fixed to match legend
 
 	m |>
@@ -629,7 +650,7 @@ mapgl_symbols <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 		if (pmtiles_unsupported(shpTM, mode)) return(NULL)
 
 		smeta      <- shpTM$smeta
-		srcname    <- paste0("layer", pane, "_", .TMAP$stamp)
+		srcname    <- mapgl_srcid(paste0("layer", pane))
 		layername1 <- paste0(glid, "symbols_fill")
 		url        <- smeta$url
 
@@ -646,8 +667,8 @@ mapgl_symbols <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 		if (is.numeric(aes_size)) aes_size <- aes_size * 10
 
 		m |>
-			mapgl::add_pmtiles_source(id = glid, url = url) |>
-			mapgl::add_circle_layer(layername1, source = glid,
+			mapgl::add_pmtiles_source(id = srcname, url = url) |>
+			mapgl::add_circle_layer(layername1, source = srcname,
 									source_layer          = smeta$layer,
 									circle_color          = aes_f,
 									circle_opacity        = aes_fo,
@@ -714,7 +735,7 @@ mapgl_symbols <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 
 	ahp  <- attach_hover_popup(shp2, dt, hdt, pdt, idt, popup.format)
 	shp2 <- ahp$shp2
-	srcname    <- paste0("layer", pane, "_", .TMAP$stamp)
+	srcname    <- mapgl_srcid(paste0("layer", pane))
 	layername1 <- paste0(glid, "symbols_fill")  # was paste0(srcname, ...) — fixed
 
 	m |>
@@ -751,15 +772,15 @@ mapgl_raster <- function(a, shpTM, dt, gp, pdt, popup.format, hdt, idt,
 		if (pmtiles_unsupported(shpTM, mode)) return(NULL)
 
 		smeta      <- shpTM$smeta
-		srcname    <- paste0("layer", pane, "_", .TMAP$stamp)
-		layername1 <- paste0(srcname, "raster")
+		srcname    <- mapgl_srcid(paste0("layer", pane))
+		layername1 <- paste0(glid, "raster")
 		url        <- smeta$url
 
 		m <- get_mapgl(facet_row, facet_col, facet_page, mode = mode)
 
 		m |>
-			mapgl::add_pmtiles_source(id = glid, url = url, source_type = "raster") |>
-			mapgl::add_raster_layer(layername1, source = glid) |>
+			mapgl::add_pmtiles_source(id = srcname, url = url, source_type = "raster") |>
+			mapgl::add_raster_layer(layername1, source = srcname) |>
 			assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
 
 		return(NULL)
@@ -795,8 +816,8 @@ mapgl_raster <- function(a, shpTM, dt, gp, pdt, popup.format, hdt, idt,
 		if (ext$ymax >  89.9) ext$ymax <-  89
 		rst2 <- terra::crop(rst, ext)
 
-		srcname    <- paste0("layer", pane, "_", .TMAP$stamp)
-		layername1 <- paste0(srcname, "raster")
+		srcname    <- mapgl_srcid(paste0("layer", pane))
+		layername1 <- paste0(glid, "raster")
 
 		m <- get_mapgl(facet_row, facet_col, facet_page, mode = mode)
 
