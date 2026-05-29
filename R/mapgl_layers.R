@@ -190,7 +190,10 @@ mapgl_polygons <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 						   bbx, facet_row, facet_col, facet_page,
 						   id, pane, group, glid, o, ..., mode) {
 
-	m          <- get_mapgl(facet_row, facet_col, facet_page, mode)
+	m <- get_mapgl(facet_row, facet_col, facet_page, mode)
+	message("== mapgl_polygons: class(m) = ", paste(class(m), collapse=", "),
+			" | pane = ", pane)
+
 	rc_text    <- frc(facet_row, facet_col)
 	shp_is_pointer <- inherits(shpTM$shp, "character")
 
@@ -201,7 +204,7 @@ mapgl_polygons <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 		if (pmtiles_unsupported(shpTM, mode)) return(NULL)
 
 		smeta      <- shpTM$smeta
-		srcname    <- paste0("layer", pane)
+		srcname    <- paste0("layer", pane, "_", .TMAP$stamp)
 		layername1 <- paste0(glid, "polygons_fill")
 		layername2 <- paste0(glid, "polygons_border")
 		url        <- smeta$url
@@ -231,7 +234,7 @@ mapgl_polygons <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 								  line_width    = aes_lwd) |>
 			assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
 
-		mapgl_submit_group(group, c(layername1, layername2), mode)
+		mapgl_submit_group(group, c(layername1, layername2), mode, pane)
 		return(NULL)
 	}
 
@@ -287,14 +290,7 @@ mapgl_polygons <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 	ahp  <- attach_hover_popup(shp2, dt, hdt, pdt, idt, popup.format)
 	shp2 <- ahp$shp2
 
-	srcname    <- paste0("layer", pane)
-	layername1 <- paste0(glid, "polygons_fill")
-	layername2 <- paste0(glid, "polygons_border")
-
-	ahp  <- attach_hover_popup(shp2, dt, hdt, pdt, idt, popup.format)
-	shp2 <- ahp$shp2
-
-	srcname    <- paste0("layer", pane)
+	srcname    <- paste0("layer", pane, "_", .TMAP$stamp)
 	layername1 <- paste0(glid, "polygons_fill")
 	layername2 <- paste0(glid, "polygons_border")
 
@@ -311,7 +307,7 @@ mapgl_polygons <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 							  line_width   = mapgl::get_column("lwd")) |>
 		assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
 
-	mapgl_submit_group(group, c(layername1, layername2), mode)
+	mapgl_submit_group(group, c(layername1, layername2), mode, pane)
 	NULL
 }
 
@@ -433,7 +429,7 @@ mapgl_polygons_3d <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 											fill_extrusion_height  = aes_h_scaled) |>
 			assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
 
-		mapgl_submit_group(group, c(layername1, layername2), mode)
+		mapgl_submit_group(group, c(layername1, layername2), mode, pane)
 		return(NULL)
 	}
 
@@ -524,7 +520,7 @@ mapgl_polygons_3d <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 										popup                 = ahp$pdt_arg) |>
 		assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
 
-	mapgl_submit_group(group, c(layername1, layername2), mode)
+	mapgl_submit_group(group, c(layername1, layername2), mode, pane)
 	NULL
 }
 
@@ -558,7 +554,7 @@ mapgl_lines <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 								  line_opacity  = aes_co,
 								  line_width    = aes_lwd) |>
 			assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
-		mapgl_submit_group(group, layername1, mode)
+		mapgl_submit_group(group, layername1, mode, pane)
 		return(NULL)
 	}
 	# ----------------------------------------------------------
@@ -598,7 +594,7 @@ mapgl_lines <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 
 	ahp  <- attach_hover_popup(shp2, dt, hdt, pdt, idt, popup.format)
 	shp2 <- ahp$shp2
-	srcname    <- paste0("layer", pane)
+	srcname    <- paste0("layer", pane, "_", .TMAP$stamp)
 	layername1 <- paste0(glid, "lines")  # was paste0(srcname, "lines") — fixed to match legend
 
 	m |>
@@ -610,7 +606,7 @@ mapgl_lines <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 							  tooltip      = ahp$hdt_arg,
 							  popup        = ahp$pdt_arg) |>
 		assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
-	mapgl_submit_group(group, layername1, mode)
+	mapgl_submit_group(group, layername1, mode, pane)
 	NULL
 }
 
@@ -633,7 +629,7 @@ mapgl_symbols <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 		if (pmtiles_unsupported(shpTM, mode)) return(NULL)
 
 		smeta      <- shpTM$smeta
-		srcname    <- paste0("layer", pane)
+		srcname    <- paste0("layer", pane, "_", .TMAP$stamp)
 		layername1 <- paste0(glid, "symbols_fill")
 		url        <- smeta$url
 
@@ -661,7 +657,7 @@ mapgl_symbols <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 									circle_radius         = aes_size) |>
 			assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
 
-		mapgl_submit_group(group, layername1, mode)
+		mapgl_submit_group(group, layername1, mode, pane)
 		return(NULL)
 	}
 
@@ -718,7 +714,7 @@ mapgl_symbols <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 
 	ahp  <- attach_hover_popup(shp2, dt, hdt, pdt, idt, popup.format)
 	shp2 <- ahp$shp2
-	srcname    <- paste0("layer", pane)
+	srcname    <- paste0("layer", pane, "_", .TMAP$stamp)
 	layername1 <- paste0(glid, "symbols_fill")  # was paste0(srcname, ...) — fixed
 
 	m |>
@@ -734,7 +730,7 @@ mapgl_symbols <- function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 								popup                 = ahp$pdt_arg) |>
 		assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
 
-	mapgl_submit_group(group, layername1, mode)
+	mapgl_submit_group(group, layername1, mode, pane)
 	NULL
 }
 
@@ -755,7 +751,7 @@ mapgl_raster <- function(a, shpTM, dt, gp, pdt, popup.format, hdt, idt,
 		if (pmtiles_unsupported(shpTM, mode)) return(NULL)
 
 		smeta      <- shpTM$smeta
-		srcname    <- paste0("layer", pane)
+		srcname    <- paste0("layer", pane, "_", .TMAP$stamp)
 		layername1 <- paste0(srcname, "raster")
 		url        <- smeta$url
 
@@ -799,7 +795,7 @@ mapgl_raster <- function(a, shpTM, dt, gp, pdt, popup.format, hdt, idt,
 		if (ext$ymax >  89.9) ext$ymax <-  89
 		rst2 <- terra::crop(rst, ext)
 
-		srcname    <- paste0("layer", pane)
+		srcname    <- paste0("layer", pane, "_", .TMAP$stamp)
 		layername1 <- paste0(srcname, "raster")
 
 		m <- get_mapgl(facet_row, facet_col, facet_page, mode = mode)
@@ -811,7 +807,7 @@ mapgl_raster <- function(a, shpTM, dt, gp, pdt, popup.format, hdt, idt,
 									raster_resampling = "nearest") |>
 			assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
 
-		mapgl_submit_group(group, layername1, mode)
+		mapgl_submit_group(group, layername1, mode, pane)
 
 	} else {
 

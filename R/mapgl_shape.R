@@ -29,9 +29,14 @@ get_style = function(name) {
 }
 
 mapgl_shape = function(bbx, facet_row, facet_col, facet_page, o, mode) {
-	m = get_mapgl(facet_row, facet_col, facet_page, mode)
+	# In proxy mode the canvas is the proxy object that mapgl_init() placed in
+	# e$ms. Building a fresh base map here would discard the proxy and render a
+	# throwaway widget (the one leaking into the RStudio viewer). Skip it.
+	if (isTRUE(.TMAP$proxy)) return(NULL)
 
+	m = get_mapgl(facet_row, facet_col, facet_page, mode)
 	bbx = sf::st_bbox(sf::st_transform(tmaptools::bb_poly(bbx), crs = 4326))
+
 	ll = unname(c(mean(bbx[c(1,3)]), mean(bbx[c(2,4)])))
 	zoom = if (is.na(o$zoom)) findZoom(bbx) else o$zoom
 

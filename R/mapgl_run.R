@@ -93,7 +93,7 @@ mapgl_run = function(o, q, show, knit, args, mode) {
 	})
 
 	if (length(ms2) == 1) ms2 = ms2[[1]]
-	if (show && !knit) {
+	if (show && !knit && !isTRUE(.TMAP$in.shiny)) {
 		print(ms2)
 	}
 	ms2

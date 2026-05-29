@@ -48,24 +48,27 @@ assign_mapgl = function(m, facet_row, facet_col, facet_page, mode) {
 }
 
 
-mapgl_submit_group = function(group, layers, mode) {
-	e = if (mode == "mapbox") {
-		.TMAP_MAPBOX
-	} else {
-		.TMAP_MAPLIBRE
-	}
+mapgl_submit_group = function(group, layers, mode, pane = NULL) {
+	e = if (mode == "mapbox") .TMAP_MAPBOX else .TMAP_MAPLIBRE
 
 	grps = get("grps", envir = e)
-
-	#id = if (nrow(grps) == 0) 1L else max(grps$id) + 1L
-
-	#grps = rbind(grps, data.frame(id = id, group = group, layer = layers))
-
 	if (group %in% names(grps)) {
 		grps[[group]] = unique(c(grps[[group]], layers))
 	} else {
 		grps[[group]] = layers
 	}
 	assign("grps", grps, envir = e)
+
+	# register layer ids against their z-index (= pane) so tm_remove_layer(zindex)
+	# can find and clear them in proxy mode
+	if (!is.null(pane)) {
+		lz = if (exists("layer_zindex", envir = e, inherits = FALSE)) {
+			get("layer_zindex", envir = e)
+		} else list()
+		zkey = as.character(pane)
+		lz[[zkey]] = unique(c(lz[[zkey]], layers))
+		assign("layer_zindex", lz, envir = e)
+	}
 	NULL
 }
+

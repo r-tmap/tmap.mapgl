@@ -2,9 +2,8 @@
 % Please edit documentation in R/map_variable_height.R, R/mapgl_arrange.R,
 %   R/mapgl_aux.R, R/mapgl_comp.R, R/mapgl_comp_charts.R, R/mapgl_draw.R,
 %   R/mapgl_geocoder.R, R/mapgl_init.R, R/mapgl_legend.R, R/mapgl_providers.R,
-%   R/mapgl_run.R, R/mapgl_shape.R, R/mapgl_shiny.R, R/mapgl_wrap_xtab.R,
-%   R/tm_aux_layers.R, R/tm_fullscreen.R, R/tmapMapboxDataPlot.R,
-%   R/tmapMaplibreDataPlot.R
+%   R/mapgl_run.R, R/mapgl_shape.R, R/mapgl_wrap_xtab.R, R/tm_aux_layers.R,
+%   R/tm_fullscreen.R, R/tmapMapboxDataPlot.R, R/tmapMaplibreDataPlot.R
 \name{tmapValuesCheck_height}
 \alias{tmapValuesCheck_height}
 \alias{tmapValuesIsDiv_height}
@@ -119,12 +118,6 @@
 \alias{tmapMaplibreShape}
 \alias{tmapMapboxOverlay}
 \alias{tmapMaplibreOverlay}
-\alias{renderTmapMapbox}
-\alias{tmapOutputMapbox}
-\alias{tmapProxyMapbox}
-\alias{renderTmapMaplibre}
-\alias{tmapOutputMaplibre}
-\alias{tmapProxyMaplibre}
 \alias{tmapMapboxWrap}
 \alias{tmapMapboxXtab}
 \alias{tmapMaplibreWrap}
@@ -453,9 +446,9 @@ tmapMaplibreCompPlot(comp, m, o)
 
 \method{tmapMaplibreCompPlot}{tm_geocoder}(comp, m, o)
 
-tmapMapboxInit(o, return.asp = FALSE, vp, prx, dg = NULL, ...)
+tmapMapboxInit(o, return.asp = FALSE, vp, prx, dg = NULL, m = NULL, ...)
 
-tmapMaplibreInit(o, return.asp = FALSE, vp, prx, dg = NULL, ...)
+tmapMaplibreInit(o, return.asp = FALSE, vp, prx, dg = NULL, m = NULL, ...)
 
 tmapMapboxAux(o, q)
 
@@ -512,18 +505,6 @@ tmapMaplibreShape(bbx, facet_row, facet_col, facet_page, o)
 tmapMapboxOverlay(bbx, facet_row, facet_col, facet_page, o)
 
 tmapMaplibreOverlay(bbx, facet_row, facet_col, facet_page, o)
-
-renderTmapMapbox(expr, env, quoted, execOnResize)
-
-tmapOutputMapbox(outputId, width, height)
-
-tmapProxyMapbox(mapId, session, x)
-
-renderTmapMaplibre(expr, env, quoted, execOnResize)
-
-tmapOutputMaplibre(outputId, width, height)
-
-tmapProxyMaplibre(mapId, session, x)
 
 tmapMapboxWrap(label, facet_row, facet_col, facet_page, o)
 
@@ -1076,7 +1057,7 @@ tmapMaplibreDataPlot(
 
 \item{comp}{the shape object}
 
-\item{m}{mapbox oer maplibre object}
+\item{m}{the proxy object from `maplibre_proxy()`/`mapboxgl_proxy()`, supplied in proxy mode}
 
 \item{return.asp}{return.asp}
 
