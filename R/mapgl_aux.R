@@ -68,13 +68,13 @@ tmapMaplibreAuxPlot.default = function(a, bi, bbx, facet_row, facet_col, facet_p
 #' @keywords internal
 #' @rdname tmapMapbox
 tmapMapboxAuxPrepare.tm_aux_basemap = function(a, bs, id, o) {
-	mapgl_tiles_prep(a, bs, id, o, e = .TMAP_MAPBOX)
+	mapgl_tiles_prep(a, bs, id, o, e = .TMAP_MAPBOX, mode = "mapbox")
 }
 
 #' @export
 #' @rdname tmapMapbox
 tmapMaplibreAuxPrepare.tm_aux_basemap = function(a, bs, id, o) {
-	mapgl_tiles_prep(a, bs, id, o, e = .TMAP_MAPLIBRE)
+	mapgl_tiles_prep(a, bs, id, o, e = .TMAP_MAPLIBRE, mode = "maplibre")
 }
 
 
@@ -82,21 +82,27 @@ tmapMaplibreAuxPrepare.tm_aux_basemap = function(a, bs, id, o) {
 #' @keywords internal
 #' @rdname tmapMapbox
 tmapMapboxAuxPrepare.tm_aux_tiles = function(a, bs, id, o) {
-	mapgl_tiles_prep(a, bs, id, o, e = .TMAP_MAPBOX)
+	mapgl_tiles_prep(a, bs, id, o, e = .TMAP_MAPBOX, mode = "mapbox")
 }
 
 #' @export
 #' @rdname tmapMapbox
 tmapMaplibreAuxPrepare.tm_aux_tiles = function(a, bs, id, o) {
-	mapgl_tiles_prep(a, bs, id, o, e = .TMAP_MAPLIBRE)
+	mapgl_tiles_prep(a, bs, id, o, e = .TMAP_MAPLIBRE, mode = "maplibre")
 }
 
 
 
 
-mapgl_tiles_prep = function(a, bs, id, o, e) {
-	e$style = a$server
-	a$server
+mapgl_tiles_prep = function(a, bs, id, o, e, mode) {
+	serv = a$server
+	if (!(serv %in% tmap::tmap_providers(mode))) {
+		cli::cli_abort(
+			"{.field [basemaps]} Provider {.str {serv}} does not exist for mode {.str {mode}}. Run {.fun tmap_providers} to see which ones are available"
+		)
+	}
+	e$style = serv
+	serv
 }
 
 
