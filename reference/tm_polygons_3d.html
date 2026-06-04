@@ -113,7 +113,12 @@
 <span><span class="fu">opt_tm_polygons_3d</span><span class="op">(</span></span>
 <span>  polygons.only <span class="op">=</span> <span class="st">"ifany"</span>,</span>
 <span>  height.max <span class="op">=</span> <span class="st">"10%"</span>,</span>
-<span>  height.min <span class="op">=</span> <span class="st">"0.1%"</span></span>
+<span>  height.min <span class="op">=</span> <span class="st">"0.1%"</span>,</span>
+<span>  cast.shadows <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ambient.occlusion.intensity <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ambient.occlusion.radius <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  vertical.gradient <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  emissive.strength <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -214,6 +219,22 @@ features. Only used for `"view"` mode.</p></dd>
 
 <dt id="arg-height-max-height-min">height.max, height.min<a class="anchor" aria-label="anchor" href="#arg-height-max-height-min"></a></dt>
 <dd><p>Maximum and minimum height. The data variable values assigned to `height` are are scaled between these two values. Each can be an absolute number (in meters) or relative to the bounding box area, more specifically, the percentage of the square root of the bounding box area. The default values are `"10%"` for `height.max` and `0.1%` for `height.min`. The latter is not set to 0 because of artefacts with maplibre in globe view.</p></dd>
+
+
+<dt id="arg-cast-shadows">cast.shadows<a class="anchor" aria-label="anchor" href="#arg-cast-shadows"></a></dt>
+<dd><p>Should the extruded polygons cast shadows? (`"maplibre"`/`"mapbox"` modes only). Passed to `fill_extrusion_cast_shadows`. The default `NULL` keeps the rendering engine's own default.</p></dd>
+
+
+<dt id="arg-ambient-occlusion-intensity-ambient-occlusion-radius">ambient.occlusion.intensity, ambient.occlusion.radius<a class="anchor" aria-label="anchor" href="#arg-ambient-occlusion-intensity-ambient-occlusion-radius"></a></dt>
+<dd><p>Ambient-occlusion intensity (0-1) and radius for the extruded polygons, adding soft contact shading in corners and crevices (`"maplibre"`/`"mapbox"` modes only). Passed to `fill_extrusion_ambient_occlusion_intensity` / `fill_extrusion_ambient_occlusion_radius`. The default `NULL` keeps the engine default.</p></dd>
+
+
+<dt id="arg-vertical-gradient">vertical.gradient<a class="anchor" aria-label="anchor" href="#arg-vertical-gradient"></a></dt>
+<dd><p>Should a vertical gradient be applied to the extrusion sides for a sense of depth? (`"maplibre"`/`"mapbox"` modes only). Passed to `fill_extrusion_vertical_gradient`. The default `NULL` keeps the engine default (`TRUE`).</p></dd>
+
+
+<dt id="arg-emissive-strength">emissive.strength<a class="anchor" aria-label="anchor" href="#arg-emissive-strength"></a></dt>
+<dd><p>Emissive strength of the extruded polygons, controlling how much they appear self-lit under the map's lighting (`"maplibre"`/`"mapbox"` modes only). Passed to `fill_extrusion_emissive_strength`. The default `NULL` keeps the engine default.</p></dd>
 
 </dl></div>
     <div class="section level2">

@@ -61,7 +61,12 @@ tm_polygons_3d(
 opt_tm_polygons_3d(
   polygons.only = "ifany",
   height.max = "10%",
-  height.min = "0.1%"
+  height.min = "0.1%",
+  cast.shadows = NULL,
+  ambient.occlusion.intensity = NULL,
+  ambient.occlusion.radius = NULL,
+  vertical.gradient = NULL,
+  emissive.strength = NULL
 )
 ```
 
@@ -176,6 +181,36 @@ opt_tm_polygons_3d(
   area. The default values are \`"10%"\` for \`height.max\` and \`0.1%\`
   for \`height.min\`. The latter is not set to 0 because of artefacts
   with maplibre in globe view.
+
+- cast.shadows:
+
+  Should the extruded polygons cast shadows?
+  (\`"maplibre"\`/\`"mapbox"\` modes only). Passed to
+  \`fill_extrusion_cast_shadows\`. The default \`NULL\` keeps the
+  rendering engine's own default.
+
+- ambient.occlusion.intensity, ambient.occlusion.radius:
+
+  Ambient-occlusion intensity (0-1) and radius for the extruded
+  polygons, adding soft contact shading in corners and crevices
+  (\`"maplibre"\`/\`"mapbox"\` modes only). Passed to
+  \`fill_extrusion_ambient_occlusion_intensity\` /
+  \`fill_extrusion_ambient_occlusion_radius\`. The default \`NULL\`
+  keeps the engine default.
+
+- vertical.gradient:
+
+  Should a vertical gradient be applied to the extrusion sides for a
+  sense of depth? (\`"maplibre"\`/\`"mapbox"\` modes only). Passed to
+  \`fill_extrusion_vertical_gradient\`. The default \`NULL\` keeps the
+  engine default (\`TRUE\`).
+
+- emissive.strength:
+
+  Emissive strength of the extruded polygons, controlling how much they
+  appear self-lit under the map's lighting (\`"maplibre"\`/\`"mapbox"\`
+  modes only). Passed to \`fill_extrusion_emissive_strength\`. The
+  default \`NULL\` keeps the engine default.
 
 ## Value
 
