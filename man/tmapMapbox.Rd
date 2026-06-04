@@ -140,6 +140,7 @@
 \alias{tmapMapboxDataPlot.tm_data_polygons_3d}
 \alias{tmapMapboxDataPlot.tm_data_lines}
 \alias{tmapMapboxDataPlot.tm_data_symbols}
+\alias{tmapMapboxDataPlot.tm_data_circles}
 \alias{tmapMapboxDataPlot.tm_data_raster}
 \alias{tmapMapboxDataPlot.tm_data_fill}
 \alias{tmapMapboxDataPlot.tm_data_borders}
@@ -151,6 +152,7 @@
 \alias{tmapMaplibreDataPlot.tm_data_polygons_3d}
 \alias{tmapMaplibreDataPlot.tm_data_lines}
 \alias{tmapMaplibreDataPlot.tm_data_symbols}
+\alias{tmapMaplibreDataPlot.tm_data_circles}
 \alias{tmapMaplibreDataPlot.tm_data_raster}
 \alias{tmapMaplibreDataPlot.tm_data_fill}
 \alias{tmapMaplibreDataPlot.tm_data_borders}
@@ -686,6 +688,27 @@ tmapMapboxDataPlot(
   ...
 )
 
+\method{tmapMapboxDataPlot}{tm_data_circles}(
+  a,
+  shpTM,
+  dt,
+  pdt,
+  popup.format,
+  hdt,
+  idt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  glid,
+  o,
+  ...
+)
+
 \method{tmapMapboxDataPlot}{tm_data_raster}(
   a,
   shpTM,
@@ -897,6 +920,27 @@ tmapMaplibreDataPlot(
 )
 
 \method{tmapMaplibreDataPlot}{tm_data_symbols}(
+  a,
+  shpTM,
+  dt,
+  pdt,
+  popup.format,
+  hdt,
+  idt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  glid,
+  o,
+  ...
+)
+
+\method{tmapMaplibreDataPlot}{tm_data_circles}(
   a,
   shpTM,
   dt,

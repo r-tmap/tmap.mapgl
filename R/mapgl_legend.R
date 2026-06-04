@@ -42,7 +42,7 @@ gp_to_lpar = function(gp, mfun, shape = 20, pick_middle = TRUE) {
 		if (nchar(lsti[1]) > 50) {
 			x = cont_split(lsti)
 			x = lapply(x, function(i) {
-				i[i=="NA"] <- NA
+				i[i=="NA"] = NA
 				i
 			})
 			if (isnum) x = lapply(x, as.numeric)
@@ -87,6 +87,66 @@ make_equal_list = function(x) {
 
 
 
+# Map tmap's legend styling onto a mapgl::legend_style() object, to be passed as
+# `style=` to the add_*_legend functions.
+#
+# Frame/background are only emitted when the user explicitly set them (tracked
+# via grp_called); otherwise they are left NULL so mapgl keeps its own default
+# legend box, rather than imposing tmap's plot-mode default of "no frame / no
+# fill". Title/text typography (colour, font family, weight) is mapped whenever
+# a concrete value is present. Text/title SIZE is deliberately NOT mapped: tmap
+# sizes are relative line-heights whereas legend_style() expects pixels, so
+# there is no faithful 1:1 conversion; mapgl's own sizing is kept.
+mapgl_legend_style = function(grp, grp_called, cmp) {
+	# NA / NULL / "" -> NULL, so the arg is omitted and mapgl's default applies.
+	nn = function(x) if (is.null(x) || (length(x) == 1L && (is.na(x) || identical(x, "")))) NULL else x
+
+	face_to_weight = function(ff) {
+		ff = nn(ff)
+		if (is.null(ff)) NULL else if (grepl("bold", ff, fixed = TRUE)) "bold" else "normal"
+	}
+
+	# --- background (only when explicitly requested) ---
+	background_color = NULL
+	background_opacity = NULL
+	if (any(c("bg", "bg.color", "bg.alpha") %in% grp_called)) {
+		if (("bg" %in% grp_called) && isFALSE(grp$bg)) {
+			background_opacity = 0
+		} else {
+			background_color = nn(grp$bg.color)
+			background_opacity = nn(grp$bg.alpha)
+		}
+	}
+
+	# --- frame / border (only when explicitly requested) ---
+	border_color = NULL
+	border_width = NULL
+	border_radius = NULL
+	if (any(c("frame", "frame.lwd", "frame.r") %in% grp_called)) {
+		if (("frame" %in% grp_called) && isFALSE(grp$frame)) {
+			border_width = 0
+		} else {
+			border_color = if (is.character(grp$frame)) grp$frame else nn(grp$frame.color)
+			border_width = nn(grp$frame.lwd)
+			border_radius = nn(grp$frame.r)
+		}
+	}
+
+	mapgl::legend_style(
+		background_color   = background_color,
+		background_opacity = background_opacity,
+		border_color       = border_color,
+		border_width       = border_width,
+		border_radius      = border_radius,
+		text_color         = nn(cmp$text.color),
+		title_color        = nn(cmp$title.color),
+		font_family        = nn(cmp$text.fontfamily),
+		title_font_family  = nn(cmp$title.fontfamily),
+		font_weight        = face_to_weight(cmp$text.fontface),
+		title_font_weight  = face_to_weight(cmp$title.fontface)
+	)
+}
+
 mapgl_legend = function(cmp, m, o, orientation, mode) {
 
 	legpos = mapgl_pos(cmp$position)
@@ -117,14 +177,15 @@ mapgl_legend = function(cmp, m, o, orientation, mode) {
 										  margin_top = cmp$margin_top,
 										  margin_bottom = cmp$margin_bottom,
 										  margin_left = cmp$margin_left,
-										  margin_right = cmp$margin_right, draggable = TRUE)
+										  margin_right = cmp$margin_right, draggable = TRUE,
+										  style = cmp$mapgl_style)
 	} else if (cmp$type == "lines") {
-		layername1 <- paste0(cmp$glid, "lines")
-		cat_col    <- "__tmap_cat__"
-		colVary    <- length(cmp$gp2$color) > 1L
-		gp2        <- make_equal_list(cmp$gp2)
-		if (colVary) gp2$fillColor <- gp2$color
-		circular_patches <- !any(is.na(cmp$gp$shape)) && all(cmp$gp$shape %in% c(1, 10, 16, 19:21))
+		layername1 = paste0(cmp$glid, "lines")
+		cat_col    = "__tmap_cat__"
+		colVary    = length(cmp$gp2$color) > 1L
+		gp2        = make_equal_list(cmp$gp2)
+		if (colVary) gp2$fillColor = gp2$color
+		circular_patches = !any(is.na(cmp$gp$shape)) && all(cmp$gp$shape %in% c(1, 10, 16, 19:21))
 		m |> mapgl::add_categorical_legend(
 			colors           = gp2$fillColor,
 			values           = cmp$labels,
@@ -141,30 +202,31 @@ mapgl_legend = function(cmp, m, o, orientation, mode) {
 			margin_right     = cmp$margin_right,
 			layer_id         = layername1,
 			draggable        = TRUE,
-			filter_column    = cat_col
+			filter_column    = cat_col,
+			style            = cmp$mapgl_style
 		)
 	} else { # "symbols"
 		if ("polygons" %in% cmp$layer) {
-			layername1 <- paste0(cmp$glid, "polygons_fill")
+			layername1 = paste0(cmp$glid, "polygons_fill")
 		} else if ("symbols" %in% cmp$layer) {
-			layername1 <- paste0(cmp$glid, "symbols_fill")
+			layername1 = paste0(cmp$glid, "symbols_fill")
 		} else {
-			layername1 <- paste0(cmp$glid, cmp$layer[1], "_fill")
+			layername1 = paste0(cmp$glid, cmp$layer[1], "_fill")
 		}
 
-		colVary <- length(cmp$gp2$color) > 1L
-		gp2     <- make_equal_list(cmp$gp2)
-		if (colVary) gp2$fillColor <- gp2$color
+		colVary = length(cmp$gp2$color) > 1L
+		gp2     = make_equal_list(cmp$gp2)
+		if (colVary) gp2$fillColor = gp2$color
 
-		patches <- if (!any(is.na(cmp$gp$shape)) && all(cmp$gp$shape %in% c(1, 10, 16, 19:21))) {
+		patches = if (!any(is.na(cmp$gp$shape)) && all(cmp$gp$shape %in% c(1, 10, 16, 19:21))) {
 			"circle"
 		} else {
 			"square"
 		}
-		sizes <- if (!is.na(cmp$gp$size[1])) cmp$gp$size * 20 else NULL
+		sizes = if (!is.na(cmp$gp$size[1])) cmp$gp$size * 20 else NULL
 
 		# Determine the classification column name (must match what was stored above)
-		cat_col <- "__tmap_cat__"
+		cat_col = "__tmap_cat__"
 
 
 		m |> mapgl::add_categorical_legend(
@@ -181,7 +243,8 @@ mapgl_legend = function(cmp, m, o, orientation, mode) {
 			margin_left    = cmp$margin_left,
 			margin_right   = cmp$margin_right,
 			layer_id       = layername1,draggable = TRUE,
-			filter_column  = cat_col          # <-- this is the new addition
+			filter_column  = cat_col,
+			style          = cmp$mapgl_style
 		)
 	}
 	m2
@@ -323,6 +386,8 @@ mapgl_comp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page, c
 			os = os + cmp$width
 		}
 
+
+		cmp$mapgl_style = mapgl_legend_style(grp, grp_called, cmp)
 
 		if (mode == "maplibre") {
 			m = tmapMaplibreCompPlot(cmp, m, o)

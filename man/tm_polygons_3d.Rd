@@ -57,7 +57,12 @@ tm_polygons_3d(
 opt_tm_polygons_3d(
   polygons.only = "ifany",
   height.max = "10\%",
-  height.min = "0.1\%"
+  height.min = "0.1\%",
+  cast.shadows = NULL,
+  ambient.occlusion.intensity = NULL,
+  ambient.occlusion.radius = NULL,
+  vertical.gradient = NULL,
+  emissive.strength = NULL
 )
 }
 \arguments{
@@ -117,6 +122,14 @@ features. Only used for `"view"` mode.}
 \item{polygons.only}{should only polygon geometries of the shape object (defined in [tm_shape()]) be plotted? By default `"ifany"`, which means `TRUE` in case a geometry collection is specified.}
 
 \item{height.max, height.min}{Maximum and minimum height. The data variable values assigned to `height` are are scaled between these two values. Each can be an absolute number (in meters) or relative to the bounding box area, more specifically, the percentage of the square root of the bounding box area. The default values are `"10\%"` for `height.max` and `0.1\%` for `height.min`. The latter is not set to 0 because of artefacts with maplibre in globe view.}
+
+\item{cast.shadows}{Should the extruded polygons cast shadows? (`"maplibre"`/`"mapbox"` modes only). Passed to `fill_extrusion_cast_shadows`. The default `NULL` keeps the rendering engine's own default.}
+
+\item{ambient.occlusion.intensity, ambient.occlusion.radius}{Ambient-occlusion intensity (0-1) and radius for the extruded polygons, adding soft contact shading in corners and crevices (`"maplibre"`/`"mapbox"` modes only). Passed to `fill_extrusion_ambient_occlusion_intensity` / `fill_extrusion_ambient_occlusion_radius`. The default `NULL` keeps the engine default.}
+
+\item{vertical.gradient}{Should a vertical gradient be applied to the extrusion sides for a sense of depth? (`"maplibre"`/`"mapbox"` modes only). Passed to `fill_extrusion_vertical_gradient`. The default `NULL` keeps the engine default (`TRUE`).}
+
+\item{emissive.strength}{Emissive strength of the extruded polygons, controlling how much they appear self-lit under the map's lighting (`"maplibre"`/`"mapbox"` modes only). Passed to `fill_extrusion_emissive_strength`. The default `NULL` keeps the engine default.}
 }
 \value{
 a [tmap::tmap-element], supposed to be stacked after [tmap::tm_shape()] using the `+` operator. The `opt_<layer_function>` function returns a list that should be passed on to the `options` argument.

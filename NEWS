@@ -1,6 +1,7 @@
 version 0.3
 - shiny integration
 - fill_alpha working for tm_polygons_3d
+- tm_legend styling arguments used
 
 version 0.2.1
 - fixed minor bug

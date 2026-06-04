@@ -12,8 +12,8 @@ Encoding: UTF-8
 Depends:
     R (>= 4.1),
 Imports:
-    tmap (>= 4.3),
-    mapgl (>= 0.4.1),
+    tmap (>= 4.4),
+    mapgl (>= 0.4.6),
     terra,
     rlang,
     cli,
