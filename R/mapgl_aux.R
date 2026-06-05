@@ -96,12 +96,18 @@ tmapMaplibreAuxPrepare.tm_aux_tiles = function(a, bs, id, o) {
 
 mapgl_tiles_prep = function(a, bs, id, o, e, mode) {
 	serv = a$server
-	if (!(serv %in% tmap::tmap_providers(mode))) {
-		cli::cli_abort(
-			"{.field [basemaps]} Provider {.str {serv}} does not exist for mode {.str {mode}}. Run {.fun tmap_providers} to see which ones are available"
-		)
+	# Allow raw style URLs to pass through; only validate named providers.
+	is_url = is.character(serv) && grepl("^(https?|mapbox|maptiler)://", serv)
+	if (!is_url && !(serv %in% tmap::tmap_providers(mode))) {
+		fallback = o$basemap.server[1]
+		getFromNamespace("message_basemaps_invalid_provider", "tmap")(serv, mode, fallback)
+		serv = fallback
 	}
 	e$style = serv
+	# Optional per-basemap API key from tm_basemap(api = ...) (the same `api`
+	# argument used for Stadia/Thunderforest in plot mode). NULL unless supplied,
+	# in which case it is used for esri/maptiler instead of the env var.
+	e$api_key = a$api
 	serv
 }
 

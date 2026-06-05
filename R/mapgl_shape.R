@@ -28,6 +28,61 @@ get_style = function(name) {
 	chartr("._", "--", x = x)
 }
 
+# Resolve a tmap basemap provider name to a mapgl style URL/spec. Provider names
+# are "<family>.<style>[.<variant>]" (e.g. "carto.positron",
+# "mapbox.satellite_streets", "maptiler.dataviz.dark", "esri.human_geography",
+# "ofm.liberty"). Unknown or prefixless names are returned verbatim, so a raw
+# style URL passed by the user still works. esri/maptiler require an API key
+# (ARCGIS_API_KEY / MAPTILER_API_KEY); mapbox styles require a Mapbox token and
+# are only offered in mapbox mode.
+# Resolve a tmap basemap provider name to a mapgl style URL/spec. Provider names
+# are "<family>.<style>[.<variant>]" (e.g. "carto.positron",
+# "mapbox.satellite_streets", "maptiler.dataviz.dark", "esri.human_geography",
+# "ofm.liberty"). Unknown or prefixless names are returned verbatim, so a raw
+# style URL passed by the user still works.
+#
+# esri/maptiler need an API key (ARCGIS_API_KEY / MAPTILER_API_KEY env var, or
+# `api_key` passed through from tm_basemap). If the key is missing, we warn and
+# fall back to `default` - the caller passes the mode's basemap option
+# (o$basemap.server[1]); the literal here is only a last-resort safety net.
+resolve_style = function(name, api_key = NULL, default = "ofm.positron") {
+	fallback = function(msg) {
+		cli::cli_warn(c("!" = msg,
+						"i" = "Falling back to the default basemap {.str {default}}."))
+		resolve_style(default, default = default)
+	}
+
+	pos = regexpr("[._]", name)
+	if (pos < 1L) return(name)
+	family = substr(name, 1L, pos - 1L)
+	rest   = substr(name, pos + 1L, nchar(name))
+	dash   = function(x) chartr("._", "--", x)
+
+	have_key = function(env) (!is.null(api_key) && nzchar(api_key)) || nzchar(Sys.getenv(env))
+
+	switch(family,
+		   ofm      = paste0("https://tiles.openfreemap.org/styles/", dash(rest)),
+		   carto    = mapgl::carto_style(dash(rest)),
+		   mapbox   = mapgl::mapbox_style(dash(rest)),
+		   esri     = if (have_key("ARCGIS_API_KEY")) {
+		   	mapgl::esri_style(dash(rest), token = api_key)
+		   } else {
+		   	fallback("Esri basemap {.str {name}} needs an ArcGIS API key (set env var {.envvar ARCGIS_API_KEY}, or pass {.arg api_key} to {.fn tm_basemap}).")
+		   },
+		   maptiler = if (!have_key("MAPTILER_API_KEY")) {
+		   	fallback("MapTiler basemap {.str {name}} needs a MapTiler API key (set env var {.envvar MAPTILER_API_KEY}, or pass {.arg api_key} to {.fn tm_basemap}).")
+		   } else {
+		   	parts   = strsplit(rest, "[._]")[[1]]
+		   	variant = NULL
+		   	if (length(parts) > 1L && parts[length(parts)] %in% c("dark", "light", "pastel")) {
+		   		variant = parts[length(parts)]
+		   		parts   = parts[-length(parts)]
+		   	}
+		   	mapgl::maptiler_style(paste(parts, collapse = "-"), variant = variant, api_key = api_key)
+		   },
+		   name)
+}
+
 mapgl_shape = function(bbx, facet_row, facet_col, facet_page, o, mode) {
 	# In proxy mode the canvas is the proxy object that mapgl_init() placed in
 	# e$ms. Building a fresh base map here would discard the proxy and render a
@@ -64,24 +119,7 @@ mapgl_shape = function(bbx, facet_row, facet_col, facet_page, o, mode) {
 		}
 	}
 
-	style = if (mode == "mapbox") {
-		if (substr(e$style, 1, 4) == "ofm.") {
-			paste0("https://tiles.openfreemap.org/styles/", substr(e$style, 5, nchar(e$style)))
-		} else if (e$style %in% tmap::tmap_providers()) {
-			mapgl::mapbox_style(get_style(e$style))
-		} else {
-			e$style
-		}
-
-	} else {
-		if (substr(e$style, 1, 4) == "ofm.") {
-			paste0("https://tiles.openfreemap.org/styles/", substr(e$style, 5, nchar(e$style)))
-		} else if (e$style %in% tmap::tmap_providers()) {
-			mapgl::carto_style(get_style(e$style))
-		} else {
-			e$style
-		}
-	}
+	style = resolve_style(e$style, api_key = e$api_key, default = o$basemap.server[1])
 
 	if (mode == "mapbox") {
 		# quick & dirty

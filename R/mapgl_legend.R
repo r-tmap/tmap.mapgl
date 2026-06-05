@@ -101,6 +101,10 @@ mapgl_legend_style = function(grp, grp_called, cmp) {
 	# NA / NULL / "" -> NULL, so the arg is omitted and mapgl's default applies.
 	nn = function(x) if (is.null(x) || (length(x) == 1L && (is.na(x) || identical(x, "")))) NULL else x
 
+	# mapgl formats border width/radius with sprintf("%d"), so they must be whole
+	# integers (a fractional frame.lwd like 1.5 would otherwise error).
+	as_int = function(x) { x = nn(x); if (is.null(x)) NULL else as.integer(round(x)) }
+
 	face_to_weight = function(ff) {
 		ff = nn(ff)
 		if (is.null(ff)) NULL else if (grepl("bold", ff, fixed = TRUE)) "bold" else "normal"
@@ -127,8 +131,8 @@ mapgl_legend_style = function(grp, grp_called, cmp) {
 			border_width = 0
 		} else {
 			border_color = if (is.character(grp$frame)) grp$frame else nn(grp$frame.color)
-			border_width = nn(grp$frame.lwd)
-			border_radius = nn(grp$frame.r)
+			border_width = as_int(grp$frame.lwd)
+			border_radius = as_int(grp$frame.r)
 		}
 	}
 

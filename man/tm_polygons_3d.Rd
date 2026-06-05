@@ -123,13 +123,13 @@ features. Only used for `"view"` mode.}
 
 \item{height.max, height.min}{Maximum and minimum height. The data variable values assigned to `height` are are scaled between these two values. Each can be an absolute number (in meters) or relative to the bounding box area, more specifically, the percentage of the square root of the bounding box area. The default values are `"10\%"` for `height.max` and `0.1\%` for `height.min`. The latter is not set to 0 because of artefacts with maplibre in globe view.}
 
-\item{cast.shadows}{Should the extruded polygons cast shadows? (`"maplibre"`/`"mapbox"` modes only). Passed to `fill_extrusion_cast_shadows`. The default `NULL` keeps the rendering engine's own default.}
+\item{cast.shadows}{Should the extruded polygons cast shadows? **`"mapbox"` mode only** (silently ignored with a message in `"maplibre"` mode, whose fill-extrusion implementation does not support shadows). Passed to `fill_extrusion_cast_shadows`. The default `NULL` keeps the engine default.}
 
-\item{ambient.occlusion.intensity, ambient.occlusion.radius}{Ambient-occlusion intensity (0-1) and radius for the extruded polygons, adding soft contact shading in corners and crevices (`"maplibre"`/`"mapbox"` modes only). Passed to `fill_extrusion_ambient_occlusion_intensity` / `fill_extrusion_ambient_occlusion_radius`. The default `NULL` keeps the engine default.}
+\item{ambient.occlusion.intensity, ambient.occlusion.radius}{Ambient-occlusion intensity (0-1) and radius for the extruded polygons, adding soft contact shading in corners and crevices. **`"mapbox"` mode only** (ignored with a message in `"maplibre"` mode). Passed to `fill_extrusion_ambient_occlusion_intensity` / `fill_extrusion_ambient_occlusion_radius`. The default `NULL` keeps the engine default.}
 
-\item{vertical.gradient}{Should a vertical gradient be applied to the extrusion sides for a sense of depth? (`"maplibre"`/`"mapbox"` modes only). Passed to `fill_extrusion_vertical_gradient`. The default `NULL` keeps the engine default (`TRUE`).}
+\item{vertical.gradient}{Should a vertical gradient be applied to the sides of the extrusions? When `TRUE`, the side walls are shaded from darker at the base to lighter toward the top, which gives a sense of depth. Supported in **both** `"maplibre"` and `"mapbox"` modes. Passed to `fill_extrusion_vertical_gradient`. The default `NULL` keeps the engine default, which is `TRUE` - so the visible effect is mainly when set to `FALSE` (flat, evenly-coloured side walls).}
 
-\item{emissive.strength}{Emissive strength of the extruded polygons, controlling how much they appear self-lit under the map's lighting (`"maplibre"`/`"mapbox"` modes only). Passed to `fill_extrusion_emissive_strength`. The default `NULL` keeps the engine default.}
+\item{emissive.strength}{Emissive strength of the extruded polygons, controlling how much they appear self-lit under the map's 3D lighting. **`"mapbox"` mode only** (ignored with a message in `"maplibre"` mode). Passed to `fill_extrusion_emissive_strength`. The default `NULL` keeps the engine default.}
 }
 \value{
 a [tmap::tmap-element], supposed to be stacked after [tmap::tm_shape()] using the `+` operator. The `opt_<layer_function>` function returns a list that should be passed on to the `options` argument.

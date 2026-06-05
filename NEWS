@@ -1,6 +1,8 @@
 version 0.3
 - shiny integration
 - fill_alpha working for tm_polygons_3d
+- rendering options added to opt_tm_polygons_3d
+- basemap default changed and fallback added
 - tm_legend styling arguments used
 
 version 0.2.1

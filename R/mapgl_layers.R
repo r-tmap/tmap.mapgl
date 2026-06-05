@@ -398,6 +398,44 @@ mapgl_polygons = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 # ============================================================
 #  mapgl_polygons_3d
 # ============================================================
+# fill-extrusion paint props added in mapgl >= 0.4.6. Forward ONLY the props
+# the user set AND that the active engine supports: MapLibre's style spec only
+# implements fill-extrusion-vertical-gradient, whereas ambient occlusion, cast
+# shadows and emissive strength are Mapbox GL JS 3D-lighting features. Sending
+# an unknown paint property makes MapLibre reject the entire layer (the polygons
+# then render with no fill), so Mapbox-only props are dropped in maplibre mode
+# with an informative message. (If a future MapLibre adds e.g. emissive strength
+# to its spec, flip that entry's `mapbox_only` to FALSE.)
+mapgl_fe_props = function(a, mode) {
+	specs = list(
+		list(arg = "cast.shadows",                param = "fill_extrusion_cast_shadows",                mapbox_only = TRUE),
+		list(arg = "ambient.occlusion.intensity", param = "fill_extrusion_ambient_occlusion_intensity", mapbox_only = TRUE),
+		list(arg = "ambient.occlusion.radius",    param = "fill_extrusion_ambient_occlusion_radius",    mapbox_only = TRUE),
+		list(arg = "vertical.gradient",           param = "fill_extrusion_vertical_gradient",           mapbox_only = FALSE),
+		list(arg = "emissive.strength",           param = "fill_extrusion_emissive_strength",           mapbox_only = TRUE)
+	)
+	is_mapbox = identical(mode, "mapbox")
+
+	out     = list()
+	dropped = character(0)
+	for (s in specs) {
+		val = a[[s$arg]]
+		if (is.null(val)) next
+		if (s$mapbox_only && !is_mapbox) {
+			dropped = c(dropped, s$arg)
+		} else {
+			out[[s$param]] = val
+		}
+	}
+	if (length(dropped)) {
+		cli::cli_inform(c(
+			"!" = "These {.fn tm_polygons_3d} options are Mapbox-only and were ignored in {.str {mode}} mode: {.field {dropped}}.",
+			"i" = "Use {.code tmap_mode(\"mapbox\")} for ambient occlusion, cast shadows, and emissive strength."
+		))
+	}
+	out
+}
+
 mapgl_polygons_3d = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 							  bbx, facet_row, facet_col, facet_page,
 							  id, pane, group, glid, o, ..., mode, popup.layout = NULL, ptdt = NULL) {
@@ -500,24 +538,24 @@ mapgl_polygons_3d = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 				 out_range)
 		)
 
-		m |>
+		m = m |>
 			mapgl::add_pmtiles_source(id = srcname, url = url) |>
 			mapgl::add_line_layer(layername2, source = srcname,
 								  source_layer          = smeta$layer,
 								  line_color            = aes_c,
 								  line_opacity          = aes_co,
-								  line_width            = aes_lwd) |>
-			mapgl::add_fill_extrusion_layer(layername1, source = srcname,
-											source_layer           = smeta$layer,
-											fill_extrusion_color   = aes_f,
-											fill_extrusion_base    = 0,
-											fill_extrusion_height  = aes_h_scaled,
-											fill_extrusion_cast_shadows                 = a$cast.shadows,
-											fill_extrusion_ambient_occlusion_intensity  = a$ambient.occlusion.intensity,
-											fill_extrusion_ambient_occlusion_radius     = a$ambient.occlusion.radius,
-											fill_extrusion_vertical_gradient            = a$vertical.gradient,
-											fill_extrusion_emissive_strength            = a$emissive.strength) |>
-			assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
+								  line_width            = aes_lwd)
+
+		m = do.call(mapgl::add_fill_extrusion_layer, c(
+			list(m, layername1,
+				 source                 = srcname,
+				 source_layer           = smeta$layer,
+				 fill_extrusion_color   = aes_f,
+				 fill_extrusion_base    = 0,
+				 fill_extrusion_height  = aes_h_scaled),
+			mapgl_fe_props(a, mode)))
+
+		m |> assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
 
 		mapgl_submit_group(group, c(layername1, layername2), mode, pane)
 		return(NULL)
@@ -607,25 +645,25 @@ mapgl_polygons_3d = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 	shp2$height = height.min + shp2$height * (height.max - height.min)
 	shp2_naomit = shp2[!is.na(shp2$height), ]
 
-	m |>
+	m = m |>
 		mapgl::add_source(srcname, data = shp2_naomit) |>
 		mapgl::add_line_layer(layername2, source = srcname,
 							  line_color   = mapgl::get_column("col"),
 							  line_opacity = mapgl::get_column("col_alpha"),
-							  line_width   = mapgl::get_column("lwd")) |>
-		mapgl::add_fill_extrusion_layer(layername1, source = srcname,
-										fill_extrusion_color   = mapgl::get_column("fill"),
-										fill_extrusion_opacity = fill_ext_opacity,
-										fill_extrusion_base    = 0,
-										fill_extrusion_height  = mapgl::get_column("height"),
-										fill_extrusion_cast_shadows                 = a$cast.shadows,
-										fill_extrusion_ambient_occlusion_intensity  = a$ambient.occlusion.intensity,
-										fill_extrusion_ambient_occlusion_radius     = a$ambient.occlusion.radius,
-										fill_extrusion_vertical_gradient            = a$vertical.gradient,
-										fill_extrusion_emissive_strength            = a$emissive.strength,
-										tooltip                = ahp$hdt_arg,
-										popup                  = ahp$pdt_arg) |>
-		assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
+							  line_width   = mapgl::get_column("lwd"))
+
+	m = do.call(mapgl::add_fill_extrusion_layer, c(
+		list(m, layername1,
+			 source                 = srcname,
+			 fill_extrusion_color   = mapgl::get_column("fill"),
+			 fill_extrusion_opacity = fill_ext_opacity,
+			 fill_extrusion_base    = 0,
+			 fill_extrusion_height  = mapgl::get_column("height"),
+			 tooltip                = ahp$hdt_arg,
+			 popup                  = ahp$pdt_arg),
+		mapgl_fe_props(a, mode)))
+
+	m |> assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
 
 	mapgl_submit_group(group, c(layername1, layername2), mode, pane)
 	NULL

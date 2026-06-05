@@ -26,7 +26,7 @@
 					   draw.download_button = TRUE,
 					   draw.show_measurements = TRUE,
 					   fullscreen.position =  tmap::tm_pos_in(pos.h = "right", pos.v = "top"),
-					   basemap.server = "mapbox.standard",
+					   basemap.server = "ofm.positron",
 					   crs_basemap = 4326),
 				maplibre =
 				list(name = "Maplibre",
@@ -42,7 +42,7 @@
 					 draw.download_button = TRUE,
 					 draw.show_measurements = TRUE,
 					 fullscreen.position =  tmap::tm_pos_in(pos.h = "right", pos.v = "top"),
-					 basemap.server = "ofm.liberty",
+					 basemap.server = "ofm.positron",
 					 crs_basemap = 4326))),
 		styleOptions = list(cobalt = list(modes =
 										  	list(mapbox = list(basemap.server = "ofm.dark"),
