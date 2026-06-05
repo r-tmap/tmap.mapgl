@@ -33,10 +33,6 @@ tmapValuesColorize_height(x, pc)
 
 tmapValuesCVV_height(x, value.na, n, range, scale, rep, o)
 
-tmapMapboxArrange(tms, nx, ncol, nrow, opts, knit, show, args, options)
-
-tmapMaplibreArrange(tms, nx, ncol, nrow, opts, knit, show, args, options)
-
 tmapMapboxAuxPrepare(a, bs, id, o)
 
 # Default S3 method
@@ -416,6 +412,10 @@ tmapMaplibreProviders(credits)
 tmapMapboxRun(o, q, show, knit, knit_opts, args)
 
 tmapMaplibreRun(o, q, show, knit, knit_opts, args)
+
+tmapMapboxArrange(tms, nx, ncol, nrow, opts, knit, show, args, options)
+
+tmapMaplibreArrange(tms, nx, ncol, nrow, opts, knit, show, args, options)
 
 tmapMapboxShape(bbx, facet_row, facet_col, facet_page, o)
 
@@ -1028,34 +1028,6 @@ tmapMaplibreDataPlot(
 
   args
 
-- tms:
-
-  tmap objects
-
-- nx:
-
-  number of facets
-
-- ncol, :
-
-  nrow number of rows and columns
-
-- opts:
-
-  options
-
-- knit:
-
-  knit
-
-- show:
-
-  show
-
-- options:
-
-  options
-
 - bs:
 
   bs
@@ -1138,9 +1110,33 @@ tmapMaplibreDataPlot(
 
   credits
 
+- show:
+
+  show
+
+- knit:
+
+  knit
+
 - knit_opts:
 
   knit options
+
+- tms:
+
+  list of tmap objects
+
+- nx:
+
+  number of facets
+
+- nrow:
+
+  number of grid rows
+
+- opts:
+
+  arrange options (widths, heights, height, sync, ...)
 
 - label:
 

@@ -45,7 +45,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Internal tmap methods</h1>
-      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap.mapgl/blob/main/R/map_variable_height.R" class="external-link"><code>R/map_variable_height.R</code></a>, <a href="https://github.com/r-tmap/tmap.mapgl/blob/main/R/mapgl_arrange.R" class="external-link"><code>R/mapgl_arrange.R</code></a>, <a href="https://github.com/r-tmap/tmap.mapgl/blob/main/R/mapgl_aux.R" class="external-link"><code>R/mapgl_aux.R</code></a>, and 14 more</small>
+      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap.mapgl/blob/main/R/map_variable_height.R" class="external-link"><code>R/map_variable_height.R</code></a>, <a href="https://github.com/r-tmap/tmap.mapgl/blob/main/R/mapgl_aux.R" class="external-link"><code>R/mapgl_aux.R</code></a>, <a href="https://github.com/r-tmap/tmap.mapgl/blob/main/R/mapgl_comp.R" class="external-link"><code>R/mapgl_comp.R</code></a>, and 13 more</small>
       <div class="d-none name"><code>tmapMapbox.Rd</code></div>
     </div>
 
@@ -82,10 +82,6 @@
 <span><span class="fu">tmapValuesColorize_height</span><span class="op">(</span><span class="va">x</span>, <span class="va">pc</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">tmapValuesCVV_height</span><span class="op">(</span><span class="va">x</span>, <span class="va">value.na</span>, <span class="va">n</span>, <span class="va">range</span>, <span class="va">scale</span>, <span class="va">rep</span>, <span class="va">o</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">tmapMapboxArrange</span><span class="op">(</span><span class="va">tms</span>, <span class="va">nx</span>, <span class="va">ncol</span>, <span class="va">nrow</span>, <span class="va">opts</span>, <span class="va">knit</span>, <span class="va">show</span>, <span class="va">args</span>, <span class="va">options</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu">tmapMaplibreArrange</span><span class="op">(</span><span class="va">tms</span>, <span class="va">nx</span>, <span class="va">ncol</span>, <span class="va">nrow</span>, <span class="va">opts</span>, <span class="va">knit</span>, <span class="va">show</span>, <span class="va">args</span>, <span class="va">options</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">tmapMapboxAuxPrepare</span><span class="op">(</span><span class="va">a</span>, <span class="va">bs</span>, <span class="va">id</span>, <span class="va">o</span><span class="op">)</span></span>
 <span></span>
@@ -466,6 +462,10 @@
 <span><span class="fu">tmapMapboxRun</span><span class="op">(</span><span class="va">o</span>, <span class="va">q</span>, <span class="va">show</span>, <span class="va">knit</span>, <span class="va">knit_opts</span>, <span class="va">args</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">tmapMaplibreRun</span><span class="op">(</span><span class="va">o</span>, <span class="va">q</span>, <span class="va">show</span>, <span class="va">knit</span>, <span class="va">knit_opts</span>, <span class="va">args</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapMapboxArrange</span><span class="op">(</span><span class="va">tms</span>, <span class="va">nx</span>, <span class="va">ncol</span>, <span class="va">nrow</span>, <span class="va">opts</span>, <span class="va">knit</span>, <span class="va">show</span>, <span class="va">args</span>, <span class="va">options</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmapMaplibreArrange</span><span class="op">(</span><span class="va">tms</span>, <span class="va">nx</span>, <span class="va">ncol</span>, <span class="va">nrow</span>, <span class="va">opts</span>, <span class="va">knit</span>, <span class="va">show</span>, <span class="va">args</span>, <span class="va">options</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">tmapMapboxShape</span><span class="op">(</span><span class="va">bbx</span>, <span class="va">facet_row</span>, <span class="va">facet_col</span>, <span class="va">facet_page</span>, <span class="va">o</span><span class="op">)</span></span>
 <span></span>
@@ -1080,34 +1080,6 @@
 <dd><p>args</p></dd>
 
 
-<dt id="arg-tms">tms<a class="anchor" aria-label="anchor" href="#arg-tms"></a></dt>
-<dd><p>tmap objects</p></dd>
-
-
-<dt id="arg-nx">nx<a class="anchor" aria-label="anchor" href="#arg-nx"></a></dt>
-<dd><p>number of facets</p></dd>
-
-
-<dt id="arg-ncol-">ncol, <a class="anchor" aria-label="anchor" href="#arg-ncol-"></a></dt>
-<dd><p>nrow number of rows and columns</p></dd>
-
-
-<dt id="arg-opts">opts<a class="anchor" aria-label="anchor" href="#arg-opts"></a></dt>
-<dd><p>options</p></dd>
-
-
-<dt id="arg-knit">knit<a class="anchor" aria-label="anchor" href="#arg-knit"></a></dt>
-<dd><p>knit</p></dd>
-
-
-<dt id="arg-show">show<a class="anchor" aria-label="anchor" href="#arg-show"></a></dt>
-<dd><p>show</p></dd>
-
-
-<dt id="arg-options">options<a class="anchor" aria-label="anchor" href="#arg-options"></a></dt>
-<dd><p>options</p></dd>
-
-
 <dt id="arg-bs">bs<a class="anchor" aria-label="anchor" href="#arg-bs"></a></dt>
 <dd><p>bs</p></dd>
 
@@ -1189,8 +1161,32 @@ proxy object <code>m</code> is used as the drawing canvas instead)</p></dd>
 <dd><p>credits</p></dd>
 
 
+<dt id="arg-show">show<a class="anchor" aria-label="anchor" href="#arg-show"></a></dt>
+<dd><p>show</p></dd>
+
+
+<dt id="arg-knit">knit<a class="anchor" aria-label="anchor" href="#arg-knit"></a></dt>
+<dd><p>knit</p></dd>
+
+
 <dt id="arg-knit-opts">knit_opts<a class="anchor" aria-label="anchor" href="#arg-knit-opts"></a></dt>
 <dd><p>knit options</p></dd>
+
+
+<dt id="arg-tms">tms<a class="anchor" aria-label="anchor" href="#arg-tms"></a></dt>
+<dd><p>list of tmap objects</p></dd>
+
+
+<dt id="arg-nx">nx<a class="anchor" aria-label="anchor" href="#arg-nx"></a></dt>
+<dd><p>number of facets</p></dd>
+
+
+<dt id="arg-nrow">nrow<a class="anchor" aria-label="anchor" href="#arg-nrow"></a></dt>
+<dd><p>number of grid rows</p></dd>
+
+
+<dt id="arg-opts">opts<a class="anchor" aria-label="anchor" href="#arg-opts"></a></dt>
+<dd><p>arrange options (widths, heights, height, sync, ...)</p></dd>
 
 
 <dt id="arg-label">label<a class="anchor" aria-label="anchor" href="#arg-label"></a></dt>
