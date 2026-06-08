@@ -13,7 +13,7 @@
 #' @importFrom tmaptools bb_poly
 #' @importFrom terra rast is.lonlat project ext crop
 #' @importFrom stats na.omit
-#' @importFrom utils head tail
+#' @importFrom utils head tail getFromNamespace
 #' @import stars
 #' @import cli
 #' @importFrom units drop_units set_units

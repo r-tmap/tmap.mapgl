@@ -66,8 +66,8 @@ pmtiles_unsupported = function(shpTM, mode) {
 # number-resolution logic to keep in sync with view mode.
 
 view_format_popups_mapgl = function(id = NULL, titles, format, values, layout = NULL) {
-	complete_popup_layout = getFromNamespace("complete_popup_layout", "tmap")
-	style_attr            = getFromNamespace(".popup_style_attr", "tmap")
+	complete_popup_layout = utils::getFromNamespace("complete_popup_layout", "tmap")
+	style_attr            = utils::getFromNamespace(".popup_style_attr", "tmap")
 	layout = complete_popup_layout(layout)
 
 	h = lapply(format, function(f) {

@@ -99,9 +99,15 @@ mapgl_tiles_prep = function(a, bs, id, o, e, mode) {
 	# Allow raw style URLs to pass through; only validate named providers.
 	is_url = is.character(serv) && grepl("^(https?|mapbox|maptiler)://", serv)
 	if (!is_url && !(serv %in% tmap::tmap_providers(mode))) {
-		fallback = o$basemap.server[1]
-		getFromNamespace("message_basemaps_invalid_provider", "tmap")(serv, mode, fallback)
-		serv = fallback
+		eq = utils::getFromNamespace("basemap_equivalent", "tmap")(serv, mode)
+		if (!is.na(eq)) {
+			utils::getFromNamespace("message_basemaps_equivalent", "tmap")(serv, mode, eq)
+			serv = eq
+		} else {
+			fallback = o$basemap.server[1]
+			utils::getFromNamespace("message_basemaps_invalid_provider", "tmap")(serv, mode, fallback)
+			serv = fallback
+		}
 	}
 	e$style = serv
 	# Optional per-basemap API key from tm_basemap(api = ...) (the same `api`

@@ -12,7 +12,7 @@
 
 
 .renderTmapGS_mapgl <- function(x, expr, env, ...) {
-	expr <- bquote(getFromNamespace("print.tmap", "tmap")(.(expr), in.shiny = TRUE))
+	expr <- bquote(utils::getFromNamespace("print.tmap", "tmap")(.(expr), in.shiny = TRUE))
 	htmlwidgets::shinyRenderWidget(expr, .mapgl_output_fun(x$gs), env, quoted = TRUE)
 }
 
@@ -37,7 +37,7 @@ tmapOutputGS.Mapbox <- .tmapOutputGS_mapgl
 # tmapProxy ------------------------------------------------------------------
 
 .tmapProxyGS_mapgl <- function(x, mapId, session, tmobj, ...) {
-	print.tmap(tmobj,
+	print(tmobj,
 			   m = .mapgl_proxy_fun(x$gs)(mapId, session),  # maplibre_proxy / mapboxgl_proxy
 			   show = FALSE, in.shiny = TRUE, proxy = TRUE)
 }

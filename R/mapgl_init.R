@@ -49,7 +49,7 @@ mapgl_init = function(o, return.asp, vp, prx, dg = NULL, m = NULL, e, ...) {
 
 	# layer removal is targeted: only the zindexes named by tm_remove_layer()
 	if (proxy && length(prx)) {
-		pane_name = getFromNamespace("pane_name", "tmap")
+		pane_name = utils::getFromNamespace("pane_name", "tmap")
 		zres   = vapply(prx, function(p) p$zindex, FUN.VALUE = numeric(1))
 		rm_ids = mapgl_layer_ids(e, pane_name(zres))
 		if (length(rm_ids)) {
