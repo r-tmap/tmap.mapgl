@@ -5,7 +5,7 @@ Mapbox mode options. These options are specific to the mapbox mode.
 ## Usage
 
 ``` r
-tm_mapbox(pitch, control.position, control.collapse, zoom)
+tm_mapbox(pitch, bearing, control.position, control.collapse, zoom)
 ```
 
 ## Arguments
@@ -13,6 +13,10 @@ tm_mapbox(pitch, control.position, control.collapse, zoom)
 - pitch:
 
   The pitch angle
+
+- bearing:
+
+  The bearing (rotation angle) of the map, in degrees
 
 - control.position:
 

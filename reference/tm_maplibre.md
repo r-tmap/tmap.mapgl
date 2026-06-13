@@ -5,7 +5,7 @@ Maplibre mode options. These options are specific to the maplibre mode.
 ## Usage
 
 ``` r
-tm_maplibre(pitch, control.position, control.collapse, zoom)
+tm_maplibre(pitch, bearing, control.position, control.collapse, zoom)
 ```
 
 ## Arguments
@@ -13,6 +13,10 @@ tm_maplibre(pitch, control.position, control.collapse, zoom)
 - pitch:
 
   The pitch angle
+
+- bearing:
+
+  The bearing (rotation angle) of the map, in degrees
 
 - control.position:
 
