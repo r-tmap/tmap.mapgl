@@ -30,6 +30,46 @@ tmapMaplibreRun = function(o, q, show, knit, knit_opts, args) {
 
 }
 
+# Per-widget CSS injected into mapgl maps. Always hides the interactive-legend
+# "Reset Filter" button (mapgl injects it via JS and toggles display:none/block,
+# which otherwise shifts/grows the bottom-anchored legend). When a frame colour
+# is given, it also draws a matching border on the control/globe button groups
+# and on popups, so they read consistently with the legend frame. `frame_hex`
+# must be a CSS-valid colour (hex); pass NULL to skip the borders.
+mapgl_extra_css = function(frame_hex = NULL) {
+	css = ".mapboxgl-legend .legend-reset-btn { display: none !important; }"
+	if (!is.null(frame_hex)) {
+		css = paste0(
+			css, "\n",
+			# Give control/globe buttons the same flat frame as the legend: add the
+			# gray border and drop maplibre's default 2px "halo" (box-shadow), so
+			# the two read consistently. (To instead keep the halo and add it to the
+			# legend, drop the box-shadow:none here and shadow .mapboxgl-legend.)
+			".maplibregl-ctrl-group, .mapboxgl-ctrl-group { border: 1px solid ", frame_hex, " !important; box-shadow: none !important; }\n",
+			".maplibregl-popup-content, .mapboxgl-popup-content { border: 1px solid ", frame_hex, " !important; }"
+		)
+	}
+	htmltools::HTML(css)
+}
+
+mapgl_prepend_css = function(w, css) {
+	if (inherits(w, "htmlwidget")) {
+		htmlwidgets::prependContent(w, htmltools::tags$style(css))
+	} else {
+		w
+	}
+}
+
+# Convert an R colour to CSS-safe #RRGGBB (R's "gray40" etc. are not valid CSS);
+# NULL/NA -> NULL so callers can skip.
+mapgl_col_to_hex = function(col) {
+	if (is.null(col) || (length(col) == 1L && is.na(col))) return(NULL)
+	tryCatch({
+		m = grDevices::col2rgb(col)
+		grDevices::rgb(m[1, ], m[2, ], m[3, ], maxColorValue = 255)
+	}, error = function(e) NULL)
+}
+
 mapgl_run = function(o, q, show, knit, args, mode) {
 	e = if (mode == "mapbox") {
 		.TMAP_MAPBOX
@@ -44,6 +84,11 @@ mapgl_run = function(o, q, show, knit, args, mode) {
 
 	ms = get("ms", envir = e)
 	grps = get("grps", envir = e)
+
+	# Prepend per-widget CSS: hide the reset button, and (from the legend frame
+	# colour) border the control/globe buttons and popups to match.
+	extra_css = mapgl_extra_css(mapgl_col_to_hex(o[["component.frame.color"]]))
+	ms = lapply(ms, function(msi) lapply(msi, mapgl_prepend_css, css = extra_css))
 
 	ctrl = split(q$group.control, f = q$group)
 	ctrl = sapply(ctrl, tail, 1)

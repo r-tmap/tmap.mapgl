@@ -4,10 +4,12 @@
 \alias{tm_mapbox}
 \title{Mapbox mode options}
 \usage{
-tm_mapbox(pitch, control.position, control.collapse, zoom)
+tm_mapbox(pitch, bearing, control.position, control.collapse, zoom)
 }
 \arguments{
 \item{pitch}{The pitch angle}
+
+\item{bearing}{The bearing (rotation angle) of the map, in degrees}
 
 \item{control.position}{The position of the layer control box}
 

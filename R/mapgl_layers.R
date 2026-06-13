@@ -32,6 +32,96 @@ make_get_pmt_aes = function(dt) {
 	}
 }
 
+# ------------------------------------------------------------
+#  Interactive-legend categorical columns
+# ------------------------------------------------------------
+# A data layer can carry up to two data-driven colour aesthetics: the body
+# (fill) and the outline (col). Each gets its own legend, and mapgl filters a
+# layer by matching a *data column* against the clicked category. We therefore
+# materialise a dedicated category column per aesthetic on the source:
+#   __tmap_cat_fill__  – for the fill legend
+#   __tmap_cat_col__   – for the border/line (col) legend
+# Using one shared column (the old "__tmap_cat__") made the two legends collide:
+# both keyed off the same column and both targeted the fill layer, so the col
+# legend filtered on the fill aesthetic (and clobbered the fill legend's filter,
+# since mapgl lets only one interactive legend own a layer).
+#
+# Which legend backs an aesthetic is found by glid + colour matching: among the
+# legends carrying this layer's glid, the backing one is whichever's swatch
+# colours (vvalues) actually appear in the resolved per-feature colours. This is
+# the original approach (it does NOT parse dt — dt's "scaleNNN_var" encoding only
+# exists in the PMTiles path, not the sf path, where colours are already
+# resolved). NULL is returned for a constant or continuous aesthetic.
+
+mapgl_cat_info = function(glid, vals) {
+	non_na = !is.na(vals)
+	if (!any(non_na)) return(NULL)
+
+	# Normalise colours to upper-case #RRGGBB before matching, so an alpha suffix
+	# (#RRGGBBAA) or case difference between the resolved fills and the swatch
+	# colours doesn't break the match. (Categorical/interval palettes have
+	# distinct RGB per class, so dropping alpha never collapses two classes.)
+	norm = function(x) toupper(substr(as.character(x), 1L, 7L))
+	vn_all = norm(vals)
+	vn = vn_all[non_na]
+
+	best = NULL
+	best_frac = 0
+	best_cc = NULL
+	for (leg in .TMAP$legs) {
+		if (!("glid" %in% names(leg)) || !isTRUE(leg$glid == glid)) next
+		cc = leg$vvalues
+		cv = leg$labels
+		if (is.null(cc) || is.null(cv)) next
+		ccn = norm(cc)
+		frac = mean(vn %in% ccn)
+		if (frac > best_frac) { best_frac = frac; best = leg; best_cc = ccn }
+	}
+
+	# A discrete scale (categorical OR binned numeric) paints (almost) every
+	# feature with a swatch colour; a continuous scale interpolates off-swatch
+	# colours, so its match fraction is tiny. Require a majority to treat the
+	# aesthetic as categorical/interactive (and leave continuous to the
+	# non-interactive gradient legend).
+	if (is.null(best) || best_frac < 0.5) return(NULL)
+
+	list(
+		labels = best$labels[match(vn_all, best_cc)],
+		values = best$labels,
+		colors = best$vvalues
+	)
+}
+
+# Attach the categorical columns for the fill and/or col aesthetics to the
+# source `shp2`, and record in .TMAP$mapgl_cat[[glid]] which aesthetics are
+# categorical plus the concrete fill/border layer names. The legend renderer
+# (mapgl_legend_target()) reads this registry to pick the right target layer(s)
+# and filter column. `border_layer = NA` marks geometries with no separate
+# outline layer (tm_symbols' single circle layer); `fill_layer = NA` marks
+# outline-only geometries (lines).
+mapgl_attach_cat = function(shp2, glid, fill_layer = NA_character_, border_layer = NA_character_,
+							fill_col = "fill", col_col = "col") {
+	if (is.null(.TMAP$mapgl_cat)) .TMAP$mapgl_cat = list()
+	reg = list(fill = NULL, col = NULL, fill_layer = fill_layer, border_layer = border_layer)
+
+	if (!is.null(fill_col) && fill_col %in% names(shp2)) {
+		fi = mapgl_cat_info(glid, shp2[[fill_col]])
+		if (!is.null(fi)) {
+			shp2[["__tmap_cat_fill__"]] = fi$labels
+			reg$fill = list(column = "__tmap_cat_fill__", values = fi$values, colors = fi$colors)
+		}
+	}
+	if (!is.null(col_col) && col_col %in% names(shp2)) {
+		ci = mapgl_cat_info(glid, shp2[[col_col]])
+		if (!is.null(ci)) {
+			shp2[["__tmap_cat_col__"]] = ci$labels
+			reg$col = list(column = "__tmap_cat_col__", values = ci$values, colors = ci$colors)
+		}
+	}
+	.TMAP$mapgl_cat[[glid]] = reg
+	shp2
+}
+
 # Shared PMTiles guard: emits cli messages and returns TRUE when the
 # pointer cannot be rendered, so callers can do:
 #   if (pmtiles_unsupported(shpTM, mode)) return(NULL)
@@ -110,12 +200,16 @@ view_format_popups_mapgl = function(id = NULL, titles, format, values, layout = 
 	labels3 = paste0(do.call("paste", c(labels2, list(sep = "</tr>"))), "</tr>")
 
 	# max.height = "none" removes the cap (popup grows to fit, never scrolls).
+	# When capped, reserve scrollbar space with padding-right so the scroll bar
+	# doesn't overlap the values (notably Safari's overlay scrollbar). Mirrors
+	# view mode: pad once the table is long enough to scroll (~>13 lines).
+	padding_right = if (length(titles_format) > 13) 15 else 0
 	mh = layout$max.height
 	no_cap = is.null(mh) || identical(mh, "none") || (length(mh) == 1L && is.na(mh))
 	if (no_cap) {
 		div_style = paste0("width:", layout$width, "; overflow-x:hidden;")
 	} else {
-		div_style = paste0("width:", layout$width, "; max-height:", mh, "; overflow-y:auto; overflow-x:hidden;")
+		div_style = paste0("width:", layout$width, "; max-height:", mh, "; overflow-y:auto; overflow-x:hidden; padding-right:", padding_right, "px;")
 	}
 
 	# Mirror view mode: with a fixed width let the table fill it (extra space
@@ -352,31 +446,15 @@ mapgl_polygons = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 		geometry = shp
 	)
 
-	# --- Add categorical column for interactive legend ---
-	legs = .TMAP$legs
-	lid = which(vapply(legs, FUN = function(l) {
-		("glid" %in% names(l)) && l$glid == glid
-	}, FUN.VALUE = logical(1)))[1]
-	leg = legs[[lid]]
-
-	cat_colors = leg$vvalues   # per-category hex colors
-	cat_values = leg$labels    # category labels
-
-	stopifnot(length(cat_colors) == length(cat_values))  # sanity check
-
-	shp2[["__tmap_cat__"]] = cat_values[match(shp2$fill, cat_colors)]
-
-	attr(shp2, "tmap_cat_col")    = "__tmap_cat__"
-	attr(shp2, "tmap_cat_values") = cat_values
-	attr(shp2, "tmap_cat_colors") = cat_colors
-	# -----------------------------------------------------
-
-	ahp  = attach_hover_popup(shp2, dt, hdt, pdt, idt, popup.format, popup.layout, ptdt)
-	shp2 = ahp$shp2
-
 	srcname    = mapgl_srcid(paste0("layer", pane))
 	layername1 = paste0(glid, "polygons_fill")
 	layername2 = paste0(glid, "polygons_border")
+
+	# Per-aesthetic categorical columns for the interactive legend(s).
+	shp2 = mapgl_attach_cat(shp2, glid, fill_layer = layername1, border_layer = layername2)
+
+	ahp  = attach_hover_popup(shp2, dt, hdt, pdt, idt, popup.format, popup.layout, ptdt)
+	shp2 = ahp$shp2
 
 	m |>
 		mapgl::add_source(srcname, data = shp2) |>
@@ -719,29 +797,15 @@ mapgl_lines = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 		geometry = shp
 	)
 
-	# --- Add categorical column for interactive legend ---
-	legs = .TMAP$legs
-	lid  = which(vapply(legs, FUN = function(l) {
-		("glid" %in% names(l)) && l$glid == glid
-	}, FUN.VALUE = logical(1)))[1]
-	leg = legs[[lid]]
+	srcname    = mapgl_srcid(paste0("layer", pane))
+	layername1 = paste0(glid, "lines")  # was paste0(srcname, "lines") — fixed to match legend
 
-	cat_colors = leg$vvalues
-	cat_values = leg$labels
-
-	stopifnot(length(cat_colors) == length(cat_values))
-
-	shp2[["__tmap_cat__"]] = cat_values[match(shp2$col, cat_colors)]
-
-	attr(shp2, "tmap_cat_col")    = "__tmap_cat__"
-	attr(shp2, "tmap_cat_values") = cat_values
-	attr(shp2, "tmap_cat_colors") = cat_colors
-	# -----------------------------------------------------
+	# Lines have only a col (line-colour) aesthetic on a single line layer.
+	shp2 = mapgl_attach_cat(shp2, glid, fill_layer = NA_character_, border_layer = layername1,
+							fill_col = NULL, col_col = "col")
 
 	ahp  = attach_hover_popup(shp2, dt, hdt, pdt, idt, popup.format, popup.layout, ptdt)
 	shp2 = ahp$shp2
-	srcname    = mapgl_srcid(paste0("layer", pane))
-	layername1 = paste0(glid, "lines")  # was paste0(srcname, "lines") — fixed to match legend
 
 	m |>
 		mapgl::add_source(srcname, data = shp2) |>
@@ -840,29 +904,17 @@ mapgl_symbols = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 
 	shp2$size = shp2$size * 10
 
-	# --- Add categorical column for interactive legend ---
-	legs = .TMAP$legs
-	lid  = which(vapply(legs, FUN = function(l) {
-		("glid" %in% names(l)) && l$glid == glid
-	}, FUN.VALUE = logical(1)))[1]
-	leg = legs[[lid]]
+	srcname    = mapgl_srcid(paste0("layer", pane))
+	layername1 = paste0(glid, "symbols_fill")  # was paste0(srcname, ...) — fixed
 
-	cat_colors = leg$vvalues
-	cat_values = leg$labels
-
-	stopifnot(length(cat_colors) == length(cat_values))
-
-	shp2[["__tmap_cat__"]] = cat_values[match(shp2$fill, cat_colors)]
-
-	attr(shp2, "tmap_cat_col")    = "__tmap_cat__"
-	attr(shp2, "tmap_cat_values") = cat_values
-	attr(shp2, "tmap_cat_colors") = cat_colors
-	# -----------------------------------------------------
+	# tm_symbols renders as a single circle layer carrying both circle-color
+	# (fill) and circle-stroke-color (col); there is no separate outline layer,
+	# so border_layer = NA. Both legends therefore key off this one layer (and,
+	# per mapgl, only one can own its interactive filter at a time).
+	shp2 = mapgl_attach_cat(shp2, glid, fill_layer = layername1, border_layer = NA_character_)
 
 	ahp  = attach_hover_popup(shp2, dt, hdt, pdt, idt, popup.format, popup.layout, ptdt)
 	shp2 = ahp$shp2
-	srcname    = mapgl_srcid(paste0("layer", pane))
-	layername1 = paste0(glid, "symbols_fill")  # was paste0(srcname, ...) — fixed
 
 	m |>
 		mapgl::add_source(srcname, data = shp2) |>
@@ -999,31 +1051,18 @@ mapgl_circles = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 	keep = is.finite(radius_m) & radius_m > 0
 	shp2 = shp2[keep, ]
 
-	# --- Add categorical column for interactive legend (match on fill) -------
-	legs = .TMAP$legs
-	lid  = which(vapply(legs, FUN = function(l) {
-		("glid" %in% names(l)) && l$glid == glid
-	}, FUN.VALUE = logical(1)))[1]
-	leg = legs[[lid]]
+	# --- Add categorical columns for interactive legend(s) -------------------
+	# tm_circles is materialised as fill + line polygon layers, so the fill and
+	# col legends can each own their own layer (like tm_polygons).
+	srcname    = mapgl_srcid(paste0("layer", pane))
+	layername1 = paste0(glid, "symbols_fill")    # matches the categorical legend
+	layername2 = paste0(glid, "symbols_border")
 
-	cat_colors = leg$vvalues
-	cat_values = leg$labels
-
-	stopifnot(length(cat_colors) == length(cat_values))
-
-	shp2[["__tmap_cat__"]] = cat_values[match(shp2$fill, cat_colors)]
-
-	attr(shp2, "tmap_cat_col")    = "__tmap_cat__"
-	attr(shp2, "tmap_cat_values") = cat_values
-	attr(shp2, "tmap_cat_colors") = cat_colors
+	shp2 = mapgl_attach_cat(shp2, glid, fill_layer = layername1, border_layer = layername2)
 	# -------------------------------------------------------------------------
 
 	ahp  = attach_hover_popup(shp2, dt[keep, ], hdt, pdt, idt, popup.format, popup.layout, ptdt)
 	shp2 = ahp$shp2
-
-	srcname    = mapgl_srcid(paste0("layer", pane))
-	layername1 = paste0(glid, "symbols_fill")    # matches the categorical legend
-	layername2 = paste0(glid, "symbols_border")
 
 	m |>
 		mapgl::add_source(srcname, data = shp2) |>

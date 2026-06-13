@@ -4,10 +4,12 @@
 \alias{tm_maplibre}
 \title{Maplibre mode options}
 \usage{
-tm_maplibre(pitch, control.position, control.collapse, zoom)
+tm_maplibre(pitch, bearing, control.position, control.collapse, zoom)
 }
 \arguments{
 \item{pitch}{The pitch angle}
+
+\item{bearing}{The bearing (rotation angle) of the map, in degrees}
 
 \item{control.position}{The position of the layer control box}
 

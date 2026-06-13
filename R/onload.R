@@ -15,6 +15,7 @@
 			list(mapbox =
 				list(name = "Mapbox",
 					 pitch = 0,
+					 bearing = 0,
 					   basemap.show = TRUE,
 					 control.position = c("left", "top"),
 					 control.collapse = TRUE,
@@ -27,10 +28,12 @@
 					   draw.show_measurements = TRUE,
 					   fullscreen.position =  tmap::tm_pos_in(pos.h = "right", pos.v = "top"),
 					   basemap.server = "ofm.positron",
+					   component.frame.color = "gray40",
 					   crs_basemap = 4326),
 				maplibre =
 				list(name = "Maplibre",
 					 pitch = 0,
+					 bearing = 0,
 					 basemap.show = TRUE,
 					 control.position = c("left", "top"),
 					 control.collapse = TRUE,
@@ -43,6 +46,7 @@
 					 draw.show_measurements = TRUE,
 					 fullscreen.position =  tmap::tm_pos_in(pos.h = "right", pos.v = "top"),
 					 basemap.server = "ofm.positron",
+					 component.frame.color = "gray40",
 					 crs_basemap = 4326))),
 		styleOptions = list(cobalt = list(modes =
 										  	list(mapbox = list(basemap.server = "ofm.dark"),
