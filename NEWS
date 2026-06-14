@@ -1,5 +1,6 @@
 version 0.3
 - shiny integration
+- glyphs supported (from tmap.glyphs)
 - updated legend, control/globe button, and popup look
 - tm_legend styling arguments used
 - fill_alpha working for tm_polygons_3d
