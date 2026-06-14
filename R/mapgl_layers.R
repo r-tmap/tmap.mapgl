@@ -885,6 +885,57 @@ mapgl_symbols = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 	gp = impute_gp(gp, dt)
 	gp = rescale_gp(gp, o$scale_down)
 
+	# ----------------------------------------------------------
+	#  Grob-shape branch (custom glyphs)
+	# ----------------------------------------------------------
+	shape_codes = suppressWarnings(as.integer(gp$shape))
+	is_grob     = !is.na(shape_codes) & shape_codes > 999L
+	if (any(is_grob)) {
+		# In non-Grid modes tmapValuesSubmit_shape() already rasterised each grob
+		# via grob2icon(); shapeLib holds leaflet icon objects (iconUrl -> a PNG),
+		# not grobs. Reuse those PNGs directly, exactly like the Leaflet backend.
+		merge_icons = utils::getFromNamespace("merge_icons", "tmap")
+		iconset     = merge_icons(get("shapeLib", envir = .TMAP)[shape_codes[is_grob] - 999L])
+
+		gd = a$grob.dim
+		rw = if (!is.null(gd)) gd[["render.width"]] else 256   # PNG native px; icon-size is relative to this
+
+		# glyph_scale: per-backend calibration knob (mapgl analogue of the
+		# plot/view donut factors) — tune against the legend / view mode.
+		glyph_scale = a$icon.scale
+		iconsize    = (gp$size * 10 * glyph_scale) / rw
+
+		ids          = rep("", length(shape_codes))
+		ids[is_grob] = paste0(glid, "_glyph_", which(is_grob))
+		m            = mapgl_add_glyph_images(m, iconset$iconUrl, ids[is_grob])
+
+		shp2 = sf::st_sf(icon = ids, iconsize = iconsize,
+						 id = seq_along(shape_codes), geometry = shp)
+
+		srcname    = mapgl_srcid(paste0("layer", pane))
+		layername1 = paste0(glid, "symbols_fill")
+
+		shp2 = mapgl_attach_cat(shp2, glid, fill_layer = layername1,
+								border_layer = NA_character_, fill_col = NULL, col_col = NULL)
+		ahp  = attach_hover_popup(shp2, dt, hdt, pdt, idt, popup.format, popup.layout, ptdt)
+		shp2 = ahp$shp2
+
+		m |>
+			mapgl::add_source(srcname, data = shp2) |>
+			mapgl::add_symbol_layer(layername1, source = srcname,
+									icon_image            = mapgl::get_column("icon"),
+									icon_size             = mapgl::get_column("iconsize"),
+									icon_allow_overlap    = TRUE,
+									icon_ignore_placement = TRUE,
+									icon_anchor           = "center",
+									tooltip               = ahp$hdt_arg,
+									popup                 = ahp$pdt_arg) |>
+			assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
+
+		mapgl_submit_group(group, layername1, mode, pane)
+		return(NULL)
+	}
+
 	if (any(nchar(gp$fill) == 9)) {
 		fa        = split_alpha_channel(gp$fill, alpha = gp$fill_alpha)
 		gp$fill   = fa$col
@@ -931,6 +982,11 @@ mapgl_symbols = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 
 	mapgl_submit_group(group, layername1, mode, pane)
 	NULL
+}
+
+mapgl_add_glyph_images = function(m, urls, ids) {
+	for (i in seq_along(urls)) m = mapgl::add_image(m, id = ids[i], url = urls[i])
+	m
 }
 
 # Build smooth great-circle polygons (one per point) in EPSG:4326. Each circle

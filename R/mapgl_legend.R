@@ -168,6 +168,17 @@ mapgl_legend_style = function(grp, grp_called, cmp, o) {
 		border_radius = as_int({ r = nn(grp$frame.r); if (is.null(r)) NULL else r * sc * mapgl_frame_r_px })
 	}
 
+	# --- patch (element) border: the symbol / polygon outline ---
+	element_border_color = NULL
+	element_border_width = NULL
+	has_outline = !is.null(cmp$gp$col) && !all(is.na(cmp$gp$col)) &&
+		!is.null(cmp$gp$lwd) && any(cmp$gp$lwd > 0, na.rm = TRUE)
+	if (has_outline) {
+		element_border_color = to_hex(cmp$gp$col[which(!is.na(cmp$gp$col))[1]])
+		element_border_width = as_int(max(cmp$gp$lwd, na.rm = TRUE) * sc)
+		if (!is.null(element_border_width) && element_border_width < 1L) element_border_width = 1L
+	}
+
 	mapgl::legend_style(
 		background_color   = background_color,
 		background_opacity = background_opacity,
@@ -179,7 +190,9 @@ mapgl_legend_style = function(grp, grp_called, cmp, o) {
 		font_family        = nn(cmp$text.fontfamily),
 		title_font_family  = nn(cmp$title.fontfamily),
 		font_weight        = face_to_weight(cmp$text.fontface),
-		title_font_weight  = face_to_weight(cmp$title.fontface)
+		title_font_weight  = face_to_weight(cmp$title.fontface),
+		element_border_color = element_border_color,
+		element_border_width = element_border_width
 	)
 }
 

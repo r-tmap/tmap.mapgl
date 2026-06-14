@@ -45,11 +45,36 @@ get_style = function(name) {
 # `api_key` passed through from tm_basemap). If the key is missing, we warn and
 # fall back to `default` - the caller passes the mode's basemap option
 # (o$basemap.server[1]); the literal here is only a last-resort safety net.
-resolve_style = function(name, api_key = NULL, default = "ofm.positron") {
+#
+# `bg` is the layout background colour (o$bg.color). When no basemap is applied
+# (e.g. tm_basemap(NULL)) it is used to paint a background layer, so the blank
+# canvas matches tm_layout(bg.color = ...), the way view mode colours the
+# leaflet container.
+resolve_style = function(name, api_key = NULL, default = "ofm.positron", bg = NULL) {
 	fallback = function(msg) {
 		cli::cli_warn(c("!" = msg,
 						"i" = "Falling back to the default basemap {.str {default}}."))
-		resolve_style(default, default = default)
+		resolve_style(default, default = default, bg = bg)
+	}
+
+	# An empty / NULL style means no basemap was applied (e.g. tm_basemap(NULL)):
+	# return a minimal blank GL style so the engine renders no basemap (like view
+	# mode), instead of erroring in regexpr() below. If a background colour is
+	# available, add a background layer so the canvas honours tm_layout(bg.color).
+	if (is.null(name) || length(name) != 1L || is.na(name) || !nzchar(name)) {
+		layers = list()
+		if (!is.null(bg) && length(bg) == 1L && !is.na(bg) && nzchar(bg)) {
+			# Normalise to #RRGGBB (handles R colour names like "grey90" and hex
+			# with alpha); fall back to the raw value if it can't be parsed.
+			bg_css = tryCatch(
+				grDevices::rgb(t(grDevices::col2rgb(bg)), maxColorValue = 255),
+				error = function(e) bg)
+			layers = list(list(id = "background", type = "background",
+							   paint = list(`background-color` = bg_css)))
+		}
+		return(list(version = 8L,
+					sources = structure(list(), names = character(0)),
+					layers  = layers))
 	}
 
 	pos = regexpr("[._]", name)
@@ -119,7 +144,7 @@ mapgl_shape = function(bbx, facet_row, facet_col, facet_page, o, mode) {
 		}
 	}
 
-	style = resolve_style(e$style, api_key = e$api_key, default = o$basemap.server[1])
+	style = resolve_style(e$style, api_key = e$api_key, default = o$basemap.server[1], bg = o$bg.color)
 
 	if (mode == "mapbox") {
 		# quick & dirty
