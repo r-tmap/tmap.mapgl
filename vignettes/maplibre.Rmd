@@ -43,7 +43,7 @@ library(tmap.mapgl)
 
 ## Basemaps
 
-Mapbox offers several basemap providers, namely:
+Maplibre offers several basemap providers, namely:
 
 ```{r}
 tmap_mode("maplibre")
