@@ -2,7 +2,7 @@
 
 ## Basemaps
 
-Mapbox offers several basemap providers, namely:
+Maplibre offers several basemap providers, namely:
 
 ``` r
 
