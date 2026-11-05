@@ -12,14 +12,18 @@
 # - 3D polygons: fill-extrusion-pattern replaces the fill color, so the tiles contain the fill color as
 #   background, and features without a pattern get a tile of their fill color.
 
-mapgl_pattern_dpi = 192
+# Resolution of the pattern images: twice the screen resolution, for sharp patterns on high-density screens. In
+# Mapbox GL (v3), large pattern images cause black tiles (the pattern images of a tile do not fit), so there the
+# images have the screen resolution.
+mapgl_pattern_dpi = function(mode) if (identical(mode, "mapbox")) 96 else 192
 
 mapgl_unresolved = function(x) is.null(x) || (is.character(x) && any(startsWith(x, "__"), na.rm = TRUE))
 
 # Pattern image per feature. Returns NULL when there is no pattern, otherwise list(ids, files), where ids are
 # the image ids per feature (NA: no pattern) and files the PNG files per unique id. With bg (3D), the tiles have
 # the fill color as background, and features without a pattern get a tile of their fill color (all = TRUE).
-mapgl_pattern_images = function(gp, n, o, bg = NULL) {
+mapgl_pattern_images = function(gp, n, o, bg = NULL, mode = "maplibre") {
+	dpi = mapgl_pattern_dpi(mode)
 	if (mapgl_unresolved(gp$pattern) || all(is.na(gp$pattern) | gp$pattern == "none")) return(NULL)
 	val = function(x, default) if (mapgl_unresolved(x)) default else x
 	pdt = data.frame(pattern = rep_len(gp$pattern, n),
@@ -53,7 +57,7 @@ mapgl_pattern_images = function(gp, n, o, bg = NULL) {
 			if (is.na(bg)) NA_character_ else mapgl_solid_png(bg)
 		} else {
 			f = tmap::pattern_png(p, density = density, size = size, col = col, scale = o$scale,
-								  dpi = mapgl_pattern_dpi, bg = bg)
+								  dpi = dpi, bg = bg)
 			if (is.null(f)) NA_character_ else f
 		}
 	}, updt$pattern, updt$col, updt$size, updt$density, updt$bg, USE.NAMES = FALSE)
@@ -62,7 +66,7 @@ mapgl_pattern_images = function(gp, n, o, bg = NULL) {
 	names(files) = uids
 	files = files[!is.na(files)]
 	if (!length(files)) return(NULL)
-	list(ids = ids, files = files)
+	list(ids = ids, files = files, dpi = dpi)
 }
 
 # PNG of a single color (3D polygons without a pattern)
@@ -77,22 +81,23 @@ mapgl_solid_png = function(col) {
 }
 
 # Register the pattern images (once per map)
-mapgl_add_pattern_images = function(m, files) {
+mapgl_add_pattern_images = function(m, files, dpi) {
 	existing = if (inherits(m, c("mapboxgl", "maplibregl"))) {
 		vapply(m$x$images, function(im) im$id, character(1))
 	} else character()
 	for (id in setdiff(names(files), existing)) {
-		m = mapgl::add_image(m, id = id, url = files[[id]], pixel_ratio = mapgl_pattern_dpi / 96)
+		m = mapgl::add_image(m, id = id, url = files[[id]], pixel_ratio = dpi / 96)
 	}
-	mapgl_pattern_zoom_js(m)
+	mapgl_pattern_zoom_js(m, ratio = dpi / 96)
 }
 
-# Keep the patterns at a fixed size on the screen. MapLibre / Mapbox GL draw fill patterns in the coordinates of
-# the tiles of the integer zoom level (the floor of the zoom level), so at zoom level z, they are enlarged by a
-# factor 2^(z - floor(z)), i.e. up to twice as large. After each zoom, the pattern images are therefore added
-# again with a pixel ratio that compensates for this factor (once per map).
-mapgl_pattern_zoom_js = function(m) {
-	if (!inherits(m, c("mapboxgl", "maplibregl"))) return(m)
+# Keep the patterns at a fixed size on the screen. MapLibre draws fill patterns in the coordinates of the tiles of
+# the integer zoom level (the floor of the zoom level), so at zoom level z, they are enlarged by a factor
+# 2^(z - floor(z)), i.e. up to twice as large. After each zoom, the pattern images are therefore added again with
+# a pixel ratio that compensates for this factor (once per map). Mapbox GL (v3) already draws patterns at a fixed
+# size on the screen.
+mapgl_pattern_zoom_js = function(m, ratio) {
+	if (!inherits(m, "maplibregl")) return(m)
 	if (any(grepl("_tmapPatternZoom", unlist(m$jsHooks), fixed = TRUE))) return(m)
 	htmlwidgets::onRender(m, "function(el, x, data) {
 		var init = function(tries) {
@@ -130,7 +135,7 @@ mapgl_pattern_zoom_js = function(m) {
 			update();
 		};
 		init(0);
-	}", data = list(ratio = mapgl_pattern_dpi / 96))
+	}", data = list(ratio = ratio))
 }
 
 # Legend swatches of pattern legends (data uris): fill, pattern, and border

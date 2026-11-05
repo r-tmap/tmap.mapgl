@@ -465,7 +465,7 @@ mapgl_polygons = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 	layername3 = paste0(glid, "polygons_pattern")
 
 	# fill patterns: a pattern layer (transparent pattern tiles) between the fill and border layers
-	pat = mapgl_pattern_images(gp, length(shp), o)
+	pat = mapgl_pattern_images(gp, length(shp), o, mode = mode)
 	if (!is.null(pat)) shp2$pattern_id = ifelse(is.na(pat$ids), "", pat$ids)
 	fill_layers = if (is.null(pat)) layername1 else c(layername1, layername3)
 
@@ -488,7 +488,7 @@ mapgl_polygons = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 							  popup        = ahp$pdt_arg)
 	if (!is.null(pat)) {
 		m = m |>
-			mapgl_add_pattern_images(pat$files) |>
+			mapgl_add_pattern_images(pat$files, pat$dpi) |>
 			mapgl::add_fill_layer(layername3, source = srcname,
 								  fill_pattern = mapgl::get_column("pattern_id"),
 								  filter       = list("!=", list("get", "pattern_id"), ""))
@@ -769,7 +769,7 @@ mapgl_polygons_3d = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 	# as background, and features without a pattern get a tile of their fill color. By default
 	# (pattern.walls = FALSE), the pattern is only drawn on the roofs: on a thin extrusion just above each roof,
 	# while the extrusions themselves get the fill color. (A second extrusion at the same height would flicker.)
-	pat = mapgl_pattern_images(gp, length(shp), o, bg = shp2$fill)
+	pat = mapgl_pattern_images(gp, length(shp), o, bg = shp2$fill, mode = mode)
 	walls = isTRUE(a$pattern.walls)
 	layername3 = paste0(glid, "polygons_pattern")
 	if (!is.null(pat)) {
@@ -795,7 +795,7 @@ mapgl_polygons_3d = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 							  line_opacity = mapgl::get_column("col_alpha"),
 							  line_width   = mapgl::get_column("lwd"))
 
-	if (!is.null(pat)) m = mapgl_add_pattern_images(m, pat$files)
+	if (!is.null(pat)) m = mapgl_add_pattern_images(m, pat$files, pat$dpi)
 
 	m = do.call(mapgl_fill_extrusion_layer, c(
 		list(m, layername1,
