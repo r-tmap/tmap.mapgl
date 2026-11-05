@@ -37,7 +37,10 @@ tmapMaplibreRun = function(o, q, show, knit, knit_opts, args) {
 # and on popups, so they read consistently with the legend frame. `frame_hex`
 # must be a CSS-valid colour (hex); pass NULL to skip the borders.
 mapgl_extra_css = function(frame_hex = NULL) {
-	css = ".mapboxgl-legend .legend-reset-btn { display: none !important; }"
+	css = paste0(".mapboxgl-legend .legend-reset-btn { display: none !important; }\n",
+				 # when a legend is dragged, mapgl positions it absolutely (inline left and top) from its current
+				 # position, which includes the margin: drop the margin, otherwise the legend jumps by the margin
+				 ".mapboxgl-legend[style*=\"left\"] { margin: 0 !important; }")
 	if (!is.null(frame_hex)) {
 		css = paste0(
 			css, "\n",
@@ -58,6 +61,24 @@ mapgl_prepend_css = function(w, css) {
 	} else {
 		w
 	}
+}
+
+# 3D polygons (fill-extrusion layers) are wobbly in the globe projection of MapLibre (tmap.mapgl#11). Therefore,
+# maps with 3D polygons use Web Mercator, unless the crs is specified (tm_crs()) or the map shows a large area
+# (initial zoom level below 4, e.g. continents or the world), where the globe is kept. The globe control can be
+# used to switch between both.
+mapgl_globe_3d = function(m, o) {
+	if (!inherits(m, "maplibregl")) return(m)
+	if (!is.null(o$crs) && !identical(o$crs, NA) && !identical(o$crs, "auto")) return(m)
+	is3d = any(vapply(m$x$layers, function(l) identical(l$type, "fill-extrusion"), logical(1)))
+	zoom = m$x$zoom
+	if (!is3d || is.null(zoom) || is.na(zoom) || zoom < 4) return(m)
+	if (identical(m$x$projection, "globe")) m$x$projection = "mercator"
+	m$x$setProjection = lapply(m$x$setProjection, function(p) {
+		if (identical(p$projection, "globe")) p$projection = "mercator"
+		p
+	})
+	m
 }
 
 # Convert an R colour to CSS-safe #RRGGBB (R's "gray40" etc. are not valid CSS);
@@ -88,7 +109,7 @@ mapgl_run = function(o, q, show, knit, args, mode) {
 	# Prepend per-widget CSS: hide the reset button, and (from the legend frame
 	# colour) border the control/globe buttons and popups to match.
 	extra_css = mapgl_extra_css(mapgl_col_to_hex(o[["component.frame.color"]]))
-	ms = lapply(ms, function(msi) lapply(msi, mapgl_prepend_css, css = extra_css))
+	ms = lapply(ms, function(msi) lapply(msi, function(m) mapgl_prepend_css(mapgl_globe_3d(m, o), css = extra_css)))
 
 	ctrl = split(q$group.control, f = q$group)
 	ctrl = sapply(ctrl, tail, 1)

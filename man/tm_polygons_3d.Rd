@@ -41,12 +41,33 @@ tm_polygons_3d(
   col_alpha.legend = tmap::tm_legend(),
   col_alpha.chart = tmap::tm_chart_none(),
   col_alpha.free = NA,
+  pattern = tmap::tm_const(),
+  pattern.scale = tmap::tm_scale(),
+  pattern.legend = tmap::tm_legend(),
+  pattern.chart = tmap::tm_chart_none(),
+  pattern.free = NA,
+  pattern_col = tmap::tm_const(),
+  pattern_col.scale = tmap::tm_scale(),
+  pattern_col.legend = tmap::tm_legend(),
+  pattern_col.chart = tmap::tm_chart_none(),
+  pattern_col.free = NA,
+  pattern_size = tmap::tm_const(),
+  pattern_size.scale = tmap::tm_scale(),
+  pattern_size.legend = tmap::tm_legend(),
+  pattern_size.chart = tmap::tm_chart_none(),
+  pattern_size.free = NA,
+  pattern_density = tmap::tm_const(),
+  pattern_density.scale = tmap::tm_scale(),
+  pattern_density.legend = tmap::tm_legend(),
+  pattern_density.chart = tmap::tm_chart_none(),
+  pattern_density.free = NA,
   linejoin = "round",
   lineend = "round",
   plot.order = tmap::tm_plot_order("lwd", reverse = TRUE, na.order = "bottom"),
   zindex = NA,
   group = NA,
   group.control = "check",
+  popup = tmap::tm_popup(),
   popup.vars = NA,
   popup.format = list(),
   hover = NA,
@@ -62,7 +83,8 @@ opt_tm_polygons_3d(
   ambient.occlusion.intensity = NULL,
   ambient.occlusion.radius = NULL,
   vertical.gradient = NULL,
-  emissive.strength = NULL
+  emissive.strength = NULL,
+  pattern.walls = FALSE
 )
 }
 \arguments{
@@ -79,6 +101,16 @@ opt_tm_polygons_3d(
 \item{fill_alpha, fill_alpha.scale, fill_alpha.chart, fill_alpha.legend, fill_alpha.free}{`r .doc_vv("fill_alpha")`}
 
 \item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free}{`r .doc_vv("col_alpha")`}
+
+\item{pattern, pattern.scale, pattern.legend, pattern.chart, pattern.free}{Fill pattern, drawn on the roofs of the
+extrusions (and also on the walls with `opt_tm_polygons_3d(pattern.walls = TRUE)`). See [tmap::tm_polygons()] and [tmap::tm_patterns()].}
+
+\item{pattern_col, pattern_col.scale, pattern_col.legend, pattern_col.chart, pattern_col.free}{Pattern color.}
+
+\item{pattern_size, pattern_size.scale, pattern_size.legend, pattern_size.chart, pattern_size.free}{Line width or dot
+size of the pattern.}
+
+\item{pattern_density, pattern_density.scale, pattern_density.legend, pattern_density.chart, pattern_density.free}{Density of the pattern (0 to 1).}
 
 \item{linejoin, lineend}{Line join and line end. See [gpar()][grid::gpar()] for details.}
 
@@ -98,15 +130,22 @@ can be switched on and off. Options: `"radio"` for radio buttons
 (so multiple groups can be shown), and `"none"` for no control
 (the group cannot be (de)selected).}
 
-\item{popup.vars}{names of data variables that are shown in the popups
-in `"view"` mode. Set popup.vars to `TRUE` to show all variables in the
+\item{popup}{popup specification, the output of [tmap::tm_popup()]. It
+determines the data variables shown in the popup table, the popup title,
+and the popup layout. This replaces the deprecated arguments `popup.vars`
+and `popup.format`.}
+
+\item{popup.vars}{(Deprecated.) Use `popup` with [tmap::tm_popup()] instead
+(via its `vars` argument). Names of data variables that are shown in the
+popups. Set popup.vars to `TRUE` to show all variables in the
 shape object. Set popup.vars to `FALSE` to disable popups. Set `popup.vars`
 to a character vector of variable names to those those variables in the popups.
 The default (`NA`) depends on whether visual variables (e.g.`fill`) are used.
 If so, only those are shown. If not all variables in the shape object are shown.}
 
-\item{popup.format}{list of formatting options for the popup values.
-See the argument `legend.format` for options. Only applicable for
+\item{popup.format}{(Deprecated.) Use `popup` with [tmap::tm_popup()]
+instead (via its `format` argument). List of formatting options for the
+popup values. See the argument `legend.format` for options. Only applicable for
 numeric data variables. If one list of formatting options is provided,
 it is applied to all numeric variables of `popup.vars`. Also, a (named)
 list of lists can be provided. In that case, each list of formatting options
@@ -130,6 +169,9 @@ features. Only used for `"view"` mode.}
 \item{vertical.gradient}{Should a vertical gradient be applied to the sides of the extrusions? When `TRUE`, the side walls are shaded from darker at the base to lighter toward the top, which gives a sense of depth. Supported in **both** `"maplibre"` and `"mapbox"` modes. Passed to `fill_extrusion_vertical_gradient`. The default `NULL` keeps the engine default, which is `TRUE` - so the visible effect is mainly when set to `FALSE` (flat, evenly-coloured side walls).}
 
 \item{emissive.strength}{Emissive strength of the extruded polygons, controlling how much they appear self-lit under the map's 3D lighting. **`"mapbox"` mode only** (ignored with a message in `"maplibre"` mode). Passed to `fill_extrusion_emissive_strength`. The default `NULL` keeps the engine default.}
+
+\item{pattern.walls}{Should the fill pattern (map variable `pattern`) also be drawn on the walls of the
+extrusions? By default `FALSE`: only on the roofs.}
 }
 \value{
 a [tmap::tmap-element], supposed to be stacked after [tmap::tm_shape()] using the `+` operator. The `opt_<layer_function>` function returns a list that should be passed on to the `options` argument.
@@ -137,7 +179,8 @@ a [tmap::tmap-element], supposed to be stacked after [tmap::tm_shape()] using th
 \description{
 Map layer that draws 3d (extruded) polygons. Supported visual variables are: `height` (the ), `fill` (the fill color),
 `col` (the border color), `lwd` (line width), `lty` (line type),
-`fill_alpha` (fill color alpha transparency) and `col_alpha` (border color alpha transparency).
+`fill_alpha` (fill color alpha transparency), `col_alpha` (border color alpha transparency), and the fill
+pattern map variables `pattern`, `pattern_col`, `pattern_size`, and `pattern_density` (see [tmap::tm_polygons()]).
 }
 \details{
 The visual variable arguments (e.g. `col`) can be specified with either a data

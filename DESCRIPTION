@@ -12,7 +12,7 @@ Encoding: UTF-8
 Depends:
     R (>= 4.1),
 Imports:
-    tmap (>= 4.4),
+    tmap (>= 4.4.1.9000),
     mapgl (>= 0.4.6),
     terra,
     rlang,
@@ -20,9 +20,12 @@ Imports:
     stars,
     data.table,
     grDevices,
+    grid,
+    base64enc,
     colorspace,
     htmltools,
     htmlwidgets,
+    jsonlite,
     sf,
     tmaptools,
     units
@@ -31,4 +34,4 @@ Suggests:
 Config/Needs/website: bookdown, rmarkdown, r-tmap/tmap, walkerke/mapgl, dplyr, osmdata, mapview
 URL: https://github.com/r-tmap/tmap.mapgl, https://r-tmap.github.io/tmap.mapgl/
 BugReports: https://github.com/r-tmap/tmap.mapgl/issues
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0

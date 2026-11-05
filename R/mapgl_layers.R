@@ -341,6 +341,19 @@ lty2dash = function(lty) {
 # ids stay stable (glid-based) so the tm_remove_layer registry keeps matching.
 mapgl_srcid = function(base) sprintf("%s_%.0f", base, .TMAP$stamp * 1e6)
 
+# GeoJSON sources are embedded in the widget as text, and geojsonsf writes
+# coordinates with full double precision (~15 digits). Rounding lon/lat to
+# 6 decimals (~0.1 m) roughly halves the geometry part of the widget, without
+# visible difference.
+mapgl_add_source = function(m, id, data, digits = 6) {
+	if (sf::st_crs(data) != sf::st_crs(4326)) data = sf::st_transform(data, crs = 4326)
+	rnd = function(g) if (is.list(g)) structure(lapply(g, rnd), class = class(g)) else round(g, digits)
+	geom = sf::st_geometry(data)
+	geom[] = lapply(geom, rnd)
+	sf::st_geometry(data) = geom
+	mapgl::add_source(m, id, data = data)
+}
+
 # ============================================================
 #  Layer blending guard
 # ============================================================
@@ -449,27 +462,45 @@ mapgl_polygons = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 	srcname    = mapgl_srcid(paste0("layer", pane))
 	layername1 = paste0(glid, "polygons_fill")
 	layername2 = paste0(glid, "polygons_border")
+	layername3 = paste0(glid, "polygons_pattern")
 
-	# Per-aesthetic categorical columns for the interactive legend(s).
-	shp2 = mapgl_attach_cat(shp2, glid, fill_layer = layername1, border_layer = layername2)
+	# fill patterns: a pattern layer (transparent pattern tiles) between the fill and border layers
+	pat = mapgl_pattern_images(gp, length(shp), o)
+	if (!is.null(pat)) shp2$pattern_id = ifelse(is.na(pat$ids), "", pat$ids)
+	fill_layers = if (is.null(pat)) layername1 else c(layername1, layername3)
+
+	# values of the varying map variables, for interactive cross legends
+	shp2 = mapgl_add_cross_props(shp2, gp)
+
+	# Per-aesthetic categorical columns for the interactive legend(s). The pattern layer is filtered
+	# together with the fill layer.
+	shp2 = mapgl_attach_cat(shp2, glid, fill_layer = fill_layers, border_layer = layername2)
 
 	ahp  = attach_hover_popup(shp2, dt, hdt, pdt, idt, popup.format, popup.layout, ptdt)
 	shp2 = ahp$shp2
 
-	m |>
-		mapgl::add_source(srcname, data = shp2) |>
+	m = m |>
+		mapgl_add_source(srcname, data = shp2) |>
 		mapgl::add_fill_layer(layername1, source = srcname,
 							  fill_color   = mapgl::get_column("fill"),
 							  fill_opacity = mapgl::get_column("fill_alpha"),
 							  tooltip      = ahp$hdt_arg,
-							  popup        = ahp$pdt_arg) |>
+							  popup        = ahp$pdt_arg)
+	if (!is.null(pat)) {
+		m = m |>
+			mapgl_add_pattern_images(pat$files) |>
+			mapgl::add_fill_layer(layername3, source = srcname,
+								  fill_pattern = mapgl::get_column("pattern_id"),
+								  filter       = list("!=", list("get", "pattern_id"), ""))
+	}
+	m |>
 		mapgl::add_line_layer(layername2, source = srcname,
 							  line_color   = mapgl::get_column("col"),
 							  line_opacity = mapgl::get_column("col_alpha"),
 							  line_width   = mapgl::get_column("lwd")) |>
 		assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
 
-	mapgl_submit_group(group, c(layername1, layername2), mode, pane)
+	mapgl_submit_group(group, c(fill_layers, layername2), mode, pane)
 	NULL
 }
 
@@ -512,6 +543,14 @@ mapgl_fe_props = function(a, mode) {
 		))
 	}
 	out
+}
+
+# mapgl::add_fill_extrusion_layer(), without its warning about the globe projection: maps with 3D polygons use
+# Web Mercator, except for large areas (see mapgl_globe_3d())
+mapgl_fill_extrusion_layer = function(...) {
+	withCallingHandlers(mapgl::add_fill_extrusion_layer(...), warning = function(w) {
+		if (grepl("globe projection", conditionMessage(w), fixed = TRUE)) invokeRestart("muffleWarning")
+	})
 }
 
 mapgl_polygons_3d = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
@@ -624,7 +663,7 @@ mapgl_polygons_3d = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 								  line_opacity          = aes_co,
 								  line_width            = aes_lwd)
 
-		m = do.call(mapgl::add_fill_extrusion_layer, c(
+		m = do.call(mapgl_fill_extrusion_layer, c(
 			list(m, layername1,
 				 source                 = srcname,
 				 source_layer           = smeta$layer,
@@ -680,12 +719,16 @@ mapgl_polygons_3d = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 		if (!length(fa)) 1 else min(max(mean(fa), 0), 1)
 	}
 
-	ahp  = attach_hover_popup(shp2, dt, hdt, pdt, idt, popup.format, popup.layout, ptdt)
-	shp2 = ahp$shp2
-
 	srcname    = mapgl_srcid(paste0("layer", pane))
 	layername1 = paste0(glid, "polygons_fill")
 	layername2 = paste0(glid, "polygons_border")
+
+	# Per-aesthetic categorical columns for the interactive legend(s), as in
+	# mapgl_polygons() (otherwise the legend cannot find its filter column)
+	shp2 = mapgl_attach_cat(shp2, glid, fill_layer = layername1, border_layer = layername2)
+
+	ahp  = attach_hover_popup(shp2, dt, hdt, pdt, idt, popup.format, popup.layout, ptdt)
+	shp2 = ahp$shp2
 
 	if (is.character(a$height.max)) {
 		is_perc_max = grepl("%$", a$height.max)
@@ -721,19 +764,44 @@ mapgl_polygons_3d = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 	}
 
 	shp2$height = height.min + shp2$height * (height.max - height.min)
+
+	# fill patterns: fill-extrusion-pattern replaces the fill color, so the pattern tiles have the fill color
+	# as background, and features without a pattern get a tile of their fill color. By default
+	# (pattern.walls = FALSE), the pattern is only drawn on the roofs: on a thin extrusion just above each roof,
+	# while the extrusions themselves get the fill color. (A second extrusion at the same height would flicker.)
+	pat = mapgl_pattern_images(gp, length(shp), o, bg = shp2$fill)
+	walls = isTRUE(a$pattern.walls)
+	layername3 = paste0(glid, "polygons_pattern")
+	if (!is.null(pat)) {
+		shp2$pattern_id = ifelse(is.na(pat$ids), "", pat$ids)
+		if (!walls) {
+			eps = 1e-3 * max(shp2$height, na.rm = TRUE)
+			shp2$height_roof0 = shp2$height + eps
+			shp2$height_roof1 = shp2$height + 2 * eps
+			# the roof layer is filtered together with the extrusions (interactive legends)
+			if (!is.null(.TMAP$mapgl_cat[[glid]])) .TMAP$mapgl_cat[[glid]]$fill_layer = c(layername1, layername3)
+		}
+	}
+
+	# values of the varying map variables, for interactive cross legends
+	shp2 = mapgl_add_cross_props(shp2, gp)
+
 	shp2_naomit = shp2[!is.na(shp2$height), ]
 
 	m = m |>
-		mapgl::add_source(srcname, data = shp2_naomit) |>
+		mapgl_add_source(srcname, data = shp2_naomit) |>
 		mapgl::add_line_layer(layername2, source = srcname,
 							  line_color   = mapgl::get_column("col"),
 							  line_opacity = mapgl::get_column("col_alpha"),
 							  line_width   = mapgl::get_column("lwd"))
 
-	m = do.call(mapgl::add_fill_extrusion_layer, c(
+	if (!is.null(pat)) m = mapgl_add_pattern_images(m, pat$files)
+
+	m = do.call(mapgl_fill_extrusion_layer, c(
 		list(m, layername1,
 			 source                 = srcname,
 			 fill_extrusion_color   = mapgl::get_column("fill"),
+			 fill_extrusion_pattern = if (!is.null(pat) && walls) mapgl::get_column("pattern_id"),
 			 fill_extrusion_opacity = fill_ext_opacity,
 			 fill_extrusion_base    = 0,
 			 fill_extrusion_height  = mapgl::get_column("height"),
@@ -741,9 +809,23 @@ mapgl_polygons_3d = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 			 popup                  = ahp$pdt_arg),
 		mapgl_fe_props(a, mode)))
 
+	layers = c(layername1, layername2)
+	if (!is.null(pat) && !walls) {
+		m = do.call(mapgl_fill_extrusion_layer, c(
+			list(m, layername3,
+				 source                 = srcname,
+				 fill_extrusion_pattern = mapgl::get_column("pattern_id"),
+				 fill_extrusion_opacity = fill_ext_opacity,
+				 fill_extrusion_base    = mapgl::get_column("height_roof0"),
+				 fill_extrusion_height  = mapgl::get_column("height_roof1"),
+				 filter                 = list("!=", list("get", "pattern_id"), "")),
+			mapgl_fe_props(a, mode)))
+		layers = c(layername1, layername3, layername2)
+	}
+
 	m |> assign_mapgl(facet_row, facet_col, facet_page, mode = mode)
 
-	mapgl_submit_group(group, c(layername1, layername2), mode, pane)
+	mapgl_submit_group(group, layers, mode, pane)
 	NULL
 }
 
@@ -808,7 +890,7 @@ mapgl_lines = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 	shp2 = ahp$shp2
 
 	m |>
-		mapgl::add_source(srcname, data = shp2) |>
+		mapgl_add_source(srcname, data = shp2) |>
 		mapgl::add_line_layer(layername1, source = srcname,
 							  line_color   = mapgl::get_column("col"),
 							  line_opacity = mapgl::get_column("col_alpha"),
@@ -921,7 +1003,7 @@ mapgl_symbols = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 		shp2 = ahp$shp2
 
 		m |>
-			mapgl::add_source(srcname, data = shp2) |>
+			mapgl_add_source(srcname, data = shp2) |>
 			mapgl::add_symbol_layer(layername1, source = srcname,
 									icon_image            = mapgl::get_column("icon"),
 									icon_size             = mapgl::get_column("iconsize"),
@@ -968,7 +1050,7 @@ mapgl_symbols = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 	shp2 = ahp$shp2
 
 	m |>
-		mapgl::add_source(srcname, data = shp2) |>
+		mapgl_add_source(srcname, data = shp2) |>
 		mapgl::add_circle_layer(layername1, source = srcname,
 								circle_color          = mapgl::get_column("fill"),
 								circle_opacity        = mapgl::get_column("fill_alpha"),
@@ -1121,7 +1203,7 @@ mapgl_circles = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 	shp2 = ahp$shp2
 
 	m |>
-		mapgl::add_source(srcname, data = shp2) |>
+		mapgl_add_source(srcname, data = shp2) |>
 		mapgl::add_fill_layer(layername1, source = srcname,
 							  fill_color   = mapgl::get_column("fill"),
 							  fill_opacity = mapgl::get_column("fill_alpha"),

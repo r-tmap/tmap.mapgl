@@ -51,3 +51,5 @@ rsconnect/
 **/.DS_Store
 docs
 .positai
+
+sandbox/

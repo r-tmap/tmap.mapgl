@@ -118,8 +118,12 @@ tmapMaplibreCompWidth.tm_legend_landscape = function(comp, o) {
 
 mapgl_leg_height = function (comp, o) {
 	if (is.na(comp$height)) {
-		if (comp$type == "gradient") {
+		if (comp$type == "bivariate") {
+			comp$height = 20 + 22 * attr(comp$gp$fill, "m") + 60 + 25 * (number_text_lines(comp$title) > 0)
+		} else if (comp$type == "gradient") {
 			comp$height = 5.5 * 20
+		} else if (comp$type == "pattern") {
+			comp$height = 20 + 28 * comp$nitems + 30 * (number_text_lines(comp$title) > 0) + 20 * !is.null(comp[["dot_info"]])
 		} else {
 			comp$height = (number_text_lines(comp$title) + 2 + comp$nitems * 1.25) * 20
 		}
@@ -130,7 +134,10 @@ mapgl_leg_height = function (comp, o) {
 
 mapgl_leg_width = function (comp, o) {
 	if (is.na(comp$width)) {
-		if (comp$type == "gradient") {
+		if (comp$type == "bivariate") {
+			m = attr(comp$gp$fill, "m")
+			comp$width = 40 + 22 * attr(comp$gp$fill, "n") + 7 * max(nchar(comp$labels[seq_len(m)]))
+		} else if (comp$type == "gradient") {
 			comp$width = 250
 		} else {
 			comp$width = 75 + max(nchar(c(comp$title, comp$labels))) * 6
@@ -142,10 +149,7 @@ mapgl_leg_width = function (comp, o) {
 
 mapgl_legend_comp = function(comp, o, mode) {
 	within(comp, {
-		if ("biv" %in% names(attributes(gp$fill))) {
-			warning("Bivariate legend not implemented for mapbox mode", call. = FALSE)
-			show = FALSE
-		}
+		is_biv = "biv" %in% names(attributes(gp$fill))
 
 		nuq = vapply(comp$gp, length, FUN.VALUE = integer(1))
 		varying = names(nuq)[which(nuq>1)]
@@ -158,7 +162,16 @@ mapgl_legend_comp = function(comp, o, mode) {
 		}
 
 
-		type = if (!any(c("col", "fill", "lwd", "size") %in% varying)) {
+		# pattern legends: legends of the pattern map variables (other legends with a constant pattern keep
+		# their (interactive) color patches)
+		is_pat = any(c("pattern", "pattern_col", "pattern_size", "pattern_density") %in% varying) &&
+			is.character(gp$pattern) && any(!is.na(gp$pattern) & gp$pattern != "none")
+
+		type = if (is_biv) {
+			"bivariate"
+		} else if (is_pat) {
+			"pattern"
+		} else if (!any(c("col", "fill", "lwd", "size") %in% varying)) {
 			cli::cli_inform("No legends available in mode {.val {mode}} for map variables {.val {varying}}")
 			"none"
 		} else if ((!is.na(gp$fill[1]) && any(nchar(gp$fill) > 50)) || (!is.na(gp$fill_alpha[1]) && any(nchar(gp$fill_alpha) > 50)) ||
@@ -179,6 +192,7 @@ mapgl_legend_comp = function(comp, o, mode) {
 		title.color = do.call("process_color", c(list(col=title.color), o$pc))
 		text.color = do.call("process_color", c(list(col=text.color), o$pc))
 
-		gp2 = gp_to_lpar(gp, mfun = comp$mfun, shape = comp$item.shape)
+		gp2 = if (is_biv || is_pat) list() else gp_to_lpar(gp, mfun = comp$mfun, shape = comp$item.shape)
+		rm(is_biv, is_pat)
 	})
 }

@@ -2,7 +2,8 @@
 #'
 #' Map layer that draws 3d (extruded) polygons. Supported visual variables are: `height` (the ), `fill` (the fill color),
 #' `col` (the border color), `lwd` (line width), `lty` (line type),
-#' `fill_alpha` (fill color alpha transparency) and `col_alpha` (border color alpha transparency).
+#' `fill_alpha` (fill color alpha transparency), `col_alpha` (border color alpha transparency), and the fill
+#' pattern map variables `pattern`, `pattern_col`, `pattern_size`, and `pattern_density` (see [tmap::tm_polygons()]).
 #'
 #' The visual variable arguments (e.g. `col`) can be specified with either a data
 #' variable name (e.g., a spatial vector attribute or a raster layer of the object
@@ -43,6 +44,13 @@
 #' @param lty,lty.scale,lty.legend,lty.chart,lty.free `r .doc_vv("lty")`
 #' @param fill_alpha,fill_alpha.scale,fill_alpha.chart,fill_alpha.legend,fill_alpha.free `r .doc_vv("fill_alpha")`
 #' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free `r .doc_vv("col_alpha")`
+#' @param pattern,pattern.scale,pattern.legend,pattern.chart,pattern.free Fill pattern, drawn on the roofs of the
+#'   extrusions (and also on the walls with `opt_tm_polygons_3d(pattern.walls = TRUE)`). See [tmap::tm_polygons()] and [tmap::tm_patterns()].
+#' @param pattern_col,pattern_col.scale,pattern_col.legend,pattern_col.chart,pattern_col.free Pattern color.
+#' @param pattern_size,pattern_size.scale,pattern_size.legend,pattern_size.chart,pattern_size.free Line width or dot
+#'   size of the pattern.
+#' @param pattern_density,pattern_density.scale,pattern_density.legend,pattern_density.chart,pattern_density.free
+#'   Density of the pattern (0 to 1).
 #' @param linejoin,lineend Line join and line end. See [gpar()][grid::gpar()] for details.
 #' @param plot.order Specification in which order the spatial features are drawn.
 #'   See [tm_plot_order()] for details.
@@ -57,14 +65,20 @@
 #'   (so multiple groups can be shown), and `"none"` for no control
 #'   (the group cannot be (de)selected).
 #' @param options options passed on to the corresponding `opt_<layer_function>` function
-#' @param popup.vars names of data variables that are shown in the popups
-#'   in `"view"` mode. Set popup.vars to `TRUE` to show all variables in the
+#' @param popup popup specification, the output of [tmap::tm_popup()]. It
+#'   determines the data variables shown in the popup table, the popup title,
+#'   and the popup layout. This replaces the deprecated arguments `popup.vars`
+#'   and `popup.format`.
+#' @param popup.vars (Deprecated.) Use `popup` with [tmap::tm_popup()] instead
+#'   (via its `vars` argument). Names of data variables that are shown in the
+#'   popups. Set popup.vars to `TRUE` to show all variables in the
 #'   shape object. Set popup.vars to `FALSE` to disable popups. Set `popup.vars`
 #'   to a character vector of variable names to those those variables in the popups.
 #'   The default (`NA`) depends on whether visual variables (e.g.`fill`) are used.
 #'   If so, only those are shown. If not all variables in the shape object are shown.
-#' @param popup.format list of formatting options for the popup values.
-#'   See the argument `legend.format` for options. Only applicable for
+#' @param popup.format (Deprecated.) Use `popup` with [tmap::tm_popup()]
+#'   instead (via its `format` argument). List of formatting options for the
+#'   popup values. See the argument `legend.format` for options. Only applicable for
 #'   numeric data variables. If one list of formatting options is provided,
 #'   it is applied to all numeric variables of `popup.vars`. Also, a (named)
 #'   list of lists can be provided. In that case, each list of formatting options
@@ -111,12 +125,33 @@ tm_polygons_3d = function(height = tmap::tm_const(),
 					   col_alpha.legend = tmap::tm_legend(),
 					   col_alpha.chart = tmap::tm_chart_none(),
 					   col_alpha.free = NA,
+					   pattern = tmap::tm_const(),
+					   pattern.scale = tmap::tm_scale(),
+					   pattern.legend = tmap::tm_legend(),
+					   pattern.chart = tmap::tm_chart_none(),
+					   pattern.free = NA,
+					   pattern_col = tmap::tm_const(),
+					   pattern_col.scale = tmap::tm_scale(),
+					   pattern_col.legend = tmap::tm_legend(),
+					   pattern_col.chart = tmap::tm_chart_none(),
+					   pattern_col.free = NA,
+					   pattern_size = tmap::tm_const(),
+					   pattern_size.scale = tmap::tm_scale(),
+					   pattern_size.legend = tmap::tm_legend(),
+					   pattern_size.chart = tmap::tm_chart_none(),
+					   pattern_size.free = NA,
+					   pattern_density = tmap::tm_const(),
+					   pattern_density.scale = tmap::tm_scale(),
+					   pattern_density.legend = tmap::tm_legend(),
+					   pattern_density.chart = tmap::tm_chart_none(),
+					   pattern_density.free = NA,
 					   linejoin = "round",
 					   lineend = "round",
 					   plot.order = tmap::tm_plot_order("lwd", reverse = TRUE, na.order = "bottom"),
 					   zindex = NA,
 					   group = NA,
 					   group.control = "check",
+					   popup = tmap::tm_popup(),
 					   popup.vars = NA,
 					   popup.format = list(),
 					   hover = NA,
@@ -124,6 +159,17 @@ tm_polygons_3d = function(height = tmap::tm_const(),
 					   options = opt_tm_polygons_3d()) {
 
 	args_called = names(rlang::call_match()[-1])
+
+	# resolve popup specification (popup.vars/popup.format are deprecated in
+	# favour of popup = tm_popup(...)), as in tmap::tm_polygons()
+	process_popup = utils::getFromNamespace("process_popup", "tmap")
+	popup = process_popup(popup = popup,
+						  popup.vars = popup.vars,
+						  popup.format = popup.format,
+						  popup.called = "popup" %in% args_called,
+						  popup.vars.called = "popup.vars" %in% args_called,
+						  popup.format.called = "popup.format" %in% args_called,
+						  layer_fun = "tm_polygons_3d")
 
 
 	tmap::tm_element_list(tmap::tm_element(
@@ -173,7 +219,31 @@ tm_polygons_3d = function(height = tmap::tm_const(),
 						   					  scale = col_alpha.scale,
 						   					  legend = col_alpha.legend,
 						   					  chart = col_alpha.chart,
-						   					  free = col_alpha.free)),
+						   					  free = col_alpha.free),
+						   pattern = tmap::tmapScale(aes = "pattern",
+						   					value = pattern,
+						   					scale = pattern.scale,
+						   					legend = pattern.legend,
+						   					chart = pattern.chart,
+						   					free = pattern.free),
+						   pattern_col = tmap::tmapScale(aes = "pattern_col",
+						   				value = pattern_col,
+						   				scale = pattern_col.scale,
+						   				legend = pattern_col.legend,
+						   				chart = pattern_col.chart,
+						   				free = pattern_col.free),
+						   pattern_size = tmap::tmapScale(aes = "pattern_size",
+						   				value = pattern_size,
+						   				scale = pattern_size.scale,
+						   				legend = pattern_size.legend,
+						   				chart = pattern_size.chart,
+						   				free = pattern_size.free),
+						   pattern_density = tmap::tmapScale(aes = "pattern_density",
+						   				value = pattern_density,
+						   				scale = pattern_density.scale,
+						   				legend = pattern_density.legend,
+						   				chart = pattern_density.chart,
+						   				free = pattern_density.free)),
 
 		gpar = tmap::tmapGpar(height = "__height",
 						fill = "__fill",
@@ -182,7 +252,10 @@ tm_polygons_3d = function(height = tmap::tm_const(),
 						size = NA,
 						fill_alpha = "__fill_alpha",
 						col_alpha = "__col_alpha",
-						pattern = "fill",
+						pattern = "__pattern",
+						pattern_col = "__pattern_col",
+						pattern_size = "__pattern_size",
+						pattern_density = "__pattern_density",
 						lty = "__lty",
 						lwd = "__lwd",
 						linejoin = linejoin,
@@ -194,8 +267,10 @@ tm_polygons_3d = function(height = tmap::tm_const(),
 		zindex = zindex,
 		group = group,
 		group.control = group.control,
-		popup.vars = popup.vars,
-		popup.format = popup.format,
+		popup.vars = popup$vars,
+		popup.format = popup$format,
+		popup.title = popup$title,
+		popup.layout = popup$layout,
 		hover = hover,
 		id = id,
 		subclass = c("tm_aes_layer", "tm_layer")))
@@ -207,6 +282,8 @@ tm_polygons_3d = function(height = tmap::tm_const(),
 #' @param cast.shadows Should the extruded polygons cast shadows? **`"mapbox"` mode only** (silently ignored with a message in `"maplibre"` mode, whose fill-extrusion implementation does not support shadows). Passed to `fill_extrusion_cast_shadows`. The default `NULL` keeps the engine default.
 #' @param ambient.occlusion.intensity,ambient.occlusion.radius Ambient-occlusion intensity (0-1) and radius for the extruded polygons, adding soft contact shading in corners and crevices. **`"mapbox"` mode only** (ignored with a message in `"maplibre"` mode). Passed to `fill_extrusion_ambient_occlusion_intensity` / `fill_extrusion_ambient_occlusion_radius`. The default `NULL` keeps the engine default.
 #' @param emissive.strength Emissive strength of the extruded polygons, controlling how much they appear self-lit under the map's 3D lighting. **`"mapbox"` mode only** (ignored with a message in `"maplibre"` mode). Passed to `fill_extrusion_emissive_strength`. The default `NULL` keeps the engine default.
+#' @param pattern.walls Should the fill pattern (map variable `pattern`) also be drawn on the walls of the
+#'   extrusions? By default `FALSE`: only on the roofs.
 #' @export
 #' @rdname tm_polygons_3d
 opt_tm_polygons_3d = function(polygons.only = "ifany", height.max = "10%", height.min = "0.1%",
@@ -214,7 +291,8 @@ opt_tm_polygons_3d = function(polygons.only = "ifany", height.max = "10%", heigh
 							  ambient.occlusion.intensity = NULL,
 							  ambient.occlusion.radius = NULL,
 							  vertical.gradient = NULL,
-							  emissive.strength = NULL) {
+							  emissive.strength = NULL,
+							  pattern.walls = FALSE) {
 	list(trans.args = list(polygons.only = polygons.only),
 		 mapping.args = list(height.max = height.max,
 		 					 height.min = height.min,
@@ -222,6 +300,7 @@ opt_tm_polygons_3d = function(polygons.only = "ifany", height.max = "10%", heigh
 		 					 ambient.occlusion.intensity = ambient.occlusion.intensity,
 		 					 ambient.occlusion.radius = ambient.occlusion.radius,
 		 					 vertical.gradient = vertical.gradient,
-		 					 emissive.strength = emissive.strength))
+		 					 emissive.strength = emissive.strength,
+		 					 pattern.walls = pattern.walls))
 }
 

@@ -201,39 +201,42 @@ mapgl_legend_style = function(grp, grp_called, cmp, o) {
 # `is_col` marks a border/line-colour legend (vs a fill legend); the caller
 # detects it via colVary.
 #
-# Routing rules (mapgl allows only one interactive legend to own a layer):
-#  - both aesthetics categorical -> fill legend owns the fill layer, col legend
-#    owns the border layer (each filters its own visual channel; no clash).
-#  - only one aesthetic categorical -> that legend owns BOTH layers, so toggling
-#    a class hides the whole feature (fill + outline).
-#  - no separate outline layer (tm_symbols' single circle layer, or lines) ->
-#    fall back to the one layer that exists.
+# The legends filter all layers of the map layer (fill, pattern, and border
+# layers), so that toggling a class hides the whole feature. The filters of
+# the legends of a map layer are combined (see mapgl_legend_filter_js()).
 # Returns NULL when there is nothing categorical to filter (caller then keeps a
-# legacy single-layer fallback).
+# legacy single-layer fallback, with mapgl's own interactive legend).
 mapgl_legend_target = function(glid, is_col) {
 	reg = .TMAP$mapgl_cat[[glid]]
 	if (is.null(reg)) return(NULL)
-	both_cat = !is.null(reg$fill) && !is.null(reg$col)
-	fl = reg$fill_layer
-	bl = reg$border_layer
-
-	if (is_col) {
-		info   = reg$col
-		layers = if (is.na(bl)) fl else if (both_cat) bl else c(fl, bl)
-	} else {
-		info   = reg$fill
-		layers = if (both_cat || is.na(bl)) fl else c(fl, bl)
-	}
-	layers = layers[!is.na(layers)]
+	info = if (is_col) reg$col else reg$fill
+	layers = mapgl_legend_layers(glid)
 	if (!length(layers) || is.null(info)) return(NULL)
 	list(layer_id = layers, filter_column = info$column)
+}
+
+# Categorical legend made by mapgl: interactive via mapgl_legend_filter_js() when the target is known, otherwise
+# via mapgl's own interactive legend
+mapgl_categorical_legend = function(m, cmp, tgt, ...) {
+	own = !is.null(tgt$filter_column) && inherits(m, c("mapboxgl", "maplibregl"))
+	uid = paste0("legend-", as.hexmode(sample(1:1e6, 1)))
+	m = mapgl::add_categorical_legend(m, ..., values = cmp$labels, unique_id = uid, interactive = !own,
+									  layer_id = tgt$layer_id, filter_column = tgt$filter_column)
+	if (own) {
+		m = mapgl_legend_filter_js(m, uid, tgt$layer_id, items = mapgl_cond_eq(tgt$filter_column, cmp$labels))
+	}
+	m
 }
 
 mapgl_legend = function(cmp, m, o, orientation, mode) {
 
 	legpos = mapgl_pos(cmp$position)
 
-	m2 = if (cmp$type == "none") {
+	m2 = if (cmp$type == "bivariate") {
+		mapgl_legend_bivariate(cmp, m, legpos, o)
+	} else if (cmp$type == "pattern") {
+		mapgl_legend_pattern(cmp, m, legpos, o)
+	} else if (cmp$type == "none") {
 		#message("Text based legends not supported in view mode")
 		m
 	} else if (cmp$type == "gradient") {
@@ -272,23 +275,19 @@ mapgl_legend = function(cmp, m, o, orientation, mode) {
 		tgt = mapgl_legend_target(cmp$glid, is_col = TRUE)
 		if (is.null(tgt)) tgt = list(layer_id = paste0(cmp$glid, "lines"), filter_column = NULL)
 
-		m |> mapgl::add_categorical_legend(
+		mapgl_categorical_legend(m, cmp, tgt,
 			colors           = gp2$fillColor,
-			values           = cmp$labels,
 			position         = legpos,
 			legend_title     = cmp$title,
 			circular_patches = circular_patches,
 			add              = TRUE,
 			patch_shape      = "line",
 			sizes            = cmp$gp$lwd,
-			interactive      = TRUE,
 			margin_top       = cmp$margin_top,
 			margin_bottom    = cmp$margin_bottom,
 			margin_left      = cmp$margin_left,
 			margin_right     = cmp$margin_right,
-			layer_id         = tgt$layer_id,
 			draggable        = TRUE,
-			filter_column    = tgt$filter_column,
 			style            = cmp$mapgl_style
 		)
 	} else { # "symbols"
@@ -312,21 +311,18 @@ mapgl_legend = function(cmp, m, o, orientation, mode) {
 			tgt = list(layer_id = paste0(cmp$glid, geom, "_fill"), filter_column = NULL)
 		}
 
-		m |> mapgl::add_categorical_legend(
+		mapgl_categorical_legend(m, cmp, tgt,
 			colors         = gp2$fillColor,
-			values         = cmp$labels,
 			position       = legpos,
 			legend_title   = cmp$title,
 			patch_shape    = patches,
 			add            = TRUE,
-			interactive    = TRUE,
 			sizes          = sizes,
 			margin_top     = cmp$margin_top,
 			margin_bottom  = cmp$margin_bottom,
 			margin_left    = cmp$margin_left,
 			margin_right   = cmp$margin_right,
-			layer_id       = tgt$layer_id, draggable = TRUE,
-			filter_column  = tgt$filter_column,
+			draggable      = TRUE,
 			style          = cmp$mapgl_style
 		)
 	}
@@ -489,6 +485,7 @@ mapgl_comp = function(comp, o, facet_row = NULL, facet_col = NULL, facet_page, c
 
 
 		cmp$mapgl_style = mapgl_legend_style(grp, grp_called, cmp, o)
+		cmp$bbox = bbox
 
 		if (mode == "maplibre") {
 			m = tmapMaplibreCompPlot(cmp, m, o)
