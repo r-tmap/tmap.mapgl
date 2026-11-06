@@ -767,17 +767,21 @@ mapgl_polygons_3d = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 
 	# fill patterns: fill-extrusion-pattern replaces the fill color, so the pattern tiles have the fill color
 	# as background, and features without a pattern get a tile of their fill color. By default
-	# (pattern.walls = FALSE), the pattern is only drawn on the roofs: on a thin extrusion just above each roof,
-	# while the extrusions themselves get the fill color. (A second extrusion at the same height would flicker.)
+	# (pattern.walls = FALSE), the pattern is only drawn on the roofs: on a thin extrusion that forms the top of
+	# each extrusion (from height - eps to height), while the extrusions themselves (up to height - eps) get the
+	# fill color. (A second extrusion at the same height would flicker, and one above the roof would float.)
 	pat = mapgl_pattern_images(gp, length(shp), o, bg = shp2$fill, mode = mode)
 	walls = isTRUE(a$pattern.walls)
 	layername3 = paste0(glid, "polygons_pattern")
+	shp2$height_wall = shp2$height
 	if (!is.null(pat)) {
 		shp2$pattern_id = ifelse(is.na(pat$ids), "", pat$ids)
 		if (!walls) {
 			eps = 1e-3 * max(shp2$height, na.rm = TRUE)
-			shp2$height_roof0 = shp2$height + eps
-			shp2$height_roof1 = shp2$height + 2 * eps
+			has_pat = shp2$pattern_id != ""
+			shp2$height_wall[has_pat] = pmax(shp2$height[has_pat] - eps, 0)
+			shp2$height_roof0 = shp2$height_wall
+			shp2$height_roof1 = shp2$height
 			# the roof layer is filtered together with the extrusions (interactive legends)
 			if (!is.null(.TMAP$mapgl_cat[[glid]])) .TMAP$mapgl_cat[[glid]]$fill_layer = c(layername1, layername3)
 		}
@@ -804,7 +808,7 @@ mapgl_polygons_3d = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 			 fill_extrusion_pattern = if (!is.null(pat) && walls) mapgl::get_column("pattern_id"),
 			 fill_extrusion_opacity = fill_ext_opacity,
 			 fill_extrusion_base    = 0,
-			 fill_extrusion_height  = mapgl::get_column("height"),
+			 fill_extrusion_height  = mapgl::get_column("height_wall"),
 			 tooltip                = ahp$hdt_arg,
 			 popup                  = ahp$pdt_arg),
 		mapgl_fe_props(a, mode)))

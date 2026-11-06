@@ -34,6 +34,12 @@ mapgl_pattern_images = function(gp, n, o, bg = NULL, mode = "maplibre") {
 					 stringsAsFactors = FALSE)
 	pdt$pattern[is.na(pdt$pattern) | is.na(pdt$density)] = "none"
 
+	# raster textures ("terrain", "mottle", "sketch"): one image per density, and these images are large, so the
+	# densities (the strength of the texture) are rounded to steps of 0.05, which is hardly visible
+	upat = unique(pdt$pattern)
+	tex = pdt$pattern %in% upat[mapgl_pattern_texture_size(upat, rep(1, length(upat)), o$scale) > 0]
+	pdt$density[tex] = round(pdt$density[tex] * 20) / 20
+
 	# 3D: limit the number of combinations of fill color and pattern (e.g. continuous fill scales) by
 	# rounding the fill colors
 	if (!is.null(bg)) {
@@ -52,22 +58,53 @@ mapgl_pattern_images = function(gp, n, o, bg = NULL, mode = "maplibre") {
 	updt = pdt[match(ukey, key), , drop = FALSE]
 	uids = paste0("tmap-pattern-", vapply(ukey, function(k) substr(rlang::hash(k), 1, 12), character(1),
 										  USE.NAMES = FALSE))
-	files = mapply(function(p, col, size, density, bg) {
+	files = lapply(seq_len(nrow(updt)), function(i) {
+		p = updt$pattern[i]
+		col = updt$col[i]
+		size = updt$size[i]
+		density = updt$density[i]
+		bg = updt$bg[i]
 		if (p == "none") {
 			if (is.na(bg)) NA_character_ else mapgl_solid_png(bg)
 		} else {
+			# the images of raster textures (tiles of 1 to 6 inches) are limited to mapgl_texture_max_px pixels:
+			# MapLibre and Mapbox GL pack the pattern images of a vector tile in one texture (atlas)
+			w = mapgl_pattern_texture_size(p, density, o$scale)
+			dpi_p = if (w > 0) min(dpi, mapgl_texture_max_px(mode) / w) else dpi
 			f = tmap::pattern_png(p, density = density, size = size, col = col, scale = o$scale,
-								  dpi = dpi, bg = bg)
-			if (is.null(f)) NA_character_ else f
+								  dpi = dpi_p, bg = bg)
+			if (is.null(f)) NA_character_ else structure(f, dpi = dpi_p)
 		}
-	}, updt$pattern, updt$col, updt$size, updt$density, updt$bg, USE.NAMES = FALSE)
+	})
+	# the resolution per image (lower for large raster textures)
+	dpis = vapply(files, function(f) if (is.null(attr(f, "dpi"))) dpi else attr(f, "dpi"), numeric(1))
+	files = vapply(files, as.character, character(1))
 	ids = uids[match(key, ukey)]
 	ids[is.na(files[match(key, ukey)])] = NA_character_
 	names(files) = uids
-	files = files[!is.na(files)]
-	if (!length(files)) return(NULL)
-	list(ids = ids, files = files, dpi = dpi)
+	names(dpis) = uids
+	keep = !is.na(files)
+	if (!any(keep)) return(NULL)
+	list(ids = ids, files = files[keep], dpi = dpis[keep])
 }
+
+# Tile size (inches) of raster texture patterns ("terrain", "mottle", "sketch"; see tmap::tm_patterns()), and 0
+# for other patterns (vectorized)
+mapgl_pattern_texture_size = function(pattern, density, scale = 1) {
+	pattern_geom = utils::getFromNamespace("pattern_geom", "tmap")
+	pattern_spacing = utils::getFromNamespace("pattern_spacing", "tmap")
+	vapply(seq_along(pattern), function(i) {
+		p = pattern[i]
+		if (is.na(p) || p == "none" || !grepl("^(terrain|mottle|sketch)", p)) return(0)
+		g = tryCatch(pattern_geom(p, pattern_spacing(density[i], scale = scale, line_in = 0.2), density = density[i]),
+					 error = function(e) NULL)
+		if (is.null(g) || is.null(g$raster)) 0 else max(g$w, g$h)
+	}, numeric(1))
+}
+
+# Maximum size (pixels) of the image of a raster texture: images of up to 6 inches would be 1152 pixels at 192 dpi,
+# and several of them (one per density) do not fit in the texture atlas of a vector tile
+mapgl_texture_max_px = function(mode) if (identical(mode, "mapbox")) 384 else 576
 
 # PNG of a single color (3D polygons without a pattern)
 mapgl_solid_png = function(col) {
@@ -80,23 +117,25 @@ mapgl_solid_png = function(col) {
 	file
 }
 
-# Register the pattern images (once per map)
+# Register the pattern images (once per map). dpi: the resolution per image (named by id), or one for all
 mapgl_add_pattern_images = function(m, files, dpi) {
 	existing = if (inherits(m, c("mapboxgl", "maplibregl"))) {
 		vapply(m$x$images, function(im) im$id, character(1))
 	} else character()
+	dpi = stats::setNames(rep_len(dpi, length(files)), names(files))
 	for (id in setdiff(names(files), existing)) {
-		m = mapgl::add_image(m, id = id, url = files[[id]], pixel_ratio = dpi / 96)
+		m = mapgl::add_image(m, id = id, url = files[[id]], pixel_ratio = dpi[[id]] / 96)
 	}
-	mapgl_pattern_zoom_js(m, ratio = dpi / 96)
+	mapgl_pattern_zoom_js(m)
 }
 
 # Keep the patterns at a fixed size on the screen. MapLibre draws fill patterns in the coordinates of the tiles of
 # the integer zoom level (the floor of the zoom level), so at zoom level z, they are enlarged by a factor
 # 2^(z - floor(z)), i.e. up to twice as large. After each zoom, the pattern images are therefore added again with
 # a pixel ratio that compensates for this factor (once per map). Mapbox GL (v3) already draws patterns at a fixed
-# size on the screen.
-mapgl_pattern_zoom_js = function(m, ratio) {
+# size on the screen. The pixel ratio of each image (as registered, see mapgl_add_pattern_images()) is the base
+# ratio, since the images may have different resolutions.
+mapgl_pattern_zoom_js = function(m) {
 	if (!inherits(m, "maplibregl")) return(m)
 	if (any(grepl("_tmapPatternZoom", unlist(m$jsHooks), fixed = TRUE))) return(m)
 	htmlwidgets::onRender(m, "function(el, x, data) {
@@ -111,31 +150,33 @@ mapgl_pattern_zoom_js = function(m, ratio) {
 			var ids = (x.images || []).map(function(im) { return im.id; })
 				.filter(function(id) { return id.indexOf('tmap-pattern-') === 0; });
 			var cur = null;
+			var base = {};
 			var getImage = function(id) {
 				return map.getImage ? map.getImage(id) : (map.style && map.style.getImage ? map.style.getImage(id) : null);
 			};
 			var update = function() {
 				if (!ids.length) return;
 				var z = map.getZoom();
-				var r = Math.round(data.ratio * Math.pow(2, z - Math.floor(z)) * 1000) / 1000;
-				if (r === cur) return;
+				var f = Math.round(Math.pow(2, z - Math.floor(z)) * 1000) / 1000;
+				if (f === cur) return;
 				// wait until all images are loaded
 				if (!ids.every(function(id) { return map.hasImage(id); })) return;
 				ids.forEach(function(id) {
 					var im = getImage(id);
 					if (!im || !im.data) return;
+					if (!(id in base)) base[id] = im.pixelRatio || 1;
 					var d = im.data;
 					map.removeImage(id);
-					map.addImage(id, {width: d.width, height: d.height, data: d.data}, {pixelRatio: r});
+					map.addImage(id, {width: d.width, height: d.height, data: d.data}, {pixelRatio: base[id] * f});
 				});
-				cur = r;
+				cur = f;
 			};
 			map.on('zoomend', update);
 			map.on('idle', update);
 			update();
 		};
 		init(0);
-	}", data = list(ratio = ratio))
+	}")
 }
 
 # Legend swatches of pattern legends (data uris): fill, pattern, and border
