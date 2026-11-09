@@ -204,6 +204,12 @@ tmapMaplibreCompWidth.tm_credits = function(comp, o) {
 #' @keywords internal
 #' @rdname tmapMapbox
 tmapMaplibreCompPlot.tm_credits = function(comp, m, o) {
+	# as in view mode: the credits are added to the attribution (bottom right)
+	if (!inherits(m, "maplibregl")) return(m)
+	txt = paste(gsub("\n", " ", comp$text), collapse = " ")
+	ac = m$x$additional_params$attributionControl
+	ca = if (is.list(ac)) ac$customAttribution else NULL
+	m$x$additional_params$attributionControl = list(customAttribution = c(ca, txt))
 	m
 }
 

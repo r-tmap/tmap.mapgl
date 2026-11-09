@@ -38,6 +38,7 @@
 					 control.position = c("left", "top"),
 					 control.collapse = TRUE,
 					 zoom = NA,
+					 pattern.zoom = "screen",
 					 scalebar.position = tmap::tm_pos_in("left", "bottom"),
 					 minimap.position = tmap::tm_pos_in("left", "bottom"),
 					 geocoder.position = tmap::tm_pos_in(pos.h = "right", pos.v = "top"),

@@ -4,7 +4,14 @@
 \alias{tm_maplibre}
 \title{Maplibre mode options}
 \usage{
-tm_maplibre(pitch, bearing, control.position, control.collapse, zoom)
+tm_maplibre(
+  pitch,
+  bearing,
+  control.position,
+  control.collapse,
+  zoom,
+  pattern.zoom
+)
 }
 \arguments{
 \item{pitch}{The pitch angle}
@@ -16,6 +23,11 @@ tm_maplibre(pitch, bearing, control.position, control.collapse, zoom)
 \item{control.collapse}{Should the layer control box be collapsed?}
 
 \item{zoom}{The zoom level of the map}
+
+\item{pattern.zoom}{How fill patterns behave when zooming: `"screen"` (default) keeps them at a fixed size on
+the screen, like the other patterns of tmap; `"map"` attaches them to the map, so that they are enlarged when
+zooming in (as if they were painted on the map). When zoomed in far, the
+patterns become blurry, since the pattern images are magnified.}
 }
 \value{
 a [tmap::tmap-element]

@@ -488,7 +488,7 @@ mapgl_polygons = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 							  popup        = ahp$pdt_arg)
 	if (!is.null(pat)) {
 		m = m |>
-			mapgl_add_pattern_images(pat$files, pat$dpi) |>
+			mapgl_add_pattern_images(pat$files, pat$dpi, zoom = o$pattern.zoom) |>
 			mapgl::add_fill_layer(layername3, source = srcname,
 								  fill_pattern = mapgl::get_column("pattern_id"),
 								  filter       = list("!=", list("get", "pattern_id"), ""))
@@ -799,7 +799,7 @@ mapgl_polygons_3d = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp,
 							  line_opacity = mapgl::get_column("col_alpha"),
 							  line_width   = mapgl::get_column("lwd"))
 
-	if (!is.null(pat)) m = mapgl_add_pattern_images(m, pat$files, pat$dpi)
+	if (!is.null(pat)) m = mapgl_add_pattern_images(m, pat$files, pat$dpi, zoom = o$pattern.zoom)
 
 	m = do.call(mapgl_fill_extrusion_layer, c(
 		list(m, layername1,

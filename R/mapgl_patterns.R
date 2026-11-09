@@ -23,7 +23,10 @@ mapgl_unresolved = function(x) is.null(x) || (is.character(x) && any(startsWith(
 # the image ids per feature (NA: no pattern) and files the PNG files per unique id. With bg (3D), the tiles have
 # the fill color as background, and features without a pattern get a tile of their fill color (all = TRUE).
 mapgl_pattern_images = function(gp, n, o, bg = NULL, mode = "maplibre") {
-	dpi = mapgl_pattern_dpi(mode)
+	# patterns attached to the map (pattern.zoom = "map") are enlarged when zooming in, so their images have twice
+	# the resolution
+	res = if (identical(o$pattern.zoom, "map") && !identical(mode, "mapbox")) 2 else 1
+	dpi = mapgl_pattern_dpi(mode) * res
 	if (mapgl_unresolved(gp$pattern) || all(is.na(gp$pattern) | gp$pattern == "none")) return(NULL)
 	val = function(x, default) if (mapgl_unresolved(x)) default else x
 	pdt = data.frame(pattern = rep_len(gp$pattern, n),
@@ -70,7 +73,7 @@ mapgl_pattern_images = function(gp, n, o, bg = NULL, mode = "maplibre") {
 			# the images of raster textures (tiles of 1 to 6 inches) are limited to mapgl_texture_max_px pixels:
 			# MapLibre and Mapbox GL pack the pattern images of a vector tile in one texture (atlas)
 			w = mapgl_pattern_texture_size(p, density, o$scale)
-			dpi_p = if (w > 0) min(dpi, mapgl_texture_max_px(mode) / w) else dpi
+			dpi_p = if (w > 0) min(dpi, res * mapgl_texture_max_px(mode) / w) else dpi
 			f = tmap::pattern_png(p, density = density, size = size, col = col, scale = o$scale,
 								  dpi = dpi_p, bg = bg)
 			if (is.null(f)) NA_character_ else structure(f, dpi = dpi_p)
@@ -118,7 +121,7 @@ mapgl_solid_png = function(col) {
 }
 
 # Register the pattern images (once per map). dpi: the resolution per image (named by id), or one for all
-mapgl_add_pattern_images = function(m, files, dpi) {
+mapgl_add_pattern_images = function(m, files, dpi, zoom = "screen") {
 	existing = if (inherits(m, c("mapboxgl", "maplibregl"))) {
 		vapply(m$x$images, function(im) im$id, character(1))
 	} else character()
@@ -126,7 +129,7 @@ mapgl_add_pattern_images = function(m, files, dpi) {
 	for (id in setdiff(names(files), existing)) {
 		m = mapgl::add_image(m, id = id, url = files[[id]], pixel_ratio = dpi[[id]] / 96)
 	}
-	mapgl_pattern_zoom_js(m)
+	mapgl_pattern_zoom_js(m, zoom = zoom)
 }
 
 # Keep the patterns at a fixed size on the screen. MapLibre draws fill patterns in the coordinates of the tiles of
@@ -135,10 +138,21 @@ mapgl_add_pattern_images = function(m, files, dpi) {
 # a pixel ratio that compensates for this factor (once per map). Mapbox GL (v3) already draws patterns at a fixed
 # size on the screen. The pixel ratio of each image (as registered, see mapgl_add_pattern_images()) is the base
 # ratio, since the images may have different resolutions.
-mapgl_pattern_zoom_js = function(m) {
+#
+# zoom = "map" (option pattern.zoom): the patterns are attached to the map instead, i.e. enlarged by 2^(z - z0)
+# relative to the initial zoom level z0. This cannot be done with the pattern images: re-adding them (as above)
+# makes the patterns flicker, since the tiles are laid out again, and images per zoom level do not work for tiles
+# of another zoom level, which MapLibre shows while the tiles of the new zoom level are loaded. Instead, the
+# pattern coordinates are changed: MapLibre computes them in pixels at the integer zoom level (uniforms u_scale
+# and u_pixel_coord_upper/lower of the fill and fill-extrusion pattern programs), and for the layers with
+# patterns, these are replaced by the pixels at zoom level z0, using the zoom level of the tile that is drawn. This
+# relies on internals of MapLibre (Program.draw, Tile.getBucket, map.painter.cache), and if these are not found,
+# the patterns keep their size on the screen (between integer zoom levels).
+mapgl_pattern_zoom_js = function(m, zoom = "screen") {
 	if (!inherits(m, "maplibregl")) return(m)
 	if (any(grepl("_tmapPatternZoom", unlist(m$jsHooks), fixed = TRUE))) return(m)
-	htmlwidgets::onRender(m, "function(el, x, data) {
+	zoom = if (is.null(zoom)) "screen" else match.arg(zoom, c("screen", "map"))
+	htmlwidgets::onRender(m, data = list(mode = zoom), "function(el, x, data) {
 		var init = function(tries) {
 			var map = el.map;
 			if (!map) {
@@ -149,18 +163,81 @@ mapgl_pattern_zoom_js = function(m) {
 			map._tmapPatternZoom = true;
 			var ids = (x.images || []).map(function(im) { return im.id; })
 				.filter(function(id) { return id.indexOf('tmap-pattern-') === 0; });
-			var cur = null;
+			if (!ids.length) return;
 			var base = {};
 			var getImage = function(id) {
 				return map.getImage ? map.getImage(id) : (map.style && map.style.getImage ? map.style.getImage(id) : null);
 			};
+			var loaded = function() { return ids.every(function(id) { return map.hasImage(id); }); };
+
+			if (data && data.mode === 'map') {
+				// layers with patterns, and the zoom level to which the patterns are attached
+				var z0 = map.getZoom();
+				var reg = window._tmapPatternMapLayers = window._tmapPatternMapLayers || {};
+				var started = false;
+				var start = function() {
+					if (started || !loaded()) return;
+					var progs = map.painter && map.painter.cache ? Object.values(map.painter.cache).filter(Boolean) : [];
+					var tile = null;
+					var tms = map.style && (map.style.tileManagers || map.style.sourceCaches);
+					for (var k in (tms || {})) {
+						var tm = tms[k], tids = tm && tm.getRenderableIds ? tm.getRenderableIds() : [];
+						if (tids.length) tile = tm.getTileByID ? tm.getTileByID(tids[0]) : (tm._tiles ? tm._tiles[tids[0]] : null);
+						if (tile) break;
+					}
+					if (!progs.length || !tile) return;
+					started = true;
+					map.getStyle().layers.forEach(function(l) {
+						var prop = l.type === 'fill' ? 'fill-pattern' : (l.type === 'fill-extrusion' ? 'fill-extrusion-pattern' : null);
+						var v = prop && l.paint ? l.paint[prop] : null;
+						if (v && JSON.stringify(v).indexOf('pattern_id') >= 0) reg[l.id] = {z0: z0, map: map};
+					});
+					// the tile that is drawn: MapLibre asks the bucket of the layer just before drawing it
+					var TP = Object.getPrototypeOf(tile);
+					if (!TP._tmapPatternMap) {
+						TP._tmapPatternMap = true;
+						var getBucket = TP.getBucket;
+						TP.getBucket = function(layer) {
+							window._tmapPatternTile = {tile: this, layer: layer && layer.id};
+							return getBucket.apply(this, arguments);
+						};
+					}
+					var PP = Object.getPrototypeOf(progs[0]);
+					if (!PP._tmapPatternMap) {
+						PP._tmapPatternMap = true;
+						var draw = PP.draw;
+						PP.draw = function() {
+							var uv = arguments[6], lid = arguments[9], r = reg[lid], cur = window._tmapPatternTile;
+							if (r && uv && uv.u_scale && cur && cur.layer === lid) {
+								// pattern coordinates in pixels at zoom level z0 instead of the integer zoom level
+								var t = cur.tile, c = Math.pow(2, t.tileID.overscaledZ);
+								var f = Math.pow(2, r.z0 - r.map.transform.tileZoom);
+								var s = t.tileSize * Math.pow(2, r.z0) / c;
+								var px = s * (t.tileID.canonical.x + t.tileID.wrap * c), py = s * t.tileID.canonical.y;
+								var ux = Math.floor(px / 65536), uy = Math.floor(py / 65536);
+								// no cross-fade between zoom levels: MapLibre draws the 'from' image twice (or half) as large, as if it were
+								// the image of the previous zoom level
+								uv.u_scale = [uv.u_scale[0] * f, 1, 1];
+								uv.u_pixel_coord_upper = [ux, uy];
+								uv.u_pixel_coord_lower = [px - ux * 65536, py - uy * 65536];
+							}
+							return draw.apply(this, arguments);
+						};
+					}
+					map.triggerRepaint();
+				};
+				map.on('idle', start);
+				start();
+				return;
+			}
+
+			var cur = null;
 			var update = function() {
-				if (!ids.length) return;
 				var z = map.getZoom();
 				var f = Math.round(Math.pow(2, z - Math.floor(z)) * 1000) / 1000;
 				if (f === cur) return;
 				// wait until all images are loaded
-				if (!ids.every(function(id) { return map.hasImage(id); })) return;
+				if (!loaded()) return;
 				ids.forEach(function(id) {
 					var im = getImage(id);
 					if (!im || !im.data) return;
