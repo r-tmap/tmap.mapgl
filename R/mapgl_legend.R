@@ -239,6 +239,9 @@ mapgl_legend = function(cmp, m, o, orientation, mode) {
 	} else if (cmp$type == "none") {
 		#message("Text based legends not supported in view mode")
 		m
+	} else if (cmp$type == "gradient" && isTRUE(cmp$is_discrete)) {
+		# tm_scale_intervals(label.style = "continuous"): one block per class, labeled breaks
+		mapgl_legend_intervals(cmp, m, legpos, orientation)
 	} else if (cmp$type == "gradient") {
 
 		colVary = length(cmp$gp2$color) > 1L

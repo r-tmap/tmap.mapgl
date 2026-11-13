@@ -1,5 +1,6 @@
 # tmap.mapgl (development version)
 
+- legend of `tm_scale_intervals(label.style = "continuous")`: one solid block per class with the breaks labeled at the block boundaries, in portrait or landscape orientation (it used to be a blended landscape gradient in which the first label was missing and the other labels were shifted); requires the development version of tmap
 - [!] added fill patterns for `tm_polygons()` and `tm_polygons_3d()` (map variables `pattern`, `pattern_col`, `pattern_size`, and `pattern_density`; requires tmap >= 4.4-1.9000):
   - motifs (e.g. `"hatch"`, `"dots"`), including dot density maps with `tm_legend(dot.value)`
   - textures `"terrain"`, `"mottle"`, and `"sketch"`; their images are limited in size (MapLibre and Mapbox GL pack the pattern images of a tile in one texture), and their strength (`pattern_density`) is rounded to steps of 0.05
