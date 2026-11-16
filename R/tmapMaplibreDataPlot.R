@@ -90,3 +90,24 @@ tmapMaplibreDataPlot.tm_data_bubbles = function(a, shpTM, dt, pdt, popup.format,
 }
 
 
+
+#' @export
+#' @keywords internal
+#' @rdname tmapMapbox
+tmapMaplibreDataPlot.tm_data_text = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ...) {
+	mapgl_text(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ..., mode = "maplibre")
+}
+
+#' @export
+#' @keywords internal
+#' @rdname tmapMapbox
+tmapMaplibreDataPlot.tm_data_labels = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ...) {
+	NextMethod()
+}
+
+#' @export
+#' @keywords internal
+#' @rdname tmapMapbox
+tmapMaplibreDataPlot.tm_data_labels_highlighted = function(a, shpTM, dt, pdt, popup.format, hdt, idt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, glid, o, ...) {
+	NextMethod()
+}

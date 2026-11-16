@@ -60,11 +60,14 @@ S3method(tmapMapboxDataPlot,tm_data_bubbles)
 S3method(tmapMapboxDataPlot,tm_data_circles)
 S3method(tmapMapboxDataPlot,tm_data_dots)
 S3method(tmapMapboxDataPlot,tm_data_fill)
+S3method(tmapMapboxDataPlot,tm_data_labels)
+S3method(tmapMapboxDataPlot,tm_data_labels_highlighted)
 S3method(tmapMapboxDataPlot,tm_data_lines)
 S3method(tmapMapboxDataPlot,tm_data_polygons)
 S3method(tmapMapboxDataPlot,tm_data_polygons_3d)
 S3method(tmapMapboxDataPlot,tm_data_raster)
 S3method(tmapMapboxDataPlot,tm_data_symbols)
+S3method(tmapMapboxDataPlot,tm_data_text)
 S3method(tmapMaplibreAuxPlot,default)
 S3method(tmapMaplibreAuxPlot,tm_aux_basemap)
 S3method(tmapMaplibreAuxPlot,tm_aux_tiles)
@@ -119,11 +122,14 @@ S3method(tmapMaplibreDataPlot,tm_data_bubbles)
 S3method(tmapMaplibreDataPlot,tm_data_circles)
 S3method(tmapMaplibreDataPlot,tm_data_dots)
 S3method(tmapMaplibreDataPlot,tm_data_fill)
+S3method(tmapMaplibreDataPlot,tm_data_labels)
+S3method(tmapMaplibreDataPlot,tm_data_labels_highlighted)
 S3method(tmapMaplibreDataPlot,tm_data_lines)
 S3method(tmapMaplibreDataPlot,tm_data_polygons)
 S3method(tmapMaplibreDataPlot,tm_data_polygons_3d)
 S3method(tmapMaplibreDataPlot,tm_data_raster)
 S3method(tmapMaplibreDataPlot,tm_data_symbols)
+S3method(tmapMaplibreDataPlot,tm_data_text)
 export(opt_tm_polygons_3d)
 export(tm_draw)
 export(tm_fullscreen)
@@ -185,22 +191,32 @@ import(cli)
 import(data.table)
 import(sf)
 import(stars)
-importFrom(colorspace,deutan)
-importFrom(colorspace,protan)
-importFrom(colorspace,tritan)
-importFrom(grDevices,col2rgb)
-importFrom(grDevices,rgb)
+importFrom(colorspace,
+  deutan,
+  protan,
+  tritan
+)
+importFrom(grDevices,
+  col2rgb,
+  rgb
+)
 importFrom(htmltools,tags)
 importFrom(htmlwidgets,prependContent)
 importFrom(stats,na.omit)
-importFrom(terra,crop)
-importFrom(terra,ext)
-importFrom(terra,is.lonlat)
-importFrom(terra,project)
-importFrom(terra,rast)
+importFrom(terra,
+  crop,
+  ext,
+  is.lonlat,
+  project,
+  rast
+)
 importFrom(tmaptools,bb_poly)
-importFrom(units,drop_units)
-importFrom(units,set_units)
-importFrom(utils,getFromNamespace)
-importFrom(utils,head)
-importFrom(utils,tail)
+importFrom(units,
+  drop_units,
+  set_units
+)
+importFrom(utils,
+  getFromNamespace,
+  head,
+  tail
+)

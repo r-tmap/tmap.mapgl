@@ -146,6 +146,9 @@
 \alias{tmapMapboxDataPlot.tm_data_borders}
 \alias{tmapMapboxDataPlot.tm_data_dots}
 \alias{tmapMapboxDataPlot.tm_data_bubbles}
+\alias{tmapMapboxDataPlot.tm_data_text}
+\alias{tmapMapboxDataPlot.tm_data_labels}
+\alias{tmapMapboxDataPlot.tm_data_labels_highlighted}
 \alias{tmapMaplibreDataPlot}
 \alias{tmapMaplibreDataPlot.default}
 \alias{tmapMaplibreDataPlot.tm_data_polygons}
@@ -158,6 +161,9 @@
 \alias{tmapMaplibreDataPlot.tm_data_borders}
 \alias{tmapMaplibreDataPlot.tm_data_dots}
 \alias{tmapMaplibreDataPlot.tm_data_bubbles}
+\alias{tmapMaplibreDataPlot.tm_data_text}
+\alias{tmapMaplibreDataPlot.tm_data_labels}
+\alias{tmapMaplibreDataPlot.tm_data_labels_highlighted}
 \title{Internal tmap methods}
 \usage{
 tmapValuesCheck_height(x, is_var = TRUE)
@@ -814,6 +820,69 @@ tmapMapboxDataPlot(
   ...
 )
 
+\method{tmapMapboxDataPlot}{tm_data_text}(
+  a,
+  shpTM,
+  dt,
+  pdt,
+  popup.format,
+  hdt,
+  idt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  glid,
+  o,
+  ...
+)
+
+\method{tmapMapboxDataPlot}{tm_data_labels}(
+  a,
+  shpTM,
+  dt,
+  pdt,
+  popup.format,
+  hdt,
+  idt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  glid,
+  o,
+  ...
+)
+
+\method{tmapMapboxDataPlot}{tm_data_labels_highlighted}(
+  a,
+  shpTM,
+  dt,
+  pdt,
+  popup.format,
+  hdt,
+  idt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  glid,
+  o,
+  ...
+)
+
 tmapMaplibreDataPlot(
   a,
   shpTM,
@@ -1046,6 +1115,69 @@ tmapMaplibreDataPlot(
 )
 
 \method{tmapMaplibreDataPlot}{tm_data_bubbles}(
+  a,
+  shpTM,
+  dt,
+  pdt,
+  popup.format,
+  hdt,
+  idt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  glid,
+  o,
+  ...
+)
+
+\method{tmapMaplibreDataPlot}{tm_data_text}(
+  a,
+  shpTM,
+  dt,
+  pdt,
+  popup.format,
+  hdt,
+  idt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  glid,
+  o,
+  ...
+)
+
+\method{tmapMaplibreDataPlot}{tm_data_labels}(
+  a,
+  shpTM,
+  dt,
+  pdt,
+  popup.format,
+  hdt,
+  idt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  glid,
+  o,
+  ...
+)
+
+\method{tmapMaplibreDataPlot}{tm_data_labels_highlighted}(
   a,
   shpTM,
   dt,

@@ -60,10 +60,19 @@ mapgl_legend_bivariate = function(cmp, m, legpos, o = NULL) {
 
 	ylab = if (is.null(cmp$ylab) || is.na(cmp$ylab)) "" else cmp$ylab
 	xlab = if (is.null(cmp$xlab) || is.na(cmp$xlab)) "" else cmp$xlab
+	# rotation of the y label, as in plot mode (option legend.ylab.rot): 0 (default) is horizontal, 90/270 vertical
+	ylab_rot = if (is.null(cmp$ylab.rot) || is.na(cmp$ylab.rot)) 0 else cmp$ylab.rot
+	ylab_vertical = (ylab_rot %% 180) != 0
 
 	rows = vapply(m_rows:1, function(i) {
 		ycell = if (i == m_rows && nzchar(ylab)) {
-			paste0("<td class=\"tmap-biv-ylab\" rowspan=\"", m_rows, "\"><div>", esc(ylab), "</div></td>")
+			if (ylab_vertical) {
+				# explicit min-width: some browsers (WebKit) do not reserve width for vertical text in a table cell
+				ylab_lines = length(strsplit(ylab, "\n", fixed = TRUE)[[1]])
+				paste0("<td class=\"tmap-biv-ylab tmap-biv-ylab-vert\" rowspan=\"", m_rows, "\" style=\"min-width: ", 1.4 * ylab_lines, "em;\"><div>", esc(ylab), "</div></td>")
+			} else {
+				paste0("<td class=\"tmap-biv-ylab\" rowspan=\"", m_rows, "\"><div>", esc(ylab), "</div></td>")
+			}
 		} else ""
 		paste0("<tr>", ycell,
 			   "<td class=\"tmap-biv-label tmap-biv-label-y\"", row_attr[i], ">", esc(labs_y[i]), "</td>",
@@ -102,12 +111,13 @@ mapgl_legend_bivariate = function(cmp, m, legpos, o = NULL) {
 		"#", uid, " .tmap-biv-table { border-collapse: collapse; }\n",
 		"#", uid, " .tmap-biv-table td { padding: 0; }\n",
 		"#", uid, " .tmap-biv-cell { width: 22px; height: 22px; border: 1px solid #ffffff; }\n",
-		"#", uid, " .tmap-biv-label-y { text-align: right; padding-right: 5px; white-space: nowrap; }\n",
-		"#", uid, " .tmap-biv-label-x { vertical-align: top; text-align: center; padding-top: 4px; }\n",
+		"#", uid, " .tmap-biv-table td.tmap-biv-label-y { text-align: right; padding-right: 5px; white-space: nowrap; }\n",
+		"#", uid, " .tmap-biv-table td.tmap-biv-label-x { vertical-align: top; text-align: center; padding-top: 4px; }\n",
 		"#", uid, " .tmap-biv-label-x div { display: inline-block; white-space: nowrap; writing-mode: vertical-rl; transform: rotate(180deg); }\n",
-		"#", uid, " .tmap-biv-ylab { vertical-align: middle; padding-right: 4px; }\n",
-		"#", uid, " .tmap-biv-ylab div { writing-mode: vertical-rl; transform: rotate(180deg); text-align: center; }\n",
-		"#", uid, " .tmap-biv-xlab { text-align: center; padding-top: 2px; white-space: nowrap; }\n",
+		"#", uid, " .tmap-biv-table td.tmap-biv-ylab { vertical-align: middle; padding-right: 10px; }\n",
+		"#", uid, " .tmap-biv-ylab div { white-space: nowrap; text-align: right; }\n",
+		"#", uid, " .tmap-biv-ylab-vert div { display: inline-block; writing-mode: vertical-rl; transform: rotate(180deg); text-align: center; }\n",
+		"#", uid, " .tmap-biv-table td.tmap-biv-xlab { text-align: center; padding-top: 2px; white-space: nowrap; }\n",
 		"#", uid, " [data-tmap-cond] { cursor: pointer; }\n")
 
 	style_css = tryCatch(utils::getFromNamespace(".translate_style_to_css", "mapgl")(cmp$mapgl_style, uid),
