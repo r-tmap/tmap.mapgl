@@ -53,3 +53,7 @@ docs
 .positai
 
 sandbox/
+
+# local files (not to be committed)
+CRAN-SUBMISSION
+cran-comments.md
