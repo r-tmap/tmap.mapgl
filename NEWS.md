@@ -1,5 +1,6 @@
 # tmap.mapgl (development version)
 
+- the dark basemap `"Esri.WorldDarkGrayCanvas"` of plot and view mode is replaced by `"ofm.dark"` in the maplibre mode. Requires the development version of tmap
 - [!] added `tm_text()` and `tm_labels()`. Overlapping labels are hidden in the order of `priority`. Requires the development version of tmap
 - fixed: text angles of `along_lines` did not match the features when `plot.order` was used
 - fixed: legend of `tm_scale_intervals(label.style = "continuous")` (labels were shifted). Requires the development version of tmap

@@ -70,8 +70,8 @@
 			maplibre = "carto.positron",
 			mapbox   = "carto.positron"),
 		dark = list(
-			plot     = "CartoDB.DarkMatter",
-			view     = "CartoDB.DarkMatter",
+			plot     = c("Esri.WorldDarkGrayCanvas", "CartoDB.DarkMatter"),
+			view     = c("Esri.WorldDarkGrayCanvas", "CartoDB.DarkMatter"),
 			maplibre = c("carto.dark_matter", "ofm.dark"),
 			mapbox   = c("mapbox.dark", "carto.dark_matter")),
 		voyager = list(
