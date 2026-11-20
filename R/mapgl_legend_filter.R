@@ -136,6 +136,7 @@ mapgl_legend_filter_js = function(m, uid, layers, items = NULL) {
 # The layers that are filtered by the legends of the layer with group id glid: the fill (and pattern) layer(s)
 # and the border layer, so that the whole feature is hidden
 mapgl_legend_layers = function(glid) {
+	if (length(glid) != 1L || is.na(glid)) return(character())
 	reg = .TMAP$mapgl_cat[[glid]]
 	if (is.null(reg)) return(character())
 	as.character(stats::na.omit(c(reg$fill_layer, reg$border_layer)))

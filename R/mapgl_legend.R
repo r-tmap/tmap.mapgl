@@ -207,6 +207,8 @@ mapgl_legend_style = function(grp, grp_called, cmp, o) {
 # Returns NULL when there is nothing categorical to filter (caller then keeps a
 # legacy single-layer fallback, with mapgl's own interactive legend).
 mapgl_legend_target = function(glid, is_col) {
+	# manual legends (tm_add_legend()) do not belong to a layer, so they have no glid
+	if (length(glid) != 1L || is.na(glid)) return(NULL)
 	reg = .TMAP$mapgl_cat[[glid]]
 	if (is.null(reg)) return(NULL)
 	info = if (is_col) reg$col else reg$fill
