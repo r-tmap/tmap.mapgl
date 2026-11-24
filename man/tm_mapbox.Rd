@@ -18,7 +18,7 @@ tm_mapbox(pitch, bearing, control.position, control.collapse, zoom)
 \item{zoom}{The zoom level of the map}
 }
 \value{
-a [tmap::tmap-element]
+a \link[tmap:tmap-element]{tmap::tmap-element}
 }
 \description{
 Mapbox mode options. These options are specific to the mapbox mode.

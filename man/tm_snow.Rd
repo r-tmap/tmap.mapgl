@@ -42,8 +42,8 @@ tmap layer
 Map layer that generates snow.
 }
 \details{
-Arguments and their default values have been taken from [mapbox::set_snow()] (package version 0.2.2)
+Arguments and their default values have been taken from \code{\link[mapgl:set_snow]{mapgl::set_snow()}} (\strong{mapgl} version 0.2.2)
 }
 \seealso{
-[tm_rain()]
+\code{\link[=tm_rain]{tm_rain()}}
 }

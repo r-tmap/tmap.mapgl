@@ -7,16 +7,16 @@
 tm_fullscreen(stack, position, group_id, z)
 }
 \arguments{
-\item{stack}{stack with other map components, either `"vertical"` or `"horizontal"`.}
+\item{stack}{stack with other map components, either \code{"vertical"} or \code{"horizontal"}.}
 
-\item{position}{The position specification of the component: an object created with `tm_pos_in()` or `tm_pos_out()`. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is `"left"`, `"center"` or `"right"` (or upper case, meaning tighter to the map frame), the second `"top"`, `"center"` or `"bottom"`. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{https://r-tmap.github.io/tmap/articles/adv_positions}{vignette about positioning}. In case multiple components should be combined (stacked), use `group_id` and specify `component` in [tm_comp_group()].}
+\item{position}{The position specification of the component: an object created with \code{tm_pos_in()} or \code{tm_pos_out()}. Or, as a shortcut, a vector of two values, specifying the x and y coordinates. The first is \code{"left"}, \code{"center"} or \code{"right"} (or upper case, meaning tighter to the map frame), the second \code{"top"}, \code{"center"} or \code{"bottom"}. Numeric values are also supported, where 0, 0 means left bottom and 1, 1 right top. See also \href{https://r-tmap.github.io/tmap/articles/adv_positions}{vignette about positioning}. In case multiple components should be combined (stacked), use \code{group_id} and specify \code{component} in \code{\link[tmap:tm_components]{tmap::tm_components()}}.}
 
-\item{group_id}{Component group id name. All components (e.g. legends, titles, etc) with the same `group_id` will be grouped. The specifications of how they are placed (e.g. stacking, margins etc.) are determined in [tm_comp_group()] where its argument `id` should correspond to `group_id`.}
+\item{group_id}{Component group id name. All components (e.g. legends, titles, etc) with the same \code{group_id} will be grouped. The specifications of how they are placed (e.g. stacking, margins etc.) are determined in \code{\link[tmap:tm_components]{tmap::tm_components()}} where its argument \code{group_id} should correspond.}
 
 \item{z}{z index, e.g. the place of the component relative to the other componets}
 }
 \value{
-a [tmap::tmap-element]
+a \link[tmap:tmap-element]{tmap::tmap-element}
 }
 \description{
 Map component that adds a fullscreen button

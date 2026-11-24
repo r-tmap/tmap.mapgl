@@ -37,13 +37,13 @@
 #' ([tm_facets_wrap()] and [tm_facets_stack()]) there is only one facet dimension,
 #' so the `*.free` argument requires only one logical value.
 #'
-#' @param height,height.scale,height.legend,height.chart,height.free `r .doc_vv("height")`
-#' @param fill,fill.scale,fill.legend,fill.chart,fill.free `r .doc_vv("fill")`
-#' @param col,col.scale,col.legend,col.chart,col.free `r .doc_vv("col")`
-#' @param lwd,lwd.scale,lwd.legend,lwd.chart,lwd.free `r .doc_vv("lwd")`
-#' @param lty,lty.scale,lty.legend,lty.chart,lty.free `r .doc_vv("lty")`
-#' @param fill_alpha,fill_alpha.scale,fill_alpha.chart,fill_alpha.legend,fill_alpha.free `r .doc_vv("fill_alpha")`
-#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free `r .doc_vv("col_alpha")`
+#' @param height,height.scale,height.legend,height.chart,height.free `r tmap:::.doc_vv("height")`
+#' @param fill,fill.scale,fill.legend,fill.chart,fill.free `r tmap:::.doc_vv("fill")`
+#' @param col,col.scale,col.legend,col.chart,col.free `r tmap:::.doc_vv("col")`
+#' @param lwd,lwd.scale,lwd.legend,lwd.chart,lwd.free `r tmap:::.doc_vv("lwd")`
+#' @param lty,lty.scale,lty.legend,lty.chart,lty.free `r tmap:::.doc_vv("lty")`
+#' @param fill_alpha,fill_alpha.scale,fill_alpha.chart,fill_alpha.legend,fill_alpha.free `r tmap:::.doc_vv("fill_alpha")`
+#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.chart,col_alpha.free `r tmap:::.doc_vv("col_alpha")`
 #' @param pattern,pattern.scale,pattern.legend,pattern.chart,pattern.free Fill pattern, drawn on the roofs of the
 #'   extrusions (and also on the walls with `opt_tm_polygons_3d(pattern.walls = TRUE)`). See [tmap::tm_polygons()] and [tmap::tm_patterns()].
 #' @param pattern_col,pattern_col.scale,pattern_col.legend,pattern_col.chart,pattern_col.free Pattern color.

@@ -88,22 +88,22 @@ opt_tm_polygons_3d(
 )
 }
 \arguments{
-\item{height, height.scale, height.legend, height.chart, height.free}{`r .doc_vv("height")`}
+\item{height, height.scale, height.legend, height.chart, height.free}{Map variable that determines the height. See details.}
 
-\item{fill, fill.scale, fill.legend, fill.chart, fill.free}{`r .doc_vv("fill")`}
+\item{fill, fill.scale, fill.legend, fill.chart, fill.free}{Map variable that determines the fill color. See details.}
 
-\item{col, col.scale, col.legend, col.chart, col.free}{`r .doc_vv("col")`}
+\item{col, col.scale, col.legend, col.chart, col.free}{Map variable that determines the color. See details.}
 
-\item{lwd, lwd.scale, lwd.legend, lwd.chart, lwd.free}{`r .doc_vv("lwd")`}
+\item{lwd, lwd.scale, lwd.legend, lwd.chart, lwd.free}{Map variable that determines the line width. See details.}
 
-\item{lty, lty.scale, lty.legend, lty.chart, lty.free}{`r .doc_vv("lty")`}
+\item{lty, lty.scale, lty.legend, lty.chart, lty.free}{Map variable that determines the line type. See details.}
 
-\item{fill_alpha, fill_alpha.scale, fill_alpha.chart, fill_alpha.legend, fill_alpha.free}{`r .doc_vv("fill_alpha")`}
+\item{fill_alpha, fill_alpha.scale, fill_alpha.chart, fill_alpha.legend, fill_alpha.free}{Map variable that determines the fill color transparency. See details.}
 
-\item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free}{`r .doc_vv("col_alpha")`}
+\item{col_alpha, col_alpha.scale, col_alpha.legend, col_alpha.chart, col_alpha.free}{Map variable that determines the color transparency. See details.}
 
 \item{pattern, pattern.scale, pattern.legend, pattern.chart, pattern.free}{Fill pattern, drawn on the roofs of the
-extrusions (and also on the walls with `opt_tm_polygons_3d(pattern.walls = TRUE)`). See [tmap::tm_polygons()] and [tmap::tm_patterns()].}
+extrusions (and also on the walls with \code{opt_tm_polygons_3d(pattern.walls = TRUE)}). See \code{\link[tmap:tm_polygons]{tmap::tm_polygons()}} and \code{\link[tmap:tm_patterns]{tmap::tm_patterns()}}.}
 
 \item{pattern_col, pattern_col.scale, pattern_col.legend, pattern_col.chart, pattern_col.free}{Pattern color.}
 
@@ -112,108 +112,106 @@ size of the pattern.}
 
 \item{pattern_density, pattern_density.scale, pattern_density.legend, pattern_density.chart, pattern_density.free}{Density of the pattern (0 to 1).}
 
-\item{linejoin, lineend}{Line join and line end. See [gpar()][grid::gpar()] for details.}
+\item{linejoin, lineend}{Line join and line end. See \link[grid:gpar]{gpar()} for details.}
 
 \item{plot.order}{Specification in which order the spatial features are drawn.
-See [tm_plot_order()] for details.}
+See \code{\link[tmap:tm_plot_order]{tm_plot_order()}} for details.}
 
-\item{zindex}{Map layers are drawn on top of each other. The `zindex` numbers
+\item{zindex}{Map layers are drawn on top of each other. The \code{zindex} numbers
 (one for each map layer) determines the stacking order.
 By default the map layers are drawn in the order they are called.}
 
 \item{group}{Name of the group to which this layer belongs. This is only
-relevant in view mode, where layer groups can be switched (see `group.control`)}
+relevant in view mode, where layer groups can be switched (see \code{group.control})}
 
 \item{group.control}{In view mode, the group control determines how layer groups
-can be switched on and off. Options: `"radio"` for radio buttons
-(meaning only one group can be shown), `"check"` for check boxes
-(so multiple groups can be shown), and `"none"` for no control
+can be switched on and off. Options: \code{"radio"} for radio buttons
+(meaning only one group can be shown), \code{"check"} for check boxes
+(so multiple groups can be shown), and \code{"none"} for no control
 (the group cannot be (de)selected).}
 
-\item{popup}{popup specification, the output of [tmap::tm_popup()]. It
+\item{popup}{popup specification, the output of \code{\link[tmap:tm_popup]{tmap::tm_popup()}}. It
 determines the data variables shown in the popup table, the popup title,
-and the popup layout. This replaces the deprecated arguments `popup.vars`
-and `popup.format`.}
+and the popup layout. This replaces the deprecated arguments \code{popup.vars}
+and \code{popup.format}.}
 
-\item{popup.vars}{(Deprecated.) Use `popup` with [tmap::tm_popup()] instead
-(via its `vars` argument). Names of data variables that are shown in the
-popups. Set popup.vars to `TRUE` to show all variables in the
-shape object. Set popup.vars to `FALSE` to disable popups. Set `popup.vars`
+\item{popup.vars}{(Deprecated.) Use \code{popup} with \code{\link[tmap:tm_popup]{tmap::tm_popup()}} instead
+(via its \code{vars} argument). Names of data variables that are shown in the
+popups. Set popup.vars to \code{TRUE} to show all variables in the
+shape object. Set popup.vars to \code{FALSE} to disable popups. Set \code{popup.vars}
 to a character vector of variable names to those those variables in the popups.
-The default (`NA`) depends on whether visual variables (e.g.`fill`) are used.
+The default (\code{NA}) depends on whether visual variables (e.g.\code{fill}) are used.
 If so, only those are shown. If not all variables in the shape object are shown.}
 
-\item{popup.format}{(Deprecated.) Use `popup` with [tmap::tm_popup()]
-instead (via its `format` argument). List of formatting options for the
-popup values. See the argument `legend.format` for options. Only applicable for
+\item{popup.format}{(Deprecated.) Use \code{popup} with \code{\link[tmap:tm_popup]{tmap::tm_popup()}}
+instead (via its \code{format} argument). List of formatting options for the
+popup values. See the argument \code{legend.format} for options. Only applicable for
 numeric data variables. If one list of formatting options is provided,
-it is applied to all numeric variables of `popup.vars`. Also, a (named)
+it is applied to all numeric variables of \code{popup.vars}. Also, a (named)
 list of lists can be provided. In that case, each list of formatting options
 is applied to the named variable.}
 
-\item{hover}{name of the data variable that specifies the hover labels (view mode only). Set to `FALSE` to disable hover labels. By default `FALSE`, unless `id` is specified. In that case, it is set to `id`,}
+\item{hover}{name of the data variable that specifies the hover labels (view mode only). Set to \code{FALSE} to disable hover labels. By default \code{FALSE}, unless \code{id} is specified. In that case, it is set to \code{id},}
 
 \item{id}{name of the data variable that specifies the indices of the spatial
-features. Only used for `"view"` mode.}
+features. Only used for \code{"view"} mode.}
 
-\item{options}{options passed on to the corresponding `opt_<layer_function>` function}
+\item{options}{options passed on to the corresponding \verb{opt_<layer_function>} function}
 
-\item{polygons.only}{should only polygon geometries of the shape object (defined in [tm_shape()]) be plotted? By default `"ifany"`, which means `TRUE` in case a geometry collection is specified.}
+\item{polygons.only}{should only polygon geometries of the shape object (defined in \code{\link[tmap:tm_shape]{tm_shape()}}) be plotted? By default \code{"ifany"}, which means \code{TRUE} in case a geometry collection is specified.}
 
-\item{height.max, height.min}{Maximum and minimum height. The data variable values assigned to `height` are are scaled between these two values. Each can be an absolute number (in meters) or relative to the bounding box area, more specifically, the percentage of the square root of the bounding box area. The default values are `"10\%"` for `height.max` and `0.1\%` for `height.min`. The latter is not set to 0 because of artefacts with maplibre in globe view.}
+\item{height.max, height.min}{Maximum and minimum height. The data variable values assigned to \code{height} are are scaled between these two values. Each can be an absolute number (in meters) or relative to the bounding box area, more specifically, the percentage of the square root of the bounding box area. The default values are \code{"10\\\%"} for \code{height.max} and \verb{0.1\\\%} for \code{height.min}. The latter is not set to 0 because of artefacts with maplibre in globe view.}
 
-\item{cast.shadows}{Should the extruded polygons cast shadows? **`"mapbox"` mode only** (silently ignored with a message in `"maplibre"` mode, whose fill-extrusion implementation does not support shadows). Passed to `fill_extrusion_cast_shadows`. The default `NULL` keeps the engine default.}
+\item{cast.shadows}{Should the extruded polygons cast shadows? \strong{\code{"mapbox"} mode only} (silently ignored with a message in \code{"maplibre"} mode, whose fill-extrusion implementation does not support shadows). Passed to \code{fill_extrusion_cast_shadows}. The default \code{NULL} keeps the engine default.}
 
-\item{ambient.occlusion.intensity, ambient.occlusion.radius}{Ambient-occlusion intensity (0-1) and radius for the extruded polygons, adding soft contact shading in corners and crevices. **`"mapbox"` mode only** (ignored with a message in `"maplibre"` mode). Passed to `fill_extrusion_ambient_occlusion_intensity` / `fill_extrusion_ambient_occlusion_radius`. The default `NULL` keeps the engine default.}
+\item{ambient.occlusion.intensity, ambient.occlusion.radius}{Ambient-occlusion intensity (0-1) and radius for the extruded polygons, adding soft contact shading in corners and crevices. \strong{\code{"mapbox"} mode only} (ignored with a message in \code{"maplibre"} mode). Passed to \code{fill_extrusion_ambient_occlusion_intensity} / \code{fill_extrusion_ambient_occlusion_radius}. The default \code{NULL} keeps the engine default.}
 
-\item{vertical.gradient}{Should a vertical gradient be applied to the sides of the extrusions? When `TRUE`, the side walls are shaded from darker at the base to lighter toward the top, which gives a sense of depth. Supported in **both** `"maplibre"` and `"mapbox"` modes. Passed to `fill_extrusion_vertical_gradient`. The default `NULL` keeps the engine default, which is `TRUE` - so the visible effect is mainly when set to `FALSE` (flat, evenly-coloured side walls).}
+\item{vertical.gradient}{Should a vertical gradient be applied to the sides of the extrusions? When \code{TRUE}, the side walls are shaded from darker at the base to lighter toward the top, which gives a sense of depth. Supported in \strong{both} \code{"maplibre"} and \code{"mapbox"} modes. Passed to \code{fill_extrusion_vertical_gradient}. The default \code{NULL} keeps the engine default, which is \code{TRUE} - so the visible effect is mainly when set to \code{FALSE} (flat, evenly-coloured side walls).}
 
-\item{emissive.strength}{Emissive strength of the extruded polygons, controlling how much they appear self-lit under the map's 3D lighting. **`"mapbox"` mode only** (ignored with a message in `"maplibre"` mode). Passed to `fill_extrusion_emissive_strength`. The default `NULL` keeps the engine default.}
+\item{emissive.strength}{Emissive strength of the extruded polygons, controlling how much they appear self-lit under the map's 3D lighting. \strong{\code{"mapbox"} mode only} (ignored with a message in \code{"maplibre"} mode). Passed to \code{fill_extrusion_emissive_strength}. The default \code{NULL} keeps the engine default.}
 
-\item{pattern.walls}{Should the fill pattern (map variable `pattern`) also be drawn on the walls of the
-extrusions? By default `FALSE`: only on the roofs.}
+\item{pattern.walls}{Should the fill pattern (map variable \code{pattern}) also be drawn on the walls of the
+extrusions? By default \code{FALSE}: only on the roofs.}
 }
 \value{
-a [tmap::tmap-element], supposed to be stacked after [tmap::tm_shape()] using the `+` operator. The `opt_<layer_function>` function returns a list that should be passed on to the `options` argument.
+a \link[tmap:tmap-element]{tmap::tmap-element}, supposed to be stacked after \code{\link[tmap:tm_shape]{tmap::tm_shape()}} using the \code{+} operator. The \verb{opt_<layer_function>} function returns a list that should be passed on to the \code{options} argument.
 }
 \description{
-Map layer that draws 3d (extruded) polygons. Supported visual variables are: `height` (the ), `fill` (the fill color),
-`col` (the border color), `lwd` (line width), `lty` (line type),
-`fill_alpha` (fill color alpha transparency), `col_alpha` (border color alpha transparency), and the fill
-pattern map variables `pattern`, `pattern_col`, `pattern_size`, and `pattern_density` (see [tmap::tm_polygons()]).
+Map layer that draws 3d (extruded) polygons. Supported visual variables are: \code{height} (the ), \code{fill} (the fill color),
+\code{col} (the border color), \code{lwd} (line width), \code{lty} (line type),
+\code{fill_alpha} (fill color alpha transparency), \code{col_alpha} (border color alpha transparency), and the fill
+pattern map variables \code{pattern}, \code{pattern_col}, \code{pattern_size}, and \code{pattern_density} (see \code{\link[tmap:tm_polygons]{tmap::tm_polygons()}}).
 }
 \details{
-The visual variable arguments (e.g. `col`) can be specified with either a data
+The visual variable arguments (e.g. \code{col}) can be specified with either a data
 variable name (e.g., a spatial vector attribute or a raster layer of the object
-specified in [tm_shape()]), or with a visual value (for `col`, a color is expected).
+specified in \code{\link[tmap:tm_shape]{tm_shape()}}), or with a visual value (for \code{col}, a color is expected).
 See \href{https://r-tmap.github.io/tmap/articles/basics_vv}{vignette about visual variables}.
 
 Multiple values can be specified: in that case facets are created.
-These facets can be combined with other faceting data variables, specified with [tm_facets()].
+These facets can be combined with other faceting data variables, specified with \code{\link[tmap:tm_facets]{tm_facets()}}.
 See \href{https://r-tmap.github.io/tmap/articles/basics_facets}{vignette about facets}.
-
-- The `*.scale` arguments determine the used scale to map the data values to
+\itemize{
+\item The \verb{*.scale} arguments determine the used scale to map the data values to
 visual variable values. These can be specified with one of the available
-`tm_scale_*()` functions. The default is specified by the tmap option ([tm_options()]) `scales.var`.
+\verb{tm_scale_*()} functions. The default is specified by the tmap option (\code{\link[tmap:tm_options]{tm_options()}}) \code{scales.var}.
 See \href{https://r-tmap.github.io/tmap/articles/basics_scales}{vignette about scales}.
-
-- The `*.legend` arguments determine the used legend, specified with [tm_legend()].
-The default legend and its settings are determined by the tmap options ([tm_options()]) `legend.` .
+\item The \verb{*.legend} arguments determine the used legend, specified with \code{\link[tmap:tm_legend]{tm_legend()}}.
+The default legend and its settings are determined by the tmap options (\code{\link[tmap:tm_options]{tm_options()}}) \code{legend.} .
 See \href{https://r-tmap.github.io/tmap/articles/basics_legends}{vignette about legends}.
-
-- The `*.chart` arguments specify additional charts, specified with `tm_chart_`, e.g. [tm_chart_histogram()].
+\item The \verb{*.chart} arguments specify additional charts, specified with \code{tm_chart_}, e.g. \code{\link[tmap:tm_chart_histogram]{tm_chart_histogram()}}.
 See \href{https://r-tmap.github.io/tmap/articles/basics_charts}{vignette about charts}.
-
-- The `*.free` arguments determine whether scales are applied freely across facets, or shared.
+\item The \verb{*.free} arguments determine whether scales are applied freely across facets, or shared.
 A logical value is required. They can also be specified with a vector of three
 logical values; these determine whether scales are applied freely per facet dimension.
-This is only useful when facets are applied (see [tm_facets()]).
+This is only useful when facets are applied (see \code{\link[tmap:tm_facets]{tm_facets()}}).
 There are maximally three facet dimensions: rows, columns, and pages. This only
-applies for a facet grid ([tm_facets_grid()]). For instance, `col.free = c(TRUE, FALSE, FALSE)`
-means that for the visual variable `col`, each row of facets will have its own
+applies for a facet grid (\code{\link[tmap:tm_facets_grid]{tm_facets_grid()}}). For instance, \code{col.free = c(TRUE, FALSE, FALSE)}
+means that for the visual variable \code{col}, each row of facets will have its own
 scale, and therefore its own legend. For facet wraps and stacks
-([tm_facets_wrap()] and [tm_facets_stack()]) there is only one facet dimension,
-so the `*.free` argument requires only one logical value.
+(\code{\link[tmap:tm_facets_wrap]{tm_facets_wrap()}} and \code{\link[tmap:tm_facets_stack]{tm_facets_stack()}}) there is only one facet dimension,
+so the \verb{*.free} argument requires only one logical value.
+}
 }
 \examples{
 \donttest{

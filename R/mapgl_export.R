@@ -1,12 +1,12 @@
 #' Export tmap to mapbox and maplibre
 #'
 #' * `tmap_mapbox()` returns a [`mapgl`][mapgl::mapboxgl()] object (`"mapbox" mode`)
-#' * `tmap_maplibre()` a [`mapgl`][mapgl::maplibregl()] object (`"maplibre"` mode).
+#' * `tmap_maplibre()` a [`mapgl`][mapgl::maplibre()] object (`"maplibre"` mode).
 #'
 #' @param x a tmap object.
 #' @param show show the map?
 #' @param ... passed on to [`tmap`][tmap::print.tmap()]
-#' @return  a [`mapgl`][mapgl::mapboxgl()] object (`"mapbox" mode`) or a [`mapgl`][mapgl::maplibregl()] object (`"maplibre"` mode). In case small multiples are shown, a list is returned.
+#' @return  a [`mapgl`][mapgl::mapboxgl()] object (`"mapbox" mode`) or a [`mapgl`][mapgl::maplibre()] object (`"maplibre"` mode). In case small multiples are shown, a list is returned.
 #' @export
 #' @examples
 #' library(tmap)

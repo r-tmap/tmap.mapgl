@@ -2,7 +2,7 @@
 #'
 #' Map layer that generates snow.
 #'
-#' Arguments and their default values have been taken from [mapbox::set_snow()] (package version 0.2.2)
+#' Arguments and their default values have been taken from [mapgl::set_snow()] (**mapgl** version 0.2.2)
 #'
 #' @param density A number between 0 and 1 controlling the snow particles density. Default is 0.85.
 #' @param intensity A number between 0 and 1 controlling the snow particles movement speed. Default is 1.0.
@@ -53,7 +53,7 @@ tmapMapboxAuxPlot.tm_aux_snow = function(a, bi, bbx, facet_row, facet_col, facet
 #'
 #' Map layer that generates rain. Only available in "mapbox" mode.
 #'
-#' Arguments and their default values have been taken from [mapbox::set_rain()] (package version 0.2.2)
+#' Arguments and their default values have been taken from [mapgl::set_rain()] (**mapgl** version 0.2.2)
 #'
 #' @param density A number between 0 and 1 controlling the rain particles density. Default is 0.5.
 #' @param intensity A number between 0 and 1 controlling the rain particles movement speed. Default is 1.
@@ -66,7 +66,7 @@ tmapMapboxAuxPlot.tm_aux_snow = function(a, bi, bbx, facet_row, facet_col, facet
 #' @param vignette A number between 0 and 1 controlling the screen-space vignette rain tinting effect intensity. Default is 1.0.
 #' @param vignette_color A string specifying the rain vignette screen-space corners tint color. Default is "#464646".
 #' @return tmap layer
-#' @seealso [tm_show()]
+#' @seealso [tm_snow()]
 #' @export
 tm_rain = function(density = 0.5, intensity = 1.0, color = "#a8adbc",
 				   opacity = 0.7, center_thinning = 0.57, direction = c(0, 80),

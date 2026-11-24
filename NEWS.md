@@ -1,5 +1,6 @@
 # tmap.mapgl (development version)
 
+- fixed: help pages showed raw markdown, e.g. the argument descriptions of `tm_polygons_3d()`
 - the dark basemap `"Esri.WorldDarkGrayCanvas"` of plot and view mode is replaced by `"ofm.dark"` in the maplibre mode. Requires the development version of tmap
 - [!] added `tm_text()` and `tm_labels()`. Overlapping labels are hidden in the order of `priority`. Requires the development version of tmap
 - fixed: text angles of `along_lines` did not match the features when `plot.order` was used

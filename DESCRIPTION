@@ -34,4 +34,5 @@ Suggests:
 Config/Needs/website: bookdown, rmarkdown, r-tmap/tmap, walkerke/mapgl, dplyr, osmdata, mapview
 URL: https://github.com/r-tmap/tmap.mapgl, https://r-tmap.github.io/tmap.mapgl/
 BugReports: https://github.com/r-tmap/tmap.mapgl/issues
-Config/roxygen2/version: 8.1.0
+Roxygen: list(markdown = TRUE)
+Config/roxygen2/version: 8.1.1

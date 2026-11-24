@@ -1219,7 +1219,7 @@ tmapMaplibreDataPlot(
 
 \item{comp}{the shape object}
 
-\item{m}{the proxy object from `maplibre_proxy()`/`mapboxgl_proxy()`, supplied in proxy mode}
+\item{m}{the proxy object from \code{maplibre_proxy()}/\code{mapboxgl_proxy()}, supplied in proxy mode}
 
 \item{return.asp}{return.asp}
 

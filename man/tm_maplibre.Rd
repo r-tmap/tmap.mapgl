@@ -24,13 +24,13 @@ tm_maplibre(
 
 \item{zoom}{The zoom level of the map}
 
-\item{pattern.zoom}{How fill patterns behave when zooming: `"screen"` (default) keeps them at a fixed size on
-the screen, like the other patterns of tmap; `"map"` attaches them to the map, so that they are enlarged when
+\item{pattern.zoom}{How fill patterns behave when zooming: \code{"screen"} (default) keeps them at a fixed size on
+the screen, like the other patterns of tmap; \code{"map"} attaches them to the map, so that they are enlarged when
 zooming in (as if they were painted on the map). When zoomed in far, the
 patterns become blurry, since the pattern images are magnified.}
 }
 \value{
-a [tmap::tmap-element]
+a \link[tmap:tmap-element]{tmap::tmap-element}
 }
 \description{
 Maplibre mode options. These options are specific to the maplibre mode.

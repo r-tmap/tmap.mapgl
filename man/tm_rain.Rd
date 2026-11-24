@@ -45,8 +45,8 @@ tmap layer
 Map layer that generates rain. Only available in "mapbox" mode.
 }
 \details{
-Arguments and their default values have been taken from [mapbox::set_rain()] (package version 0.2.2)
+Arguments and their default values have been taken from \code{\link[mapgl:set_rain]{mapgl::set_rain()}} (\strong{mapgl} version 0.2.2)
 }
 \seealso{
-[tm_show()]
+\code{\link[=tm_snow]{tm_snow()}}
 }

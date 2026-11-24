@@ -14,14 +14,16 @@ tmap_maplibre(x, show = FALSE, ...)
 
 \item{show}{show the map?}
 
-\item{...}{passed on to [`tmap`][tmap::print.tmap()]}
+\item{...}{passed on to \code{\link[tmap:print.tmap]{tmap}}}
 }
 \value{
-a [`mapgl`][mapgl::mapboxgl()] object (`"mapbox" mode`) or a [`mapgl`][mapgl::maplibregl()] object (`"maplibre"` mode). In case small multiples are shown, a list is returned.
+a \code{\link[mapgl:mapboxgl]{mapgl}} object (\verb{"mapbox" mode}) or a \code{\link[mapgl:maplibre]{mapgl}} object (\code{"maplibre"} mode). In case small multiples are shown, a list is returned.
 }
 \description{
-* `tmap_mapbox()` returns a [`mapgl`][mapgl::mapboxgl()] object (`"mapbox" mode`)
-* `tmap_maplibre()` a [`mapgl`][mapgl::maplibregl()] object (`"maplibre"` mode).
+\itemize{
+\item \code{tmap_mapbox()} returns a \code{\link[mapgl:mapboxgl]{mapgl}} object (\verb{"mapbox" mode})
+\item \code{tmap_maplibre()} a \code{\link[mapgl:maplibre]{mapgl}} object (\code{"maplibre"} mode).
+}
 }
 \examples{
 library(tmap)
