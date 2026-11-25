@@ -149,6 +149,7 @@ tmap maplibre mode
 - [Introduction](https://r-tmap.github.io/tmap.mapgl/articles/mapgl.md):
 - [Providers
   "maplibre"](https://r-tmap.github.io/tmap.mapgl/articles/maplibre.md):
+- [PMTiles](https://r-tmap.github.io/tmap.mapgl/articles/pmtiles.md):
 - [3D polygon
   layer](https://r-tmap.github.io/tmap.mapgl/articles/polygons3d.md):
 - [Introduction](https://r-tmap.github.io/tmap.mapgl/articles/projections.md):

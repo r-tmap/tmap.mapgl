@@ -32,7 +32,8 @@ tm_mapbox(pitch, bearing, control.position, control.collapse, zoom)
 
 ## Value
 
-a \[tmap::tmap-element\]
+a
+[tmap::tmap-element](https://r-tmap.github.io/tmap/reference/tmap-element.html)
 
 ## Examples
 

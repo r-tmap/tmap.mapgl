@@ -754,6 +754,72 @@ tmapMapboxDataPlot(
   ...
 )
 
+# S3 method for class 'tm_data_text'
+tmapMapboxDataPlot(
+  a,
+  shpTM,
+  dt,
+  pdt,
+  popup.format,
+  hdt,
+  idt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  glid,
+  o,
+  ...
+)
+
+# S3 method for class 'tm_data_labels'
+tmapMapboxDataPlot(
+  a,
+  shpTM,
+  dt,
+  pdt,
+  popup.format,
+  hdt,
+  idt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  glid,
+  o,
+  ...
+)
+
+# S3 method for class 'tm_data_labels_highlighted'
+tmapMapboxDataPlot(
+  a,
+  shpTM,
+  dt,
+  pdt,
+  popup.format,
+  hdt,
+  idt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  glid,
+  o,
+  ...
+)
+
 tmapMaplibreDataPlot(
   a,
   shpTM,
@@ -1016,6 +1082,72 @@ tmapMaplibreDataPlot(
   o,
   ...
 )
+
+# S3 method for class 'tm_data_text'
+tmapMaplibreDataPlot(
+  a,
+  shpTM,
+  dt,
+  pdt,
+  popup.format,
+  hdt,
+  idt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  glid,
+  o,
+  ...
+)
+
+# S3 method for class 'tm_data_labels'
+tmapMaplibreDataPlot(
+  a,
+  shpTM,
+  dt,
+  pdt,
+  popup.format,
+  hdt,
+  idt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  glid,
+  o,
+  ...
+)
+
+# S3 method for class 'tm_data_labels_highlighted'
+tmapMaplibreDataPlot(
+  a,
+  shpTM,
+  dt,
+  pdt,
+  popup.format,
+  hdt,
+  idt,
+  gp,
+  bbx,
+  facet_row,
+  facet_col,
+  facet_page,
+  id,
+  pane,
+  group,
+  glid,
+  o,
+  ...
+)
 ```
 
 ## Arguments
@@ -1062,8 +1194,8 @@ tmapMaplibreDataPlot(
 
 - m:
 
-  the proxy object from \`maplibre_proxy()\`/\`mapboxgl_proxy()\`,
-  supplied in proxy mode
+  the proxy object from `maplibre_proxy()`/`mapboxgl_proxy()`, supplied
+  in proxy mode
 
 - return.asp:
 

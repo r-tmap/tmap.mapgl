@@ -78,8 +78,9 @@ tmap layer
 ## Details
 
 Arguments and their default values have been taken from
-\[mapbox::set_rain()\] (package version 0.2.2)
+[`mapgl::set_rain()`](https://walker-data.com/mapgl/reference/set_rain.html)
+(**mapgl** version 0.2.2)
 
 ## See also
 
-\[tm_show()\]
+[`tm_snow()`](https://r-tmap.github.io/tmap.mapgl/reference/tm_snow.md)

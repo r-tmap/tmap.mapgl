@@ -20,28 +20,30 @@ function initializeLegendInteractivity(map, mapId, config) {
         return;
     }
 
-    // Ensure layer state tracking exists
-    if (!window._mapglLayerState) {
-        window._mapglLayerState = {};
-    }
-    if (!window._mapglLayerState[mapId]) {
-        window._mapglLayerState[mapId] = {
-            filters: {},
-            paintProperties: {},
-            layoutProperties: {},
-            tooltips: {},
-            popups: {},
-            legends: {},
-            interactiveFilters: {}
-        };
-    }
-
-    var layerState = window._mapglLayerState[mapId];
-
-    // Ensure interactiveFilters exists (state object may have been created
-    // by map init code without this property)
-    if (!layerState.interactiveFilters) {
-        layerState.interactiveFilters = {};
+    // Ensure layer state tracking exists via the shared helper that the
+    // main binding files install on window. Falls back to a local init if
+    // the helper isn't available (e.g. legacy load order), keeping the
+    // interactiveFilters field the legend UI depends on.
+    var layerState;
+    if (typeof window._mapglEnsureLayerState === "function") {
+        layerState = window._mapglEnsureLayerState(map);
+    } else {
+        if (!window._mapglLayerState) window._mapglLayerState = {};
+        if (!window._mapglLayerState[mapId]) {
+            window._mapglLayerState[mapId] = {
+                filters: {},
+                paintProperties: {},
+                layoutProperties: {},
+                tooltips: {},
+                popups: {},
+                legends: {},
+                interactiveFilters: {},
+                filterStack: {}
+            };
+        }
+        layerState = window._mapglLayerState[mapId];
+        if (!layerState.interactiveFilters) layerState.interactiveFilters = {};
+        if (!layerState.filterStack) layerState.filterStack = {};
     }
 
     // Normalize layerId to array for multi-layer support
@@ -452,110 +454,57 @@ function initCategoricalLegend(map, mapId, legendElement, filterColumn, config) 
         interactiveState.filterColumn = filterColumn;
     });
 
-    // Store original colors for each item
-    var originalColors = {};
-
-    // Add click handlers to each item
-    items.forEach(function (item, idx) {
-        var displayValue = item.getAttribute("data-value") || String(displayValues[idx]);
-        item.setAttribute("data-value", displayValue);
-        item.setAttribute("data-index", idx);
-        item.setAttribute("data-enabled", "true");
-
-        // Store original color - try multiple selectors for different patch types
-        var colorSpan = item.querySelector(".legend-color") ||
-                        item.querySelector(".legend-shape-svg") ||
-                        item.querySelector(".legend-shape-custom");
-        if (colorSpan) {
-            originalColors[idx] = colorSpan.style.backgroundColor ||
-                                  colorSpan.getAttribute("fill") ||
-                                  config.colors[idx];
-        } else {
-            // Fallback to config colors
-            originalColors[idx] = config.colors[idx];
-        }
-
-        item.addEventListener("click", function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            var currentlyEnabled = item.getAttribute("data-enabled") === "true";
-            var newState = !currentlyEnabled;
-
-            item.setAttribute("data-enabled", String(newState));
-
-            if (newState) {
-                enabledIndices.add(idx);
-                // Restore original color
-                if (colorSpan) {
-                    colorSpan.style.backgroundColor = originalColors[idx];
-                }
+    // Push the enabled set to the layer filters, the reset button and Shiny.
+    function applyEnabled() {
+        layerIds.forEach(function(lid) {
+            var interactiveState = layerState.interactiveFilters[lid];
+            if (breaks && breaks.length > 0) {
+                applyRangeBasedCategoricalFilter(
+                    map,
+                    mapId,
+                    lid,
+                    filterColumn,
+                    enabledIndices,
+                    breaks,
+                    interactiveState.originalFilter
+                );
             } else {
-                enabledIndices.delete(idx);
-                // Grey out
-                if (colorSpan) {
-                    colorSpan.style.backgroundColor = "#cccccc";
-                }
-            }
-
-            // Apply filter to all associated layers
-            layerIds.forEach(function(lid) {
-                var interactiveState = layerState.interactiveFilters[lid];
-                if (breaks && breaks.length > 0) {
-                    applyRangeBasedCategoricalFilter(
-                        map,
-                        mapId,
-                        lid,
-                        filterColumn,
-                        enabledIndices,
-                        breaks,
-                        interactiveState.originalFilter
-                    );
-                } else {
-                    applyCategoricalFilter(
-                        map,
-                        mapId,
-                        lid,
-                        filterColumn,
-                        enabledIndices,
-                        filterValues,
-                        interactiveState.originalFilter
-                    );
-                }
-            });
-
-            // Update reset button visibility
-            updateResetButton(legendElement, enabledIndices.size < numCategories);
-
-            // Send to Shiny if applicable
-            if (typeof HTMLWidgets !== "undefined" && HTMLWidgets.shinyMode) {
-                // Get enabled filter values for Shiny
-                var enabledFilterValues = [];
-                enabledIndices.forEach(function(i) {
-                    enabledFilterValues.push(filterValues[i]);
-                });
-                Shiny.setInputValue(mapId + "_legend_filter", {
-                    legendId: config.legendId,
-                    layerId: layerIds.length === 1 ? layerIds[0] : layerIds,
-                    type: "categorical",
-                    column: filterColumn,
-                    enabledValues: enabledFilterValues,
-                    timestamp: Date.now()
-                });
+                applyCategoricalFilter(
+                    map,
+                    mapId,
+                    lid,
+                    filterColumn,
+                    enabledIndices,
+                    filterValues,
+                    interactiveState.originalFilter
+                );
             }
         });
-    });
 
-    // Add reset button
-    addResetButton(legendElement, function () {
-        items.forEach(function (item, i) {
+        updateResetButton(legendElement, enabledIndices.size < numCategories);
+        updateOnlyButtons();
+
+        // Send to Shiny if applicable
+        if (typeof HTMLWidgets !== "undefined" && HTMLWidgets.shinyMode) {
+            // Get enabled filter values for Shiny
+            var enabledFilterValues = [];
+            enabledIndices.forEach(function(i) {
+                enabledFilterValues.push(filterValues[i]);
+            });
+            Shiny.setInputValue(mapId + "_legend_filter", {
+                legendId: config.legendId,
+                layerId: layerIds.length === 1 ? layerIds[0] : layerIds,
+                type: "categorical",
+                column: filterColumn,
+                enabledValues: enabledFilterValues,
+                timestamp: Date.now()
+            });
+        }
+    }
+
+    function resetAll() {
+        items.forEach(function (item) {
             item.setAttribute("data-enabled", "true");
-            var colorSpan = item.querySelector(".legend-color") ||
-                            item.querySelector(".legend-shape-svg") ||
-                            item.querySelector(".legend-shape-custom");
-            if (colorSpan && originalColors[i] !== undefined) {
-                colorSpan.style.backgroundColor = originalColors[i];
-            }
         });
         enabledIndices.clear();
         for (var i = 0; i < numCategories; i++) {
@@ -564,16 +513,25 @@ function initCategoricalLegend(map, mapId, legendElement, filterColumn, config) 
 
         // Reset filter to original for all layers
         layerIds.forEach(function(lid) {
-            var interactiveState = layerState.interactiveFilters[lid];
-            if (interactiveState.originalFilter) {
-                map.setFilter(lid, interactiveState.originalFilter);
+            // Release the legend slot from the filter registry; the composer
+            // restores base/user/slider automatically.
+            layerState.filterStack[lid] = layerState.filterStack[lid] || {};
+            layerState.filterStack[lid].legend = null;
+            if (typeof window._mapglComposeFilter === "function") {
+                window._mapglComposeFilter(map, lid);
             } else {
-                map.setFilter(lid, null);
+                var _is = layerState.interactiveFilters[lid];
+                if (_is && _is.originalFilter) {
+                    map.setFilter(lid, _is.originalFilter);
+                } else {
+                    map.setFilter(lid, null);
+                }
+                layerState.filters[lid] = _is ? _is.originalFilter : null;
             }
-            layerState.filters[lid] = interactiveState.originalFilter;
         });
 
         updateResetButton(legendElement, false);
+        updateOnlyButtons();
 
         // Send to Shiny
         if (typeof HTMLWidgets !== "undefined" && HTMLWidgets.shinyMode) {
@@ -586,7 +544,190 @@ function initCategoricalLegend(map, mapId, legendElement, filterColumn, config) 
                 timestamp: Date.now()
             });
         }
+    }
+
+    // Show only one category. Isolating the category that is already the
+    // only one showing brings every category back.
+    function isolate(idx) {
+        if (enabledIndices.size === 1 && enabledIndices.has(idx)) {
+            resetAll();
+            return;
+        }
+        enabledIndices.clear();
+        enabledIndices.add(idx);
+        items.forEach(function (item, i) {
+            item.setAttribute("data-enabled", String(i === idx));
+        });
+        applyEnabled();
+    }
+
+    // Optional "only" buttons (only_button = TRUE): shown on hover or keyboard focus. Their pill takes the
+    // legend's own background color so it stays readable over long labels.
+    var onlyButtons = [];
+    function updateOnlyButtons() {
+        onlyButtons.forEach(function (btn, i) {
+            if (!btn) return;
+            var alone = enabledIndices.size === 1 && enabledIndices.has(i);
+            btn.textContent = alone ? "all" : "only";
+            btn.setAttribute("title", alone
+                ? "Show all categories"
+                : "Show only " + displayValues[i] + " (or press and hold the entry)");
+        });
+    }
+    if (config.onlyButton && legendElement.setAttribute) {
+        legendElement.setAttribute("data-only-button", "true");
+    }
+    // Label colors are set on .legend-text, not the entry, so pass the label
+    // color along for the button text and the hold fill.
+    if (legendElement.style && legendElement.style.setProperty) {
+        var legendBg = solidColor(legendElement, "backgroundColor");
+        if (legendBg) legendElement.style.setProperty("--mapgl-legend-solid-bg", legendBg);
+        var label = legendElement.querySelector(".legend-text");
+        var labelColor = label && solidColor(label, "color");
+        if (labelColor) legendElement.style.setProperty("--mapgl-legend-text", labelColor);
+    }
+
+    // Press and hold an entry to show only that category; a short click
+    // still toggles it. Moving the pointer cancels the hold.
+    var HOLD_MS = 500;
+    var LATE_MS = 150;
+    var MOVE_TOLERANCE = 6;
+    // Same clock as pointer event timeStamps
+    function now() {
+        return (typeof performance !== "undefined" && performance.now) ? performance.now() : Date.now();
+    }
+    var hold = null;
+    var suppressClick = false;
+
+    function cancelHold() {
+        if (!hold) return;
+        clearTimeout(hold.timer);
+        if (hold.item.classList) hold.item.classList.remove("legend-holding");
+        hold = null;
+    }
+
+    // Add click handlers to each item
+    items.forEach(function (item, idx) {
+        var displayValue = item.getAttribute("data-value") || String(displayValues[idx]);
+        item.setAttribute("data-value", displayValue);
+        item.setAttribute("data-index", idx);
+        item.setAttribute("data-enabled", "true");
+
+        item.addEventListener("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // The click that ends a completed hold is not a toggle.
+            if (suppressClick) {
+                suppressClick = false;
+                return;
+            }
+
+            var currentlyEnabled = item.getAttribute("data-enabled") === "true";
+            var newState = !currentlyEnabled;
+
+            item.setAttribute("data-enabled", String(newState));
+
+            // Disabled opacity/grayscale is handled by the shared CSS. Leave
+            // patch paints untouched: an SVG background colors its rectangular
+            // viewport, not its polygon/path, and corrupts hex/custom patches.
+            if (newState) {
+                enabledIndices.add(idx);
+            } else {
+                enabledIndices.delete(idx);
+            }
+
+            applyEnabled();
+        });
+
+        item.addEventListener("pointerdown", function (e) {
+            suppressClick = false;
+            if (e.pointerType === "mouse" && e.button !== 0) return;
+            if (e.target && e.target.closest && e.target.closest(".legend-only-btn")) return;
+            cancelHold();
+            var down = now();
+            hold = {
+                item: item,
+                x: e.clientX,
+                y: e.clientY,
+                down: down,
+                timer: setTimeout(function () {
+                    // A busy page can run this timer after the button was
+                    // already released. If it is running late, let the
+                    // release decide from the actual press length.
+                    if (now() - down > HOLD_MS + LATE_MS) {
+                        hold.late = true;
+                        return;
+                    }
+                    cancelHold();
+                    suppressClick = true;
+                    isolate(idx);
+                }, HOLD_MS)
+            };
+            if (item.classList) item.classList.add("legend-holding");
+        });
+        item.addEventListener("pointerup", function (e) {
+            if (hold && hold.late && hold.item === item) {
+                var held = (e.timeStamp || now()) - hold.down;
+                cancelHold();
+                if (held >= HOLD_MS) {
+                    suppressClick = true;
+                    isolate(idx);
+                }
+                return;
+            }
+            cancelHold();
+        });
+        item.addEventListener("pointermove", function (e) {
+            if (hold && Math.abs(e.clientX - hold.x) + Math.abs(e.clientY - hold.y) > MOVE_TOLERANCE) {
+                cancelHold();
+            }
+        });
+        ["pointerleave", "pointercancel"].forEach(function (type) {
+            item.addEventListener(type, cancelHold);
+        });
+        // A long press on a touch screen would otherwise open a context menu.
+        item.addEventListener("contextmenu", function (e) {
+            e.preventDefault();
+        });
+
+        var btn = null;
+        if (config.onlyButton && typeof document.createElement === "function" && typeof item.appendChild === "function") {
+            btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "legend-only-btn";
+            btn.addEventListener("click", function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                isolate(idx);
+            });
+            item.appendChild(btn);
+        }
+        onlyButtons.push(btn);
     });
+    updateOnlyButtons();
+
+    // Add reset button
+    addResetButton(legendElement, resetAll);
+}
+
+/**
+ * A computed color with any transparency removed, or null if the element has
+ * none (used for the "only" button pill and the hold fill).
+ */
+function solidColor(el, property) {
+    if (typeof window.getComputedStyle !== "function") return null;
+    var value;
+    try {
+        value = window.getComputedStyle(el)[property];
+    } catch (e) {
+        return null;
+    }
+    var m = /rgba?\(([^)]+)\)/.exec(value || "");
+    if (!m) return null;
+    var parts = m[1].split(",").map(function (p) { return parseFloat(p); });
+    if (parts.length === 4 && parts[3] === 0) return null;
+    return "rgb(" + parts[0] + ", " + parts[1] + ", " + parts[2] + ")";
 }
 
 /**
@@ -779,8 +920,15 @@ function initContinuousLegend(map, mapId, legendElement, filterColumn, config) {
                 interactiveState.rangeMax = maxVal;
 
                 if (isAtFullRange) {
-                    map.setFilter(lid, interactiveState.originalFilter);
-                    layerState.filters[lid] = interactiveState.originalFilter;
+                    // Release the legend slot; composer restores base/user/slider.
+                    layerState.filterStack[lid] = layerState.filterStack[lid] || {};
+                    layerState.filterStack[lid].legend = null;
+                    if (typeof window._mapglComposeFilter === "function") {
+                        window._mapglComposeFilter(map, lid);
+                    } else {
+                        map.setFilter(lid, interactiveState.originalFilter);
+                        layerState.filters[lid] = interactiveState.originalFilter;
+                    }
                 } else {
                     applyRangeFilter(
                         map,
@@ -961,12 +1109,19 @@ function initContinuousLegend(map, mapId, legendElement, filterColumn, config) {
             interactiveState.rangeMin = minValue;
             interactiveState.rangeMax = maxValue;
 
-            if (interactiveState.originalFilter) {
-                map.setFilter(lid, interactiveState.originalFilter);
+            // Release the legend slot; composer handles base/user/slider.
+            layerState.filterStack[lid] = layerState.filterStack[lid] || {};
+            layerState.filterStack[lid].legend = null;
+            if (typeof window._mapglComposeFilter === "function") {
+                window._mapglComposeFilter(map, lid);
             } else {
-                map.setFilter(lid, null);
+                if (interactiveState.originalFilter) {
+                    map.setFilter(lid, interactiveState.originalFilter);
+                } else {
+                    map.setFilter(lid, null);
+                }
+                layerState.filters[lid] = interactiveState.originalFilter;
             }
-            layerState.filters[lid] = interactiveState.originalFilter;
         });
 
         updateResetButton(legendElement, false);
@@ -1026,11 +1181,17 @@ function applyCategoricalFilter(
         ];
     }
 
-    // Combine with original filter if exists
-    var finalFilter = combineFilters(originalFilter, interactiveFilter);
-
-    map.setFilter(layerId, finalFilter);
-    layerState.filters[layerId] = finalFilter;
+    // Write to the legend slot of the filter registry; the composer
+    // handles merging with base/user/slider slots.
+    layerState.filterStack[layerId] = layerState.filterStack[layerId] || {};
+    layerState.filterStack[layerId].legend = interactiveFilter || null;
+    if (typeof window._mapglComposeFilter === "function") {
+        window._mapglComposeFilter(map, layerId);
+    } else {
+        var finalFilter = combineFilters(originalFilter, interactiveFilter);
+        map.setFilter(layerId, finalFilter);
+        layerState.filters[layerId] = finalFilter;
+    }
 }
 
 /**
@@ -1088,11 +1249,16 @@ function applyRangeBasedCategoricalFilter(
         }
     }
 
-    // Combine with original filter if exists
-    var finalFilter = combineFilters(originalFilter, interactiveFilter);
-
-    map.setFilter(layerId, finalFilter);
-    layerState.filters[layerId] = finalFilter;
+    // Write to the legend slot of the filter registry; composer merges.
+    layerState.filterStack[layerId] = layerState.filterStack[layerId] || {};
+    layerState.filterStack[layerId].legend = interactiveFilter || null;
+    if (typeof window._mapglComposeFilter === "function") {
+        window._mapglComposeFilter(map, layerId);
+    } else {
+        var finalFilter = combineFilters(originalFilter, interactiveFilter);
+        map.setFilter(layerId, finalFilter);
+        layerState.filters[layerId] = finalFilter;
+    }
 }
 
 /**
@@ -1123,11 +1289,16 @@ function applyRangeFilter(
         ["<=", ["get", column], filterMax]
     ];
 
-    // Combine with original filter if exists
-    var finalFilter = combineFilters(originalFilter, interactiveFilter);
-
-    map.setFilter(layerId, finalFilter);
-    layerState.filters[layerId] = finalFilter;
+    // Write to the legend slot of the filter registry; composer merges.
+    layerState.filterStack[layerId] = layerState.filterStack[layerId] || {};
+    layerState.filterStack[layerId].legend = interactiveFilter || null;
+    if (typeof window._mapglComposeFilter === "function") {
+        window._mapglComposeFilter(map, layerId);
+    } else {
+        var finalFilter = combineFilters(originalFilter, interactiveFilter);
+        map.setFilter(layerId, finalFilter);
+        layerState.filters[layerId] = finalFilter;
+    }
 }
 
 /**
@@ -1206,8 +1377,12 @@ function initializeDraggableLegends(container) {
 /**
  * Make a single legend element draggable
  * @param {HTMLElement} legend - The legend element
+ * @param {HTMLElement} [boundsContainer] - Container that constrains the drag.
+ *   Required for legends not nested in a map container (e.g. compare-level
+ *   legends attached to the outer compare element); defaults to the closest
+ *   map container.
  */
-function makeLegendDraggable(legend) {
+function makeLegendDraggable(legend, boundsContainer) {
     var isDragging = false;
     var startX, startY;
     var startLeft, startTop;
@@ -1216,7 +1391,9 @@ function makeLegendDraggable(legend) {
     legend.classList.add('legend-draggable');
 
     // Get the map container (parent of legend)
-    var mapContainer = legend.closest('.mapboxgl-map, .maplibregl-map') || legend.parentElement;
+    var mapContainer = boundsContainer ||
+        legend.closest('.mapboxgl-map, .maplibregl-map') ||
+        legend.parentElement;
 
     function onMouseDown(e) {
         // Don't start drag if clicking on interactive elements (including slider handles)
@@ -1226,6 +1403,8 @@ function makeLegendDraggable(legend) {
 
         isDragging = true;
         legend.classList.add('legend-dragging');
+        // Once the user moves a legend, automatic stacking leaves it alone
+        legend.dataset.mapglUserMoved = 'true';
 
         startX = e.clientX;
         startY = e.clientY;
@@ -1299,6 +1478,7 @@ function makeLegendDraggable(legend) {
 
         isDragging = true;
         legend.classList.add('legend-dragging');
+        legend.dataset.mapglUserMoved = 'true';
 
         startX = touch.clientX;
         startY = touch.clientY;
@@ -1383,5 +1563,317 @@ if (!window._mapglLegendCollapseInstalled) {
             nowCollapsed ? 'Expand legend' : 'Collapse legend'
         );
         btn.textContent = nowCollapsed ? '+' : '\u2013';
+
+        // Collapsing changes the legend's height; ask the owning legend
+        // manager (wrapper's parent) to restack its corner
+        var wrapper = legend.parentElement;
+        var owner = wrapper && wrapper.parentElement;
+        if (owner && owner._mapglLegendManager) {
+            owner._mapglLegendManager.refresh();
+        }
     });
 }
+
+/* ============================================================
+ * Legend manager: zoom-based visibility + automatic stacking
+ *
+ * One manager per container (map container, or the outer compare
+ * element for target = "compare" legends). It holds no per-legend
+ * state: every pass re-queries the DOM, so legends injected later
+ * (Shiny proxy, style-reload restore, compare modifications) are
+ * picked up by the MutationObserver without any call-site plumbing.
+ *
+ * A manager owns exactly the legends whose wrapper div is a direct
+ * child of its container - this keeps the outer compare manager off
+ * the per-side legends owned by each map's own manager.
+ * ============================================================ */
+
+function initializeLegendManager(map, container) {
+    container = container || (map && map.getContainer && map.getContainer());
+    if (!map || !container) return null;
+
+    var existing = container._mapglLegendManager;
+    if (existing) {
+        if (existing.map === map) return existing;
+        // Widget rerender: same container, new map instance
+        existing.dispose();
+    }
+
+    var manager = { map: map, container: container, disposed: false };
+    var rafId = null;
+    var mutationObserver = null;
+    var resizeObserver = null;
+    var observedLegends = [];
+
+    var LEGEND_SELECTOR = '.mapboxgl-legend[id], .maplibregl-legend[id]';
+    var CORNERS = ['top-left', 'top-right', 'bottom-left', 'bottom-right'];
+
+    function isLegendNode(node) {
+        return (
+            node &&
+            node.nodeType === 1 &&
+            node.classList &&
+            (node.classList.contains('mapboxgl-legend') ||
+                node.classList.contains('maplibregl-legend'))
+        );
+    }
+
+    function isOwnedLegend(legend) {
+        return (
+            !!legend &&
+            !!legend.parentElement &&
+            legend.parentElement.parentElement === container
+        );
+    }
+
+    function ownedLegends() {
+        var owned = [];
+        container.querySelectorAll(LEGEND_SELECTOR).forEach(function (legend) {
+            if (isOwnedLegend(legend)) owned.push(legend);
+        });
+        return owned;
+    }
+
+    // Only legend-related mutations schedule work; GL's own DOM churn
+    // (canvas, controls, popups) is ignored
+    function isRelevantRecord(record) {
+        if (record.type === 'childList') {
+            if (record.target === container) {
+                var nodes = Array.prototype.slice
+                    .call(record.addedNodes)
+                    .concat(Array.prototype.slice.call(record.removedNodes));
+                return nodes.some(isLegendNode);
+            }
+            var root =
+                record.target.closest && record.target.closest(LEGEND_SELECTOR);
+            return !!root && isOwnedLegend(root);
+        }
+        if (record.type === 'attributes') {
+            var target = record.target;
+            return (
+                target.matches &&
+                target.matches(LEGEND_SELECTOR) &&
+                isOwnedLegend(target)
+            );
+        }
+        return false;
+    }
+
+    function observe() {
+        mutationObserver.observe(container, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            attributeFilter: ['style', 'class'],
+        });
+    }
+
+    // Run the manager's own DOM writes without re-triggering the observer;
+    // reconnect synchronously so external changes are never missed
+    function suppress(fn) {
+        if (!mutationObserver) {
+            fn();
+            return;
+        }
+        mutationObserver.disconnect();
+        try {
+            fn();
+        } finally {
+            observe();
+        }
+    }
+
+    function updateZoomVisibility(legends) {
+        var zoom = map.getZoom();
+        var changed = false;
+        legends.forEach(function (legend) {
+            var minZoom = legend.getAttribute('data-min-zoom');
+            var maxZoom = legend.getAttribute('data-max-zoom');
+            if (minZoom === null && maxZoom === null) return;
+            // Same semantics as layer min_zoom/max_zoom: visible when
+            // zoom >= min (inclusive) and zoom < max (exclusive)
+            var visible =
+                (minZoom === null || zoom >= parseFloat(minZoom)) &&
+                (maxZoom === null || zoom < parseFloat(maxZoom));
+            var hidden = legend.classList.contains('mapgl-legend-zoom-hidden');
+            if (visible !== hidden) return;
+            legend.classList.toggle('mapgl-legend-zoom-hidden', !visible);
+            changed = true;
+        });
+        return changed;
+    }
+
+    // Distance from the container's bottom edge to the top of the map's own controls in a bottom corner
+    // (the Mapbox logo, the attribution, a scale bar), so legends can sit above them instead of covering them
+    function cornerControlsHeight(corner, containerRect) {
+        var nodes = container.querySelectorAll(
+            '.mapboxgl-ctrl-' + corner + ', .maplibregl-ctrl-' + corner
+        );
+        var h = 0;
+        for (var i = 0; i < nodes.length; i++) {
+            var r = nodes[i].getBoundingClientRect();
+            if (r.height > 0 && r.width > 0) {
+                h = Math.max(h, containerRect.bottom - r.top);
+            }
+        }
+        return h;
+    }
+
+    function repositionLegends(legends) {
+        var containerRect = container.getBoundingClientRect();
+        var groups = {};
+        legends.forEach(function (legend) {
+            if (legend.classList.contains('mapgl-legend-zoom-hidden')) return;
+            if (legend.dataset.mapglUserMoved === 'true') return;
+            if (window.getComputedStyle(legend).display === 'none') return;
+            for (var i = 0; i < CORNERS.length; i++) {
+                if (legend.classList.contains(CORNERS[i])) {
+                    (groups[CORNERS[i]] = groups[CORNERS[i]] || []).push(legend);
+                    break;
+                }
+            }
+        });
+        Object.keys(groups).forEach(function (corner) {
+            // A legend with explicit margin_* values stays exactly where it was placed. If it is the
+            // first legend in its corner it also anchors that corner's stack; otherwise it is left out.
+            var stack = groups[corner].filter(function (legend, i) {
+                return i === 0 || legend.dataset.manualPosition !== 'true';
+            });
+            var isTop = corner.indexOf('top') === 0;
+            var prevRect = null;
+            stack.forEach(function (legend, i) {
+                if (i === 0) {
+                    if (legend.dataset.manualPosition !== 'true') {
+                        // First legend keeps its CSS corner position, raised above the map's own
+                        // controls in a bottom corner
+                        legend.style.top = '';
+                        legend.style.bottom = '';
+                        if (!isTop) {
+                            var cssBottom = parseFloat(window.getComputedStyle(legend).bottom) || 0;
+                            var clear = cornerControlsHeight(corner, containerRect);
+                            if (clear > 0 && clear + 6 > cssBottom) {
+                                legend.style.bottom = clear + 6 + 'px';
+                            }
+                        }
+                    }
+                } else if (isTop) {
+                    // Stack downward: the element's own margin provides the gap
+                    legend.style.bottom = '';
+                    legend.style.top =
+                        prevRect.bottom - containerRect.top + 'px';
+                } else {
+                    // Stack upward from the bottom edge
+                    legend.style.top = '';
+                    legend.style.bottom =
+                        containerRect.bottom - prevRect.top + 'px';
+                }
+                prevRect = legend.getBoundingClientRect();
+            });
+        });
+    }
+
+    function refresh() {
+        rafId = null;
+        if (manager.disposed) return;
+        var legends = ownedLegends();
+
+        // Owned draggable legends get drag behavior bounded by this
+        // container (covers proxy-added, restored, and compare legends)
+        legends.forEach(function (legend) {
+            if (
+                legend.getAttribute('data-draggable') === 'true' &&
+                !legend._draggableInitialized
+            ) {
+                legend._draggableInitialized = true;
+                makeLegendDraggable(legend, container);
+            }
+        });
+
+        // Reconcile the ResizeObserver's observed set
+        if (resizeObserver) {
+            observedLegends = observedLegends.filter(function (legend) {
+                if (legends.indexOf(legend) === -1) {
+                    resizeObserver.unobserve(legend);
+                    return false;
+                }
+                return true;
+            });
+            legends.forEach(function (legend) {
+                if (observedLegends.indexOf(legend) === -1) {
+                    resizeObserver.observe(legend);
+                    observedLegends.push(legend);
+                }
+            });
+        }
+
+        suppress(function () {
+            updateZoomVisibility(legends);
+            repositionLegends(legends);
+        });
+    }
+
+    function scheduleRefresh() {
+        if (rafId !== null || manager.disposed) return;
+        rafId = requestAnimationFrame(refresh);
+    }
+
+    function onZoom() {
+        if (manager.disposed) return;
+        // Cheap class pass on every zoom frame; full relayout only when
+        // some legend's hidden state actually changed
+        var changed = false;
+        suppress(function () {
+            changed = updateZoomVisibility(ownedLegends());
+        });
+        if (changed) scheduleRefresh();
+    }
+
+    manager.refresh = scheduleRefresh;
+    manager.dispose = function () {
+        if (manager.disposed) return;
+        manager.disposed = true;
+        if (rafId !== null) {
+            cancelAnimationFrame(rafId);
+            rafId = null;
+        }
+        if (mutationObserver) mutationObserver.disconnect();
+        if (resizeObserver) resizeObserver.disconnect();
+        observedLegends = [];
+        if (map.off) {
+            map.off('zoom', onZoom);
+            map.off('remove', manager.dispose);
+        }
+        if (container._mapglLegendManager === manager) {
+            delete container._mapglLegendManager;
+        }
+    };
+
+    if (typeof MutationObserver !== 'undefined') {
+        mutationObserver = new MutationObserver(function (records) {
+            if (manager.disposed) return;
+            for (var i = 0; i < records.length; i++) {
+                if (isRelevantRecord(records[i])) {
+                    scheduleRefresh();
+                    return;
+                }
+            }
+        });
+        observe();
+    }
+    if (typeof ResizeObserver !== 'undefined') {
+        resizeObserver = new ResizeObserver(function () {
+            if (!manager.disposed) scheduleRefresh();
+        });
+    }
+
+    map.on('zoom', onZoom);
+    // Dispose as soon as the map goes away (widget rerender) so stale
+    // observers don't linger until the replacement map initializes
+    if (map.once) map.once('remove', manager.dispose);
+
+    container._mapglLegendManager = manager;
+    refresh();
+    return manager;
+}
+
+window.initializeLegendManager = initializeLegendManager;

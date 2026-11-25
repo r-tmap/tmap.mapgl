@@ -5,7 +5,14 @@ Maplibre mode options. These options are specific to the maplibre mode.
 ## Usage
 
 ``` r
-tm_maplibre(pitch, bearing, control.position, control.collapse, zoom)
+tm_maplibre(
+  pitch,
+  bearing,
+  control.position,
+  control.collapse,
+  zoom,
+  pattern.zoom
+)
 ```
 
 ## Arguments
@@ -30,9 +37,18 @@ tm_maplibre(pitch, bearing, control.position, control.collapse, zoom)
 
   The zoom level of the map
 
+- pattern.zoom:
+
+  How fill patterns behave when zooming: `"screen"` (default) keeps them
+  at a fixed size on the screen, like the other patterns of tmap;
+  `"map"` attaches them to the map, so that they are enlarged when
+  zooming in (as if they were painted on the map). When zoomed in far,
+  the patterns become blurry, since the pattern images are magnified.
+
 ## Value
 
-a \[tmap::tmap-element\]
+a
+[tmap::tmap-element](https://r-tmap.github.io/tmap/reference/tmap-element.html)
 
 ## Examples
 

@@ -58,9 +58,6 @@ tm_shape(NLD_dist) +
     fill.legend = tm_legend("University degree")) +
 tm_maplibre(pitch = 45) +
 tm_crs(3857)
-#> [plot mode] map layer `tm_polygons_3d` not available for mode "plot". This map
-#> layer is only available for modes "mapbox" and "maplibre"
-#> [nothing to show] no data layers defined after `tm_shape()`
 ```
 
 The last code line is to enable the mercator projection. The default

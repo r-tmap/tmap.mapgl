@@ -1,8 +1,12 @@
 # Export tmap to mapbox and maplibre
 
-\* \`tmap_mapbox()\` returns a \[\`mapgl\`\]\[mapgl::mapboxgl()\] object
-(\`"mapbox" mode\`) \* \`tmap_maplibre()\` a
-\[\`mapgl\`\]\[mapgl::maplibregl()\] object (\`"maplibre"\` mode).
+- `tmap_mapbox()` returns a
+  [`mapgl`](https://walker-data.com/mapgl/reference/mapboxgl.html)
+  object (`"mapbox" mode`)
+
+- `tmap_maplibre()` a
+  [`mapgl`](https://walker-data.com/mapgl/reference/maplibre.html)
+  object (`"maplibre"` mode).
 
 ## Usage
 
@@ -24,13 +28,16 @@ tmap_maplibre(x, show = FALSE, ...)
 
 - ...:
 
-  passed on to \[\`tmap\`\]\[tmap::print.tmap()\]
+  passed on to
+  [`tmap`](https://r-tmap.github.io/tmap/reference/print.tmap.html)
 
 ## Value
 
-a \[\`mapgl\`\]\[mapgl::mapboxgl()\] object (\`"mapbox" mode\`) or a
-\[\`mapgl\`\]\[mapgl::maplibregl()\] object (\`"maplibre"\` mode). In
-case small multiples are shown, a list is returned.
+a [`mapgl`](https://walker-data.com/mapgl/reference/mapboxgl.html)
+object (`"mapbox" mode`) or a
+[`mapgl`](https://walker-data.com/mapgl/reference/maplibre.html) object
+(`"maplibre"` mode). In case small multiples are shown, a list is
+returned.
 
 ## Examples
 
