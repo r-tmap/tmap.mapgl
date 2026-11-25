@@ -31,7 +31,7 @@ Imports:
     units
 Suggests:
     knitr
-Config/Needs/website: bookdown, rmarkdown, r-tmap/tmap, walkerke/mapgl, dplyr, osmdata, mapview
+Config/Needs/website: bookdown, rmarkdown, r-tmap/tmaptools, r-tmap/tmap, walkerke/mapgl, dplyr, osmdata, mapview
 URL: https://github.com/r-tmap/tmap.mapgl, https://r-tmap.github.io/tmap.mapgl/
 BugReports: https://github.com/r-tmap/tmap.mapgl/issues
 Roxygen: list(markdown = TRUE)
