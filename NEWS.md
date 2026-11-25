@@ -1,5 +1,6 @@
 # tmap.mapgl (development version)
 
+- fixed: `tm_polygons_3d()` in plot and view mode (drawn as flat polygons). Requires the development version of tmap
 - fixed: help pages showed raw markdown, e.g. the argument descriptions of `tm_polygons_3d()`
 - the dark basemap `"Esri.WorldDarkGrayCanvas"` of plot and view mode is replaced by `"ofm.dark"` in the maplibre mode. Requires the development version of tmap
 - [!] added `tm_text()` and `tm_labels()`. Overlapping labels are hidden in the order of `priority`. Requires the development version of tmap
