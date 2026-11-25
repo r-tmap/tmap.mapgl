@@ -2,6 +2,10 @@
 
 ## tmap.mapgl (development version)
 
+- fixed:
+  [`tm_polygons_3d()`](https://r-tmap.github.io/tmap.mapgl/reference/tm_polygons_3d.md)
+  in plot and view mode (drawn as flat polygons). Requires the
+  development version of tmap
 - fixed: help pages showed raw markdown, e.g. the argument descriptions
   of
   [`tm_polygons_3d()`](https://r-tmap.github.io/tmap.mapgl/reference/tm_polygons_3d.md)
